@@ -6,7 +6,7 @@ window.OS_CONFIG = {
   // Live when a key is pasted below; demo when it isn't (or when window.OS_FORCE_DEMO is set).
   mode: window.OS_FORCE_DEMO ? 'demo' : 'live',
   supabaseUrl: 'https://weshvnbovvzucjxymllc.supabase.co',
-  supabaseKey: 'PASTE_SUPABASE_PUBLISHABLE_KEY',
+  supabaseKey: 'sb_publishable_LanJWQb6UUfBApA_3sURaQ_NgsbXzM9',
   clientId: '3034c840-dfc2-4c85-b949-bc8d4fd69208',
   brand: { name: 'Therapeia Zoi', handle: 'therapeiazoi', logo: 'demo/logo.png', timezone: 'America/New_York', tzLabel: 'Eastern Time' },
   credit: true,   // "Built by Saltpilot" in the sidebar; set false for a white-label client

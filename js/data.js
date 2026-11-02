@@ -115,7 +115,7 @@
     return new Promise((res, rej) => {
       if (window.supabase) return res();
       const s = document.createElement('script');
-      s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
+      s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js';
       s.onload = res; s.onerror = () => rej(new Error('Could not load the Supabase library. Check your connection and reload.'));
       document.head.appendChild(s);
     });

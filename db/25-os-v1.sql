@@ -541,3 +541,10 @@ commit;
 -- Quick check after running:
 -- select status, count(*) from v_os_posts group by 1;
 -- select os_next_slot('3034c840-dfc2-4c85-b949-bc8d4fd69208');
+
+-- 14. Read access for signed-in users (applied 2026-11-03). Row-level security still limits rows to members.
+grant usage on schema public to authenticated;
+grant select on public.v_os_posts, public.v_os_learning, public.os_settings, public.approvals, public.actions, public.events,
+  public.learned_rules, public.post_revisions, public.os_members, public.content_ledger, public.clients, public.products,
+  public.competitor_posts to authenticated;
+revoke all on public.v_os_posts, public.v_os_learning from anon;
