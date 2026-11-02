@@ -9,6 +9,8 @@ window.OS_CONFIG = {
   supabaseKey: 'sb_publishable_LanJWQb6UUfBApA_3sURaQ_NgsbXzM9',
   clientId: '3034c840-dfc2-4c85-b949-bc8d4fd69208',
   brand: { name: 'Therapeia Zoi', handle: 'therapeiazoi', logo: 'demo/logo.png', timezone: 'America/New_York', tzLabel: 'Eastern Time' },
+  // false = no login screen (temporary; database has open_access on). Set true to require email sign-in again.
+  requireLogin: false,
   credit: true,   // "Built by Saltpilot" in the sidebar; set false for a white-label client
   goal: { revenue: 1000000, label: '$1M revenue' }
 };

@@ -548,3 +548,8 @@ grant select on public.v_os_posts, public.v_os_learning, public.os_settings, pub
   public.learned_rules, public.post_revisions, public.os_members, public.content_ledger, public.clients, public.products,
   public.competitor_posts to authenticated;
 revoke all on public.v_os_posts, public.v_os_learning from anon;
+
+-- 15. TEMPORARY open access (applied 2026-11-03): no login needed while we build. Turn off later with
+--     update os_settings set open_access = false;  and set requireLogin: true in js/config.js
+alter table public.os_settings add column if not exists open_access boolean not null default false;
+-- os_role() now returns 'admin' for anyone when open_access is true (see runner execution 44 for the full statement).

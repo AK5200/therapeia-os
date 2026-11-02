@@ -83,8 +83,8 @@
     const ok = ({ data, error }) => { if (error) throw new Error(error.message); return data; };
     return {
       mode: 'live',
-      async session() { const { data } = await sb.auth.getSession(); return data.session ? { email: data.session.user.email } : null; },
-      async signIn(email) { ok(await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + location.pathname, shouldCreateUser: false } })); },
+      async session() { if (C.requireLogin === false) return { email: 'No login (temporary)', open: true }; const { data } = await sb.auth.getSession(); return data.session ? { email: data.session.user.email } : null; },
+      async signIn(email) { ok(await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + location.pathname, shouldCreateUser: true } })); },
       async signOut() { await sb.auth.signOut(); },
       async posts() {
         const rows = ok(await sb.from('v_os_posts').select('*').eq('client_id', C.clientId)

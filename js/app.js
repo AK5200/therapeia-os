@@ -378,6 +378,7 @@
       S.user = await S.db.session();
       if (!S.user) return showLogin();
       $('#who').textContent = S.user.email;
+      if (S.user.open) $('#signout').hidden = true;
       $('#app').hidden = false; $('#login').hidden = true;
       [S.posts, S.settings] = await Promise.all([S.db.posts(), S.db.settings()]);
       render();
@@ -388,7 +389,7 @@
     $('#loginform').onsubmit = async e => {
       e.preventDefault(); const email = $('#l-email').value.trim(); const msg = $('#l-msg');
       try { await S.db.signIn(email); msg.textContent = `Check ${email} for a sign-in link.`; msg.className = 'ok'; }
-      catch (err) { msg.textContent = /not allowed|signups|not found/i.test(err.message) ? 'This email does not have access yet. Ask the account owner to add you.' : err.message; msg.className = 'bad'; }
+      catch (err) { msg.textContent = /signups not allowed/i.test(err.message) ? 'New sign-ups are turned off. Ask the account owner to add you.' : err.message; msg.className = 'bad'; }
     };
   }
   if (C.credit === false) $('#poweredby').hidden = true;
