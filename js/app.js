@@ -211,7 +211,7 @@
       <div class="side">
         <div class="meta">${pill(p.status)}<span class="chip">${STAGE[p.funnel_stage] || '—'}</span><span class="chip">${esc(String(p.pillar || '').replace(/_/g, ' '))}</span><span class="chip">${fmtLabel(p)}</span></div>
         ${p.status === 'scheduled' ? `<p class="lead">Goes out <b>${when(p.scheduled_for)}</b>${p.approved_by ? `, approved by ${esc(p.approved_by)}` : ''}.</p>` : ''}
-        ${p.review_note ? `<p class="note"><b>Your note:</b> ${esc(p.review_note)}</p>` : ''}
+        ${p.review_note ? `<p class="note"><b>${/^AI: /.test(p.review_note) ? 'AI reply:' : 'Your note:'}</b> ${esc(p.review_note.replace(/^AI: /, ''))}</p>` : ''}
         ${p.auto_approve_at ? `<p class="note">Trust mode will approve this ${when(p.auto_approve_at)} unless you decide first.</p>` : ''}
         ${checks}${p.critic_summary ? `<p class="muted small">${esc(p.critic_summary)}</p>` : ''}
         ${actions}
