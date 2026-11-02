@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Therapeia Zoi OS</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="demo/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
+<link rel="stylesheet" href="css/os.css">
+</head>
+<body>
+<!--OS-BODY-START-->
+<div id="login" class="login" hidden>
+  <form id="loginform">
+    <h1>Therapeia Zoi OS</h1>
+    <p>Sign in with the email you were invited with. We'll send you a one-time link.</p>
+    <div class="field"><label for="l-email">Email</label><input id="l-email" type="email" required autocomplete="email"></div>
+    <button class="btn primary" type="submit">Send sign-in link</button>
+    <p id="l-msg" role="status"></p>
+  </form>
+</div>
+
+<div id="app" class="app" hidden>
+  <nav class="rail" aria-label="Modules">
+    <div class="brand"><i><img src="demo/logo.png" alt=""></i><div><b>Therapeia Zoi</b><small>Growth OS</small></div></div>
+    <div id="side-nav"></div>
+    <div class="rail-foot"><span id="who"></span><button id="signout" type="button">Sign out</button>
+      <a class="poweredby" id="poweredby" href="https://saltpilot.com" target="_blank" rel="noopener">Built by <b>Saltpilot</b></a></div>
+  </nav>
+  <div class="main">
+    <header class="top">
+      <button id="menubtn" type="button" aria-label="Open menu"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <div id="crumb"></div>
+      <span id="modebadge" hidden>Demo mode: sample posts, nothing is published</span>
+    </header>
+    <main id="view" class="view"></main>
+  </div>
+</div>
+<div id="toasts" aria-live="polite"></div>
+
+<script src="js/config.js"></script>
+<script src="js/demo-data.js"></script>
+<script src="js/modules.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<!--OS-BODY-END-->
+</body>
+</html>
