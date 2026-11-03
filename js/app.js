@@ -1,10 +1,10 @@
 /* Therapeia Zoi OS — app shell, router and screens (plain JS, no build step).
-   Five flat tabs: Today · Review · Plan · Posted · More. Every post opens in the same sheet. */
+   Six tabs: Today · Approve · Plan (upcoming + posted) · News · Rivals · More. Every post opens in the same sheet. */
 (function () {
   const C = window.OS_CONFIG, MODS = window.OS_MODULES || [];
   const $ = (s, el = document) => el.querySelector(s);
   const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  const S = { db: null, user: null, posts: [], settings: null, i: 0, pf: 'ig', sheet: null, sheetPf: 'ig', postedFilter: 'posted', busy: false };
+  const S = { db: null, user: null, posts: [], settings: null, i: 0, pf: 'ig', sheet: null, sheetPf: 'ig', postedFilter: 'upcoming', fmt: 'all', busy: false };
 
   const STAGE = { awareness: 'Awareness', trust: 'Trust', conversion: 'Conversion', retention: 'Retention' };
   const STATUS = { in_review: ['Needs review', 'warn'], changes_requested: ['AI is revising', 'info'], scheduled: ['Scheduled', 'ok'],
@@ -15,6 +15,8 @@
     review: '<rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="m9 12 2 2 4-4"/>',
     plan: '<rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M4 10h16M9 3v4M15 3v4"/>',
     posted: '<path d="M5 12.5 10 17l9-10"/>',
+    news: '<path d="M5 5h11v14H7a2 2 0 0 1-2-2z"/><path d="M16 9h3v8a2 2 0 0 1-2 2M8.5 9h4M8.5 12.5h4M8.5 16h2"/>',
+    competitors: '<path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.6"/>',
     more: '<circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/>',
     prev: '<path d="M15 5l-7 7 7 7"/>', next: '<path d="M9 5l7 7-7 7"/>', chev: '<path d="M9 6l6 6-6 6"/>', x: '<path d="M6 6l12 12M18 6 6 18"/>'
   };
@@ -54,9 +56,9 @@
 
   // ---------- routes ----------
   // tabs + sub pages (sub pages live under More and show a back arrow)
-  const TABS = [['today', 'Today'], ['review', 'Review'], ['plan', 'Plan'], ['posted', 'Posted'], ['more', 'More']];
-  const SUB = { learning: 'AI learning', setup: 'Posting settings', analytics: 'Analytics', competitors: 'Competitors', research: 'News & research', creators: 'Creator outreach', store: 'Store & funnel', customers: 'Customer success' };
-  const route = () => { const h = (location.hash || '#today').slice(1); return TABS.some(t => t[0] === h) || SUB[h] ? h : 'today'; };
+  const TABS = [['today', 'Today'], ['review', 'Approve'], ['plan', 'Plan'], ['news', 'News'], ['competitors', 'Rivals'], ['more', 'More']];
+  const SUB = { learning: 'AI learning', setup: 'Posting settings', analytics: 'Analytics', creators: 'Creator outreach', store: 'Store & funnel', customers: 'Customer success' };
+  const route = () => { let h = (location.hash || '#today').slice(1); if (h === 'research') h = 'news'; if (h === 'posted') { S.postedFilter = 'posted'; h = 'plan'; } return TABS.some(t => t[0] === h) || SUB[h] ? h : 'today'; };
   const tabOf = r => SUB[r] ? 'more' : r;
 
   function renderChrome(r) {
@@ -68,17 +70,17 @@
         return `<a class="tab" href="#${k}" ${tabOf(r) === k ? 'aria-current="page"' : ''}>${ic(k)}<span>${l}</span>${n ? `<span class="dot">${n}</span>` : ''}</a>`;
       }).join('')
       + (C.credit === false ? '' : `<a class="credit" href="https://saltpilot.com" target="_blank" rel="noopener">Built by <b>Saltpilot</b></a>`);
-    $('#title').textContent = SUB[r] || ({ today: C.brand.name, review: 'Review', plan: 'Plan', posted: 'Posted', more: 'More' })[r];
+    $('#title').textContent = SUB[r] || ({ today: C.brand.name, review: 'Approve', plan: 'Plan', news: 'News', competitors: 'Competitors', more: 'More' })[r];
     $('#back').hidden = !SUB[r]; $('#brandmark').hidden = !!SUB[r] || r !== 'today';
     document.title = `${SUB[r] || TABS.find(t => t[0] === r)[1]} · ${C.brand.name}`;
-    $('#view').classList.toggle('wide', r === 'plan' || r === 'posted');
+    $('#view').classList.toggle('wide', r === 'plan');
   }
 
   function render() {
     const r = route();
     renderChrome(r);
     const v = $('#view');
-    const out = ({ today: todayPlus, review, plan, posted, more, learning, setup, analytics, competitors, research, creators: soon, store: soon, customers: soon })[r](r);
+    const out = ({ today: todayPlus, review, plan, more, learning, setup, analytics, competitors, news: research, creators: soon, store: soon, customers: soon })[r](r);
     const done = h => { v.innerHTML = h; wire(v); renderSheet(); };
     if (out && out.then) out.then(done); else done(out);
   }
@@ -107,7 +109,7 @@
   }
 
   // ---------- TODAY ----------
-  function today() {
+  function today(x = {}) {
     const q = queue(), sch = scheduled(), now = Date.now();
     const due = sch.filter(p => new Date(p.scheduled_for) <= now + 864e5 && sameDay(p.scheduled_for, now) || new Date(p.scheduled_for) <= now);
     const revising = byStatus('changes_requested');
@@ -117,14 +119,16 @@
       ? `<section class="hero-decide"><div class="stack">${q.slice(0, 4).map(p => `<img src="${esc((p.ig_slides || [])[0] || '')}" alt="">`).join('')}</div>
           <h2>${q.length} post${q.length > 1 ? 's' : ''} need${q.length > 1 ? '' : 's'} your decision</h2>
           <p>Approve, ask for changes or reject. It takes a few seconds each.</p>
-          <a class="btn primary block" href="#review">Start review</a></section>`
+          <a class="btn primary block" href="#review">Start approving</a></section>`
       : `<section class="hero-calm"><h2>You're all caught up</h2><p>New posts appear here as soon as the AI finishes them.${sch.length ? ` Next one goes out ${when(sch[0].scheduled_for)}.` : ''}</p></section>`;
     const row = (p, sub) => `<li><button class="rowlink" type="button" data-open="${p.id}">${thumb(p)}<span class="rt"><b>${esc(titleOf(p))}</b><small>${sub}</small></span>${ic('chev', 'ic chev')}</button></li>`;
     return `${hero}
+      ${x.risks || ''}
       ${due.length && manual() ? `<section class="sec"><h2>Post today</h2><p class="lead small">Auto-posting is off. Open a post to copy the caption, save the images and tick each platform when it's up.</p>
         <ul class="list">${due.map(p => { const r = p.publish_results || {}; const left = enabledPlats().filter(([k]) => !(r[k] && r[k].status === 'published')).map(x => x[1]); return row(p, `${timeOnly(p.scheduled_for)} · ${left.length ? 'Still to post: ' + left.join(', ') : 'All posted'}`); }).join('')}</ul></section>` : ''}
       ${failed.length ? `<section class="sec"><h2>Didn't post</h2><ul class="list">${failed.map(p => row(p, 'Tap to retry')).join('')}</ul></section>` : ''}
       ${revising.length ? `<section class="sec"><h2>With the AI</h2><p class="lead small">These come back to Review when the changes are done.</p><ul class="list">${revising.map(p => row(p, 'Applying your note')).join('')}</ul></section>` : ''}
+      ${x.ideas || ''}${x.news || ''}
       <section class="sec"><h2>Coming up</h2>${next.length ? `<ul class="list">${next.map(p => row(p, when(p.scheduled_for))).join('')}</ul>` : `<p class="lead small">Nothing scheduled yet. Approved posts take the next free slot.</p>`}</section>`;
   }
 
@@ -156,8 +160,14 @@
       </article>`;
   }
 
-  // ---------- PLAN (agenda, next 14 days) ----------
+  // ---------- PLAN (upcoming agenda + posted history, one tab) ----------
   function plan() {
+    const F = { upcoming: ['Upcoming', p => ['scheduled', 'publishing'].includes(p.status)], posted: ['Posted', p => p.status === 'published'], failed: ['Didn\'t post', p => p.status === 'failed'], rejected: ['Rejected', p => p.status === 'rejected'] };
+    if (!F[S.postedFilter]) S.postedFilter = 'upcoming';
+    const chips = `<div class="chips" role="group" aria-label="Show">${Object.entries(F).map(([k, [l, f]]) => `<button type="button" data-filter="${k}" aria-pressed="${S.postedFilter === k}">${l} (${S.posts.filter(f).length})</button>`).join('')}</div>`;
+    return chips + (S.postedFilter === 'upcoming' ? agenda() : history(F[S.postedFilter][1]));
+  }
+  function agenda() {
     const sch = S.posts.filter(p => ['scheduled', 'publishing', 'published'].includes(p.status) && p.scheduled_for);
     const days = [...Array(14)].map((_, i) => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + i); return d; });
     const label = (d, i) => i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
@@ -172,15 +182,11 @@
           out.push(`<section class="day ${i === 0 ? 'today' : ''}"><h3>${label(d, i)}</h3>${items.length ? `<ul class="list">${items.map(p => `<li><button class="rowlink" type="button" data-open="${p.id}">${thumb(p)}<span class="rt"><b>${esc(titleOf(p))}</b><small>${timeOnly(p.scheduled_for)} · ${kind(p)}</small></span>${p.status === 'published' ? pill('published') : ''}${ic('chev', 'ic chev')}</button></li>`).join('')}</ul>` : `<div class="freeslot">Nothing today</div>`}</section>`); });
         flush(); return out.join(''); })()}`;
   }
-
-  // ---------- POSTED ----------
-  function posted() {
-    const F = { posted: ['Posted', p => p.status === 'published'], failed: ['Didn\'t post', p => p.status === 'failed'], rejected: ['Rejected', p => p.status === 'rejected'] };
-    const list = S.posts.filter(F[S.postedFilter][1]).sort((a, b) => new Date(b.published_at || b.updated_at || b.created_at) - new Date(a.published_at || a.updated_at || a.created_at));
-    const chips = `<div class="chips" role="group" aria-label="Filter">${Object.entries(F).map(([k, [l, f]]) => `<button type="button" data-filter="${k}" aria-pressed="${S.postedFilter === k}">${l} (${S.posts.filter(f).length})</button>`).join('')}</div>`;
+  function history(test) {
+    const list = S.posts.filter(test).sort((a, b) => new Date(b.published_at || b.updated_at || b.created_at) - new Date(a.published_at || a.updated_at || a.created_at));
     const plats = p => enabledPlats().map(([k, l]) => { const r = (p.publish_results || {})[k]; return r && r.status === 'published' ? l : null; }).filter(Boolean).join(', ');
-    return chips + (list.length ? `<ul class="list">${list.map(p => `<li><button class="rowlink" type="button" data-open="${p.id}">${thumb(p)}<span class="rt"><b>${esc(titleOf(p))}</b><small>${p.status === 'published' ? `${fmt(p.published_at, { month: 'short', day: 'numeric' })} · ${plats(p) || 'Posted'}` : p.status === 'failed' ? 'Tap to retry' : esc(p.review_note || 'No reason given')}</small></span>${ic('chev', 'ic chev')}</button></li>`).join('')}</ul>`
-      : `<div class="empty"><h3>${{ posted: 'Nothing posted yet', failed: 'Nothing failed', rejected: 'No rejected posts' }[S.postedFilter]}</h3><p>${S.postedFilter === 'posted' ? 'Posts show here once every platform is marked as posted.' : 'All good here.'}</p></div>`);
+    return list.length ? `<ul class="list">${list.map(p => `<li><button class="rowlink" type="button" data-open="${p.id}">${thumb(p)}<span class="rt"><b>${esc(titleOf(p))}</b><small>${p.status === 'published' ? `${fmt(p.published_at, { month: 'short', day: 'numeric' })} · ${plats(p) || 'Posted'}` : p.status === 'failed' ? 'Tap to retry' : esc(p.review_note || 'No reason given')}</small></span>${ic('chev', 'ic chev')}</button></li>`).join('')}</ul>`
+      : `<div class="empty"><h3>${{ posted: 'Nothing posted yet', failed: 'Nothing failed', rejected: 'No rejected posts' }[S.postedFilter]}</h3><p>${S.postedFilter === 'posted' ? 'Posts show here once every platform is marked as posted.' : 'All good here.'}</p></div>`;
   }
 
   // ---------- MORE ----------
@@ -191,8 +197,6 @@
         ${item('learning', 'AI learning', 'Rules the AI learned from your notes', S.learnPending ? `<span class="pill warn">${S.learnPending} to review</span>` : '')}
         ${item('setup', 'Posting settings', 'Auto-posting, times and platforms')}
         ${item('analytics', 'Analytics', 'How posts perform')}
-        ${item('competitors', 'Competitors', 'Posts that took off and why, plus the watch list')}
-        ${item('research', 'News & research', 'Studies, recalls, competitor moves and trends')}
       </ul></section>
       <section class="sec"><h2>Coming next</h2><ul class="list">${soonMods.map(m => item(m.id, m.label, m.kpi, '<span class="soon-tag">Soon</span>')).join('')}</ul></section>
       ${S.user && !S.user.open ? `<button class="btn quiet" type="button" id="signout">Sign out (${esc(S.user.email)})</button>` : ''}`;
@@ -241,40 +245,82 @@
   // ---------- insights: competitor watch + news radar ----------
   const TYPE = { post_idea: ['Post idea', 'info'], heads_up: ['Heads-up', ''], risk_alert: ['Risk alert', 'bad'], own_win: ['Our post worked', 'ok'] };
   const GATE = { blocked_region: 'Not for the US', blocked_occasion: 'Not a US occasion', blocked_claim: 'Claim risk', blocked_season: 'Wrong season or too early' };
-  const flag = c => c && c !== 'US' && c !== 'XX' ? ` · ${esc(c)}` : '';
+  const PNAME = { instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube' };
+  const nx = n => { n = Number(n) || 0; return n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n); };
+  const isStill = f => /sidecar|image|slideshow|carousel|photo/i.test(f || '');
+  const fmtName = (pl, f) => /sidecar|carousel/i.test(f || '') ? 'Carousel' : /slideshow/i.test(f || '') ? 'Slideshow' : /image|photo/i.test(f || '') ? 'Image' : pl === 'youtube' ? 'Short' : pl === 'instagram' ? 'Reel' : 'Video';
+  const flag = c => c && c !== 'US' && c !== 'XX' ? c : '';
+  function embedUrl(post) {
+    if (!post || !post.url) return null; const u = post.url;
+    let m;
+    if (post.platform === 'instagram' && (m = u.match(/instagram\.com\/(?:p|reel|reels|tv)\/([^/?#]+)/))) return { src: `https://www.instagram.com/p/${m[1]}/embed/`, h: 620 };
+    if (post.platform === 'tiktok' && (m = u.match(/\/video\/(\d+)/))) return { src: `https://www.tiktok.com/embed/v2/${m[1]}`, h: 600 };
+    if (post.platform === 'youtube' && (m = u.match(/(?:v=|\/shorts\/|youtu\.be\/)([\w-]{6,})/))) return { src: `https://www.youtube.com/embed/${m[1]}`, h: 560 };
+    return null;
+  }
+  const kpi = (big, small, cls = '') => `<span class="kpi ${cls}"><b>${esc(big)}</b><small>${esc(small)}</small></span>`;
   function card(x) {
     const [t, k] = TYPE[x.type] || [x.type, ''];
+    const po = x.post, news = x.origin === 'news';
+    const sl = String(x.source_label || '').split(' · ');
+    const handle = po ? po.handle : (!news && /^@/.test(sl[0]) ? sl[0].slice(1) : null);
+    const plat = po ? po.platform : (sl[1] && PNAME[sl[1]] ? sl[1] : null);
+    const mult = po ? Number(po.outlier_x) : (/([\d.]+)x usual/.exec(x.source_label || '') || [])[1] * 1;
+    const who = news ? esc(x.source_label || 'News') : `@${esc(handle || '')}`;
+    const sub = [plat ? PNAME[plat] : null, flag(x.source_country), fmt(x.created_at, { month: 'short', day: 'numeric' })].filter(Boolean).map(esc).join(' · ');
+    const boxes = [];
+    if (!news && mult) boxes.push(kpi(mult.toFixed(mult >= 10 ? 0 : 1) + 'x', 'usual', mult >= 10 ? 'hot' : mult >= 6 ? 'warm' : 'cool'));
+    if (po) {
+      boxes.push(isStill(po.format) ? kpi(fmtName(po.platform, po.format), 'fits our format', 'still') : kpi(fmtName(po.platform, po.format), 'adapt to carousel', 'video'));
+      boxes.push(po.platform === 'instagram' ? kpi(nx(po.likes), 'likes') : kpi(nx(po.views), 'views'));
+      if (po.platform === 'instagram' && po.comments) boxes.push(kpi(nx(po.comments), 'comments'));
+      if (po.is_giveaway) boxes.push(kpi('Giveaway', 'counts half', 'warn'));
+    } else if (news) boxes.push(kpi(Math.round(x.score) + '/10', 'relevance', x.score >= 8 ? 'hot' : 'cool'));
+    const em = embedUrl(po);
     const acts = x.gate === 'ok' && x.status === 'new' ? `<div class="row-acts"><button class="btn small" data-ins="${x.id}" data-st="accepted">${x.type === 'risk_alert' || x.type === 'heads_up' ? 'Got it' : 'Use this idea'}</button><button class="btn small quiet" data-ins="${x.id}" data-st="dismissed">Dismiss</button></div>` : x.status !== 'new' ? `<span class="pill">${x.status === 'accepted' ? 'Saved' : x.status === 'used' ? 'Used' : 'Dismissed'}</span>` : '';
-    return `<article class="feat ins"><div class="ins-top"><span class="pill ${k}">${t}</span>${x.gate !== 'ok' ? `<span class="pill warn">${esc(GATE[x.gate] || x.gate)}</span>` : ''}</div>
-      <h3>${esc(x.title)}</h3>${x.why ? `<p><b>Why:</b> ${esc(x.why)}</p>` : ''}${x.idea ? `<p><b>For us:</b> ${esc(x.idea)}</p>` : ''}${x.gate_reason ? `<p class="note">${esc(x.gate_reason)}</p>` : ''}
-      <p class="note">${x.source_url ? `<a href="${esc(x.source_url)}" target="_blank" rel="noopener">${esc(x.source_label || 'Source')}</a>` : esc(x.source_label || '')}${flag(x.source_country)} · ${fmt(x.created_at, { month: 'short', day: 'numeric' })}</p>${acts}</article>`;
+    return `<article class="feat ins"><div class="ins-top"><span class="who"><b>${who}</b><small>${sub}</small></span><span class="pill ${k}">${t}</span></div>
+      ${boxes.length ? `<div class="kpis">${boxes.join('')}</div>` : ''}
+      ${x.gate !== 'ok' ? `<p class="note warn-note"><b>${esc(GATE[x.gate] || x.gate)}.</b> ${esc(x.gate_reason || '')}</p>` : ''}
+      <h3>${esc(x.title)}</h3>${x.why ? `<p><b>${news ? 'Why it matters' : 'Why it worked'}</b> ${esc(x.why)}</p>` : ''}${x.idea ? `<p><b>For us</b> ${esc(x.idea)}</p>` : ''}
+      ${em ? `<details class="embed" data-src="${esc(em.src)}" data-h="${em.h}"><summary>Show the post</summary><div class="embed-box"></div></details>` : ''}
+      <p class="src">${x.source_url ? `<a href="${esc(x.source_url)}" target="_blank" rel="noopener">${po ? 'Open on ' + esc(PNAME[po.platform] || 'the site') : 'Read the source'}</a>` : ''}</p>${acts}</article>`;
   }
-  const chips = (cur, opts) => `<div class="chips" role="group">${opts.map(([k, l]) => `<button type="button" data-tab="${k}" aria-pressed="${cur === k}">${l}</button>`).join('')}</div>`;
+  const chips = (cur, opts, attr = 'data-tab') => `<div class="chips" role="group">${opts.map(([k, l]) => `<button type="button" ${attr}="${k}" aria-pressed="${cur === k}">${l}</button>`).join('')}</div>`;
   async function competitors() {
     const tab = S.compTab || 'ideas';
     let all = [], acc = [];
     try { [all, acc] = await Promise.all([S.db.insights(['competitor', 'own']), tab === 'watch' ? S.db.watchAccounts() : []]); } catch (e) { return `<div class="empty"><h3>Could not load</h3><p>${esc(e.message)}</p></div>`; }
-    const ok = all.filter(x => x.gate === 'ok' && x.status !== 'dismissed'), blocked = all.filter(x => x.gate !== 'ok');
+    const okAll = all.filter(x => x.gate === 'ok' && x.status !== 'dismissed'), blocked = all.filter(x => x.gate !== 'ok');
+    const stills = okAll.filter(x => x.post && isStill(x.post.format)).length, vids = okAll.filter(x => x.post && !isStill(x.post.format)).length;
+    const ok = okAll.filter(x => S.fmt === 'all' || !x.post || (S.fmt === 'still') === isStill(x.post.format)).sort((a, b) => b.score - a.score);
     let body;
     if (tab === 'watch') body = `<ul class="list">${acc.map(a => `<li><div class="rowlink"><span class="rt"><b>@${esc(a.handle)}</b><small>${esc(a.platform)} · ${esc(a.country)} · ${esc(a.tier)}${a.followers ? ' · ' + Number(a.followers).toLocaleString() + ' followers' : ''}${a.note ? ' · ' + esc(a.note) : ''}</small></span><button class="btn small quiet" data-acc="${a.id}" data-on="${!a.active}">${a.active ? 'Pause' : 'Resume'}</button></div></li>`).join('')}</ul><p class="note">Scanned every Monday. Inspiration accounts count half when ranking ideas.</p>`;
     else { const list = tab === 'ideas' ? ok : blocked;
       body = list.length ? list.map(card).join('') : `<div class="empty"><h3>${tab === 'ideas' ? 'No ideas yet' : 'Nothing filtered out'}</h3><p>${tab === 'ideas' ? 'Every Monday we scan the watch list, find posts that did far better than usual and explain why they worked.' : 'Posts tied to non-US festivals, the wrong season or risky claims land here instead of in your ideas.'}</p></div>`; }
-    return chips(tab, [['ideas', `Ideas (${ok.length})`], ['blocked', `Filtered out (${blocked.length})`], ['watch', 'Watch list']]) + body;
+    return `<p class="lead small">Posts from accounts we watch that did far better than their usual. Images and carousels rank first because that is what we make.</p>`
+      + chips(tab, [['ideas', `Ideas (${okAll.length})`], ['blocked', `Filtered out (${blocked.length})`], ['watch', 'Watch list']])
+      + (tab === 'ideas' ? chips(S.fmt, [['all', 'All formats'], ['still', `Images & carousels (${stills})`], ['video', `Videos (${vids})`]], 'data-fmt') : '') + body;
   }
   async function research() {
     const tab = S.newsTab || 'all';
     let all = []; try { all = await S.db.insights(['news']); } catch (e) { return `<div class="empty"><h3>Could not load</h3><p>${esc(e.message)}</p></div>`; }
     all = all.filter(x => x.status !== 'dismissed');
-    const list = tab === 'all' ? all : all.filter(x => x.type === tab);
-    return chips(tab, [['all', 'All'], ['risk_alert', 'Risk alerts'], ['post_idea', 'Post ideas'], ['heads_up', 'Heads-up']]) +
+    const list = (tab === 'all' ? all : all.filter(x => x.type === tab)).sort((a, b) => b.score - a.score);
+    return `<p class="lead small">Studies, recalls, rules and competitor news that matter to Therapeia Zoi, checked every morning.</p>`
+      + chips(tab, [['all', 'All'], ['risk_alert', 'Risk alerts'], ['post_idea', 'Post ideas'], ['heads_up', 'Heads-up']]) +
       (list.length ? list.map(card).join('') : `<div class="empty"><h3>Nothing new</h3><p>Each morning we check Google News, PubMed, FDA, FTC, UK FSA, Reddit and clinical trials, and keep only what matters to Therapeia Zoi.</p></div>`);
   }
   async function todayPlus(r) {
-    const base = await today(r);
-    let top = []; try { top = (await S.db.insights(['competitor', 'own', 'news'])).filter(x => x.gate === 'ok' && x.status === 'new'); } catch (e) { return base; }
-    if (!top.length) return base;
-    const risks = top.filter(x => x.type === 'risk_alert'), ideas = top.filter(x => x.type !== 'risk_alert').sort((a, b) => b.score - a.score).slice(0, 3);
-    return `${risks.length ? `<section class="sec"><h2>Risk alerts</h2>${risks.slice(0, 3).map(card).join('')}</section>` : ''}${base}<section class="sec"><h2>Ideas for you</h2>${ideas.map(card).join('')}<a class="btn quiet" href="#competitors">See all ideas</a></section>`;
+    let top = []; try { top = (await S.db.insights(['competitor', 'own', 'news'])).filter(x => x.gate === 'ok' && x.status === 'new'); } catch (e) { return today(); }
+    const risks = top.filter(x => x.type === 'risk_alert').slice(0, 2);
+    const ideas = top.filter(x => x.origin !== 'news').sort((a, b) => b.score - a.score).slice(0, 3);
+    const news = top.filter(x => x.origin === 'news' && x.type !== 'risk_alert').sort((a, b) => b.score - a.score).slice(0, 2);
+    const sec = (h, sub, list, more, href) => list.length ? `<section class="sec"><h2>${h}</h2><p class="lead small">${sub}</p>${list.map(card).join('')}<a class="btn quiet" href="${href}">${more}</a></section>` : '';
+    return today({
+      risks: risks.length ? `<section class="sec"><h2>Risk alerts</h2>${risks.map(card).join('')}</section>` : '',
+      ideas: sec('Ideas for you', 'Posts from competitors and from our own accounts that beat their usual results, with how we could use the idea.', ideas, 'See all competitor ideas', '#competitors'),
+      news: sec('In the news', 'From Google News, PubMed, FDA and others.', news, 'See all news', '#news')
+    });
   }
   const soonBody = m => `<p class="lead">${esc(m.pitch)}</p><span class="pill">Coming in phase ${m.phase}</span>
     ${m.features.map(([t, d]) => `<article class="feat"><h3>${esc(t)}</h3><p>${esc(d)}</p></article>`).join('')}
@@ -350,7 +396,9 @@
 
   function wire(v) {
     carousels(v);
-    v.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { if (route() === 'research') S.newsTab = b.dataset.tab; else S.compTab = b.dataset.tab; render(); });
+    v.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { if (route() === 'news') S.newsTab = b.dataset.tab; else S.compTab = b.dataset.tab; render(); });
+    v.querySelectorAll('[data-fmt]').forEach(b => b.onclick = () => { S.fmt = b.dataset.fmt; render(); });
+    v.querySelectorAll('details.embed').forEach(d => d.addEventListener('toggle', () => { const box = $('.embed-box', d); if (d.open && !box.firstChild) { box.innerHTML = `<iframe src="${d.dataset.src}" height="${d.dataset.h}" loading="lazy" allowfullscreen scrolling="no" title="Post preview"></iframe>`; } }));
     v.querySelectorAll('[data-ins]').forEach(b => b.onclick = () => act(() => S.db.setInsight(b.dataset.ins, b.dataset.st), b.dataset.st === 'dismissed' ? 'Dismissed' : 'Saved'));
     v.querySelectorAll('[data-acc]').forEach(b => b.onclick = () => act(() => S.db.toggleAccount(b.dataset.acc, b.dataset.on === 'true'), b.dataset.on === 'true' ? 'Resumed' : 'Paused'));
     v.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openSheet(b.dataset.open));
