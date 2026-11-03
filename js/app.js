@@ -73,7 +73,7 @@
     $('#title').textContent = SUB[r] || ({ today: C.brand.name, review: 'Approve', plan: 'Plan', news: 'News', competitors: 'Competitors', more: 'More' })[r];
     $('#back').hidden = !SUB[r]; $('#brandmark').hidden = !!SUB[r] || r !== 'today';
     document.title = `${SUB[r] || TABS.find(t => t[0] === r)[1]} · ${C.brand.name}`;
-    $('#view').classList.toggle('wide', r === 'plan');
+    $('#view').classList.toggle('wide', r === 'plan' || r === 'competitors' || r === 'news');
   }
 
   function render() {
@@ -246,79 +246,128 @@
   const TYPE = { post_idea: ['Post idea', 'info'], heads_up: ['Heads-up', ''], risk_alert: ['Risk alert', 'bad'], own_win: ['Our post worked', 'ok'] };
   const GATE = { blocked_region: 'Not for the US', blocked_occasion: 'Not a US occasion', blocked_claim: 'Claim risk', blocked_season: 'Wrong season or too early' };
   const PNAME = { instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube' };
+  const KI = {
+    heart: '<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/>',
+    chat: '<path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>',
+    eye: '<path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>',
+    flame: '<path d="M12 2c1 4-3 5.5-3 9.5a3 3 0 0 0 6 0c0-1-.5-2-1-2.8 3 1.3 5 3.8 5 6.8a7 7 0 0 1-14 0c0-5 4-7.5 7-13.5z"/>',
+    img: '<path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4" fill="none" stroke="currentColor" stroke-width="2"/>',
+    play: '<path d="M8 5v14l11-7z"/>',
+    ext: '<path d="M14 4h6v6M20 4l-9 9M18 14v5H5V6h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+  };
+  const ki = n => `<svg class="ki" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">${KI[n]}</svg>`;
   const nx = n => { n = Number(n) || 0; return n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'K' : String(n); };
   const isStill = f => /sidecar|image|slideshow|carousel|photo/i.test(f || '');
   const fmtName = (pl, f) => /sidecar|carousel/i.test(f || '') ? 'Carousel' : /slideshow/i.test(f || '') ? 'Slideshow' : /image|photo/i.test(f || '') ? 'Image' : pl === 'youtube' ? 'Short' : pl === 'instagram' ? 'Reel' : 'Video';
   const flag = c => c && c !== 'US' && c !== 'XX' ? c : '';
-  function embedUrl(post) {
-    if (!post || !post.url) return null; const u = post.url;
-    let m;
-    if (post.platform === 'instagram' && (m = u.match(/instagram\.com\/(?:p|reel|reels|tv)\/([^/?#]+)/))) return { src: `https://www.instagram.com/p/${m[1]}/embed/`, h: 620 };
-    if (post.platform === 'tiktok' && (m = u.match(/\/video\/(\d+)/))) return { src: `https://www.tiktok.com/embed/v2/${m[1]}`, h: 600 };
-    if (post.platform === 'youtube' && (m = u.match(/(?:v=|\/shorts\/|youtu\.be\/)([\w-]{6,})/))) return { src: `https://www.youtube.com/embed/${m[1]}`, h: 560 };
+  const pct = x => Math.max(0, Math.min(100, Math.round(x.origin === 'news' ? Number(x.score) * 10 : Number(x.score) || 0)));
+  const tier = n => n >= 75 ? 'hi' : n >= 55 ? 'mid' : 'lo';
+  const ring = n => `<span class="ring ${tier(n)}" style="--p:${n}" title="How well this fits Therapeia Zoi"><b>${n}%</b><small>match</small></span>`;
+  const heat = m => `<span class="heat ${m >= 20 ? 't3' : m >= 10 ? 't2' : 't1'}">${ki('flame')}<b>${m.toFixed(m >= 10 ? 0 : 1)}x</b><small>usual</small></span>`;
+  const stat = (cls, icon, n, label) => `<span class="stat ${cls}" title="${label}">${ki(icon)}<b>${nx(n)}</b></span>`;
+  function embedUrl(post, full) {
+    if (!post || !post.url) return null; const u = post.url; let m;
+    if (post.platform === 'instagram' && (m = u.match(/instagram\.com\/(?:p|reel|reels|tv)\/([^/?#]+)/))) return { src: `https://www.instagram.com/p/${m[1]}/embed/`, h: full ? 640 : 520 };
+    if (post.platform === 'tiktok' && (m = u.match(/\/video\/(\d+)/))) return { src: `https://www.tiktok.com/embed/v2/${m[1]}`, h: full ? 620 : 540 };
+    if (post.platform === 'youtube' && (m = u.match(/(?:v=|\/shorts\/|youtu\.be\/)([\w-]{6,})/))) return { src: `https://www.youtube.com/embed/${m[1]}`, h: full ? 560 : 480 };
     return null;
   }
-  const kpi = (big, small, cls = '') => `<span class="kpi ${cls}"><b>${esc(big)}</b><small>${esc(small)}</small></span>`;
-  function card(x) {
-    const [t, k] = TYPE[x.type] || [x.type, ''];
-    const po = x.post, news = x.origin === 'news';
-    const sl = String(x.source_label || '').split(' · ');
+  const frame = (post, full) => { const em = embedUrl(post, full); return em ? `<div class="frame"><iframe src="${esc(em.src)}" style="height:${em.h}px" loading="lazy" allowfullscreen scrolling="no" title="Post preview"></iframe></div>` : ''; };
+  function meta(x) {
+    const po = x.post, news = x.origin === 'news', sl = String(x.source_label || '').split(' · ');
     const handle = po ? po.handle : (!news && /^@/.test(sl[0]) ? sl[0].slice(1) : null);
     const plat = po ? po.platform : (sl[1] && PNAME[sl[1]] ? sl[1] : null);
-    const mult = po ? Number(po.outlier_x) : (/([\d.]+)x usual/.exec(x.source_label || '') || [])[1] * 1;
-    const who = news ? esc(x.source_label || 'News') : `@${esc(handle || '')}`;
-    const sub = [plat ? PNAME[plat] : null, flag(x.source_country), fmt(x.created_at, { month: 'short', day: 'numeric' })].filter(Boolean).map(esc).join(' · ');
-    const boxes = [];
-    if (!news && mult) boxes.push(kpi(mult.toFixed(mult >= 10 ? 0 : 1) + 'x', 'usual', mult >= 10 ? 'hot' : mult >= 6 ? 'warm' : 'cool'));
-    if (po) {
-      boxes.push(isStill(po.format) ? kpi(fmtName(po.platform, po.format), 'fits our format', 'still') : kpi(fmtName(po.platform, po.format), 'adapt to carousel', 'video'));
-      boxes.push(po.platform === 'instagram' ? kpi(nx(po.likes), 'likes') : kpi(nx(po.views), 'views'));
-      if (po.platform === 'instagram' && po.comments) boxes.push(kpi(nx(po.comments), 'comments'));
-      if (po.is_giveaway) boxes.push(kpi('Giveaway', 'counts half', 'warn'));
-    } else if (news) boxes.push(kpi(Math.round(x.score) + '/10', 'relevance', x.score >= 8 ? 'hot' : 'cool'));
-    const em = embedUrl(po);
-    const acts = x.gate === 'ok' && x.status === 'new' ? `<div class="row-acts"><button class="btn small" data-ins="${x.id}" data-st="accepted">${x.type === 'risk_alert' || x.type === 'heads_up' ? 'Got it' : 'Use this idea'}</button><button class="btn small quiet" data-ins="${x.id}" data-st="dismissed">Dismiss</button></div>` : x.status !== 'new' ? `<span class="pill">${x.status === 'accepted' ? 'Saved' : x.status === 'used' ? 'Used' : 'Dismissed'}</span>` : '';
-    return `<article class="feat ins"><div class="ins-top"><span class="who"><b>${who}</b><small>${sub}</small></span><span class="pill ${k}">${t}</span></div>
-      ${boxes.length ? `<div class="kpis">${boxes.join('')}</div>` : ''}
+    const mult = po ? Number(po.outlier_x) : ((/([\d.]+)x usual/.exec(x.source_label || '') || [])[1] * 1 || 0);
+    return { po, news, handle, plat, mult,
+      who: news ? esc(x.source_label || 'News') : '@' + esc(handle || ''),
+      sub: [plat ? PNAME[plat] : (news ? 'News' : null), flag(x.source_country), fmt(x.created_at, { month: 'short', day: 'numeric' })].filter(Boolean).map(esc).join(' · ') };
+  }
+  function stats(x, m) {
+    const b = [];
+    if (!m.news && m.mult) b.push(heat(m.mult));
+    if (m.po) {
+      b.push(m.po.platform === 'instagram' ? stat('like', 'heart', m.po.likes, 'Likes') : stat('view', 'eye', m.po.views, 'Views'));
+      if (m.po.platform === 'instagram' && m.po.comments) b.push(stat('chat', 'chat', m.po.comments, 'Comments'));
+      if (m.po.platform === 'tiktok' && m.po.likes) b.push(stat('like', 'heart', m.po.likes, 'Likes'));
+      b.push(isStill(m.po.format) ? `<span class="fmt still">${ki('img')}${fmtName(m.po.platform, m.po.format)}</span>` : `<span class="fmt video">${ki('play')}${fmtName(m.po.platform, m.po.format)} · adapt</span>`);
+      if (m.po.is_giveaway) b.push(`<span class="fmt warn">Giveaway</span>`);
+    }
+    return b.length ? `<div class="stats">${b.join('')}</div>` : '';
+  }
+  const stateTag = x => x.status !== 'new' ? `<span class="pill">${x.status === 'accepted' ? 'Saved' : x.status === 'used' ? 'Used' : 'Dismissed'}</span>` : '';
+  const insActs = x => x.gate === 'ok' && x.status === 'new' ? `<div class="row-acts"><button class="btn small primary" type="button" data-ins="${x.id}" data-st="accepted">${x.type === 'risk_alert' || x.type === 'heads_up' ? 'Got it' : 'Use this idea'}</button><button class="btn small quiet" type="button" data-ins="${x.id}" data-st="dismissed">Dismiss</button></div>` : stateTag(x);
+  // One card. opts.media = show the post inside the card (Competitors page).
+  function card(x, opts = {}) {
+    const m = meta(x), [t, k] = TYPE[x.type] || [x.type, ''], n = pct(x);
+    return `<article class="idea ${x.type === 'risk_alert' ? 'risk' : ''}">
+      <header class="idea-head"><span class="who"><b>${m.who}</b><small>${m.sub}</small></span>${x.gate !== 'ok' ? '' : ring(n)}</header>
+      ${opts.media ? frame(m.po) : ''}
+      ${stats(x, m)}
       ${x.gate !== 'ok' ? `<p class="note warn-note"><b>${esc(GATE[x.gate] || x.gate)}.</b> ${esc(x.gate_reason || '')}</p>` : ''}
-      <h3>${esc(x.title)}</h3>${x.why ? `<p><b>${news ? 'Why it matters' : 'Why it worked'}</b> ${esc(x.why)}</p>` : ''}${x.idea ? `<p><b>For us</b> ${esc(x.idea)}</p>` : ''}
-      ${em ? `<details class="embed" data-src="${esc(em.src)}" data-h="${em.h}"><summary>Show the post</summary><div class="embed-box"></div></details>` : ''}
-      <p class="src">${x.source_url ? `<a href="${esc(x.source_url)}" target="_blank" rel="noopener">${po ? 'Open on ' + esc(PNAME[po.platform] || 'the site') : 'Read the source'}</a>` : ''}</p>${acts}</article>`;
+      <button class="idea-body" type="button" data-iopen="${x.id}"><span class="pill ${k}">${t}</span><h3>${esc(x.title)}</h3>
+        ${x.why ? `<p class="one"><b>${m.news ? 'Why it matters' : 'Why it worked'}</b> ${esc(x.why)}</p>` : ''}${x.idea ? `<p class="one"><b>For us</b> ${esc(x.idea)}</p>` : ''}<span class="more">Read the full idea</span></button>
+      ${opts.media ? `<div class="idea-foot">${x.source_url ? `<a class="ext" href="${esc(x.source_url)}" target="_blank" rel="noopener">${ki('ext')} Open on ${esc(PNAME[m.plat] || 'the site')}</a>` : ''}${insActs(x)}</div>` : ''}</article>`;
+  }
+  // Full detail sheet for one idea
+  function insSheet() {
+    const x = (S.insCache || []).find(i => i.id === S.insSheet); if (!x) return null;
+    const m = meta(x), [t, k] = TYPE[x.type] || [x.type, ''], n = pct(x), sp = x.score_parts;
+    const bar = (l, v) => `<li><span>${l}</span><i style="--w:${v}%"></i><b>${v}%</b></li>`;
+    return `<div class="scrim" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Idea">
+      <div class="sheet-head"><h2><span class="pill ${k}">${t}</span></h2><button class="x" type="button" data-close aria-label="Close">${ic('x')}</button></div>
+      <div class="sheet-body">
+        <div class="idea-head"><span class="who"><b>${m.who}</b><small>${m.sub}</small></span>${x.gate !== 'ok' ? '' : ring(n)}</div>
+        ${frame(m.po, true)}
+        ${stats(x, m)}
+        <h3 class="big">${esc(x.title)}</h3>
+        ${x.gate !== 'ok' ? `<p class="note warn-note"><b>${esc(GATE[x.gate] || x.gate)}.</b> ${esc(x.gate_reason || '')}</p>` : ''}
+        ${x.why ? `<section class="para"><h4>${m.news ? 'Why it matters' : 'Why it worked'}</h4><p>${esc(x.why)}</p></section>` : ''}
+        ${x.idea ? `<section class="para us"><h4>For us</h4><p>${esc(x.idea)}</p></section>` : ''}
+        ${sp ? `<section class="para"><h4>Why ${n}% match</h4><ul class="bars">${bar('Fits Therapeia Zoi (60% of score)', sp.relevance)}${bar('How well it performed (25%)', sp.performance)}${bar('Image or carousel (15%)', sp.format)}</ul>
+          <p class="small muted">Fit is rated on product, US audience and how easily we can make it with our own assets.</p></section>` : ''}
+        ${x.source_url ? `<a class="btn block" href="${esc(x.source_url)}" target="_blank" rel="noopener">${ki('ext')} ${m.po ? 'Open on ' + esc(PNAME[m.po.platform] || 'the site') : 'Read the source'}</a>` : ''}
+        ${insActs(x)}
+      </div></div>`;
   }
   const chips = (cur, opts, attr = 'data-tab') => `<div class="chips" role="group">${opts.map(([k, l]) => `<button type="button" ${attr}="${k}" aria-pressed="${cur === k}">${l}</button>`).join('')}</div>`;
+  const remember = list => { const seen = new Map((S.insCache || []).map(i => [i.id, i])); list.forEach(i => seen.set(i.id, i)); S.insCache = [...seen.values()]; };
   async function competitors() {
     const tab = S.compTab || 'ideas';
     let all = [], acc = [];
     try { [all, acc] = await Promise.all([S.db.insights(['competitor', 'own']), tab === 'watch' ? S.db.watchAccounts() : []]); } catch (e) { return `<div class="empty"><h3>Could not load</h3><p>${esc(e.message)}</p></div>`; }
+    remember(all);
     const okAll = all.filter(x => x.gate === 'ok' && x.status !== 'dismissed'), blocked = all.filter(x => x.gate !== 'ok');
     const stills = okAll.filter(x => x.post && isStill(x.post.format)).length, vids = okAll.filter(x => x.post && !isStill(x.post.format)).length;
-    const ok = okAll.filter(x => S.fmt === 'all' || !x.post || (S.fmt === 'still') === isStill(x.post.format)).sort((a, b) => b.score - a.score);
+    const ok = okAll.filter(x => S.fmt === 'all' || !x.post || (S.fmt === 'still') === isStill(x.post.format)).sort((a, b) => pct(b) - pct(a));
     let body;
     if (tab === 'watch') body = `<ul class="list">${acc.map(a => `<li><div class="rowlink"><span class="rt"><b>@${esc(a.handle)}</b><small>${esc(a.platform)} · ${esc(a.country)} · ${esc(a.tier)}${a.followers ? ' · ' + Number(a.followers).toLocaleString() + ' followers' : ''}${a.note ? ' · ' + esc(a.note) : ''}</small></span><button class="btn small quiet" data-acc="${a.id}" data-on="${!a.active}">${a.active ? 'Pause' : 'Resume'}</button></div></li>`).join('')}</ul><p class="note">Scanned every Monday. Inspiration accounts count half when ranking ideas.</p>`;
     else { const list = tab === 'ideas' ? ok : blocked;
-      body = list.length ? list.map(card).join('') : `<div class="empty"><h3>${tab === 'ideas' ? 'No ideas yet' : 'Nothing filtered out'}</h3><p>${tab === 'ideas' ? 'Every Monday we scan the watch list, find posts that did far better than usual and explain why they worked.' : 'Posts tied to non-US festivals, the wrong season or risky claims land here instead of in your ideas.'}</p></div>`; }
-    return `<p class="lead small">Posts from accounts we watch that did far better than their usual. Images and carousels rank first because that is what we make.</p>`
+      body = list.length ? `<div class="idea-grid">${list.map(x => card(x, { media: true })).join('')}</div>` : `<div class="empty"><h3>${tab === 'ideas' ? 'No ideas yet' : 'Nothing filtered out'}</h3><p>${tab === 'ideas' ? 'Every Monday we scan the watch list, find posts that did far better than usual and explain why they worked.' : 'Posts tied to non-US festivals, the wrong season or risky claims land here instead of in your ideas.'}</p></div>`; }
+    const best = okAll.length ? Math.max(...okAll.map(pct)) : 0;
+    return (tab === 'ideas' && okAll.length ? `<div class="summary"><div><b>${okAll.length}</b><small>ideas</small></div><div><b>${stills}</b><small>image / carousel</small></div><div><b>${best}%</b><small>best match</small></div></div>` : '')
       + chips(tab, [['ideas', `Ideas (${okAll.length})`], ['blocked', `Filtered out (${blocked.length})`], ['watch', 'Watch list']])
-      + (tab === 'ideas' ? chips(S.fmt, [['all', 'All formats'], ['still', `Images & carousels (${stills})`], ['video', `Videos (${vids})`]], 'data-fmt') : '') + body;
+      + (tab === 'ideas' ? chips(S.fmt, [['all', 'All formats'], ['still', `Images & carousels (${stills})`], ['video', `Videos (${vids})`]], 'data-fmt') : '')
+      + (tab === 'ideas' ? `<p class="lead small">Best match first. Match % is mostly how well the idea fits Therapeia Zoi, then how well the post did, then format.</p>` : '') + body;
   }
   async function research() {
     const tab = S.newsTab || 'all';
     let all = []; try { all = await S.db.insights(['news']); } catch (e) { return `<div class="empty"><h3>Could not load</h3><p>${esc(e.message)}</p></div>`; }
+    remember(all);
     all = all.filter(x => x.status !== 'dismissed');
-    const list = (tab === 'all' ? all : all.filter(x => x.type === tab)).sort((a, b) => b.score - a.score);
-    return `<p class="lead small">Studies, recalls, rules and competitor news that matter to Therapeia Zoi, checked every morning.</p>`
-      + chips(tab, [['all', 'All'], ['risk_alert', 'Risk alerts'], ['post_idea', 'Post ideas'], ['heads_up', 'Heads-up']]) +
-      (list.length ? list.map(card).join('') : `<div class="empty"><h3>Nothing new</h3><p>Each morning we check Google News, PubMed, FDA, FTC, UK FSA, Reddit and clinical trials, and keep only what matters to Therapeia Zoi.</p></div>`);
+    const list = (tab === 'all' ? all : all.filter(x => x.type === tab)).sort((a, b) => pct(b) - pct(a));
+    return chips(tab, [['all', 'All'], ['risk_alert', 'Risk alerts'], ['post_idea', 'Post ideas'], ['heads_up', 'Heads-up']]) +
+      (list.length ? `<div class="idea-grid">${list.map(x => card(x)).join('')}</div>` : `<div class="empty"><h3>Nothing new</h3><p>Each morning we check Google News, PubMed, FDA, FTC, UK FSA, Reddit and clinical trials, and keep only what matters to Therapeia Zoi.</p></div>`);
   }
   async function todayPlus(r) {
     let top = []; try { top = (await S.db.insights(['competitor', 'own', 'news'])).filter(x => x.gate === 'ok' && x.status === 'new'); } catch (e) { return today(); }
+    remember(top);
     const risks = top.filter(x => x.type === 'risk_alert').slice(0, 2);
-    const ideas = top.filter(x => x.origin !== 'news').sort((a, b) => b.score - a.score).slice(0, 3);
-    const news = top.filter(x => x.origin === 'news' && x.type !== 'risk_alert').sort((a, b) => b.score - a.score).slice(0, 2);
-    const sec = (h, sub, list, more, href) => list.length ? `<section class="sec"><h2>${h}</h2><p class="lead small">${sub}</p>${list.map(card).join('')}<a class="btn quiet" href="${href}">${more}</a></section>` : '';
+    const ideas = top.filter(x => x.origin !== 'news').sort((a, b) => pct(b) - pct(a)).slice(0, 3);
+    const news = top.filter(x => x.origin === 'news' && x.type !== 'risk_alert').sort((a, b) => pct(b) - pct(a)).slice(0, 2);
+    const sec = (h, sub, list, more, href) => list.length ? `<section class="sec"><h2>${h}</h2><p class="lead small">${sub}</p><div class="idea-grid">${list.map(x => card(x)).join('')}</div><a class="btn quiet" href="${href}">${more}</a></section>` : '';
     return today({
-      risks: risks.length ? `<section class="sec"><h2>Risk alerts</h2>${risks.map(card).join('')}</section>` : '',
-      ideas: sec('Ideas for you', 'Posts from competitors and from our own accounts that beat their usual results, with how we could use the idea.', ideas, 'See all competitor ideas', '#competitors'),
+      risks: risks.length ? `<section class="sec"><h2>Risk alerts</h2><div class="idea-grid">${risks.map(x => card(x)).join('')}</div></section>` : '',
+      ideas: sec('Best ideas for you', 'Posts from competitors and our own accounts that beat their usual, ranked by how well they fit Therapeia Zoi.', ideas, 'See all competitor ideas', '#competitors'),
       news: sec('In the news', 'From Google News, PubMed, FDA and others.', news, 'See all news', '#news')
     });
   }
@@ -330,6 +379,8 @@
   // ---------- SHEET (post detail from anywhere) ----------
   function renderSheet() {
     const root = $('#sheet-root');
+    if (S.insSheet) { const h = insSheet(); if (h) { root.innerHTML = h; document.body.style.overflow = 'hidden'; root.querySelectorAll('[data-close]').forEach(b => b.onclick = closeSheet);
+      root.querySelectorAll('[data-ins]').forEach(b => b.onclick = () => act(() => S.db.setInsight(b.dataset.ins, b.dataset.st), b.dataset.st === 'dismissed' ? 'Dismissed' : 'Saved', () => { S.insSheet = null; })); return; } S.insSheet = null; }
     const p = S.sheet && S.posts.find(x => x.id === S.sheet);
     if (!p) { root.innerHTML = ''; document.body.style.overflow = ''; return; }
     document.body.style.overflow = 'hidden';
@@ -365,7 +416,7 @@
     wireSheet(root, p);
   }
   function openSheet(id) { S.sheet = id; S.sheetPf = 'ig'; renderSheet(); }
-  function closeSheet() { S.sheet = null; renderSheet(); }
+  function closeSheet() { S.sheet = null; S.insSheet = null; renderSheet(); }
 
   // ---------- prompts built into the page (no browser dialogs) ----------
   function askNote(title, placeholder, required, cb) {
@@ -398,7 +449,7 @@
     carousels(v);
     v.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { if (route() === 'news') S.newsTab = b.dataset.tab; else S.compTab = b.dataset.tab; render(); });
     v.querySelectorAll('[data-fmt]').forEach(b => b.onclick = () => { S.fmt = b.dataset.fmt; render(); });
-    v.querySelectorAll('details.embed').forEach(d => d.addEventListener('toggle', () => { const box = $('.embed-box', d); if (d.open && !box.firstChild) { box.innerHTML = `<iframe src="${d.dataset.src}" height="${d.dataset.h}" loading="lazy" allowfullscreen scrolling="no" title="Post preview"></iframe>`; } }));
+    v.querySelectorAll('[data-iopen]').forEach(b => b.onclick = () => { S.insSheet = b.dataset.iopen; renderSheet(); });
     v.querySelectorAll('[data-ins]').forEach(b => b.onclick = () => act(() => S.db.setInsight(b.dataset.ins, b.dataset.st), b.dataset.st === 'dismissed' ? 'Dismissed' : 'Saved'));
     v.querySelectorAll('[data-acc]').forEach(b => b.onclick = () => act(() => S.db.toggleAccount(b.dataset.acc, b.dataset.on === 'true'), b.dataset.on === 'true' ? 'Resumed' : 'Paused'));
     v.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openSheet(b.dataset.open));
@@ -479,8 +530,8 @@
   };
   paintTheme();
   $('#back').onclick = () => { location.hash = '#more'; };
-  addEventListener('hashchange', () => { if (S.settings) { S.sheet = null; render(); window.scrollTo({ top: 0 }); } });
-  addEventListener('keydown', e => { if (e.key === 'Escape' && S.sheet) closeSheet(); });
+  addEventListener('hashchange', () => { if (S.settings) { S.sheet = null; S.insSheet = null; render(); window.scrollTo({ top: 0 }); } });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && (S.sheet || S.insSheet)) closeSheet(); });
   addEventListener('scroll', () => $('#top').classList.toggle('scrolled', scrollY > 4), { passive: true });
   boot();
 })();
