@@ -230,3 +230,8 @@ legend{font:700 18px var(--f-head); margin-bottom:8px}
 .toast.out{opacity:0}
 @media (min-width:900px){ #toasts{bottom:24px; left:auto; right:24px; transform:none} }
 @media (prefers-reduced-motion: reduce){ .track,.toast{transition:none} .post.enter,.sheet{animation:none} }
+.ins{display:flex; flex-direction:column; gap:6px}
+.ins-top{display:flex; gap:6px; flex-wrap:wrap}
+.ins p{margin:0}
+.row-acts{display:flex; gap:8px; margin-top:4px}
+.btn.small{padding:8px 12px; font-size:14px; min-height:0}

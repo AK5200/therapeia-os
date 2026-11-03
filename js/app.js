@@ -55,7 +55,7 @@
   // ---------- routes ----------
   // tabs + sub pages (sub pages live under More and show a back arrow)
   const TABS = [['today', 'Today'], ['review', 'Review'], ['plan', 'Plan'], ['posted', 'Posted'], ['more', 'More']];
-  const SUB = { learning: 'AI learning', setup: 'Posting settings', analytics: 'Analytics', competitors: 'Competitors', research: 'Trends & research', creators: 'Creator outreach', store: 'Store & funnel', customers: 'Customer success' };
+  const SUB = { learning: 'AI learning', setup: 'Posting settings', analytics: 'Analytics', competitors: 'Competitors', research: 'News & research', creators: 'Creator outreach', store: 'Store & funnel', customers: 'Customer success' };
   const route = () => { const h = (location.hash || '#today').slice(1); return TABS.some(t => t[0] === h) || SUB[h] ? h : 'today'; };
   const tabOf = r => SUB[r] ? 'more' : r;
 
@@ -78,7 +78,7 @@
     const r = route();
     renderChrome(r);
     const v = $('#view');
-    const out = ({ today, review, plan, posted, more, learning, setup, analytics, competitors, research, creators: soon, store: soon, customers: soon })[r](r);
+    const out = ({ today: todayPlus, review, plan, posted, more, learning, setup, analytics, competitors, research, creators: soon, store: soon, customers: soon })[r](r);
     const done = h => { v.innerHTML = h; wire(v); renderSheet(); };
     if (out && out.then) out.then(done); else done(out);
   }
@@ -191,8 +191,8 @@
         ${item('learning', 'AI learning', 'Rules the AI learned from your notes', S.learnPending ? `<span class="pill warn">${S.learnPending} to review</span>` : '')}
         ${item('setup', 'Posting settings', 'Auto-posting, times and platforms')}
         ${item('analytics', 'Analytics', 'How posts perform')}
-        ${item('competitors', 'Competitors', 'What is working for similar brands')}
-        ${item('research', 'Trends & research', 'Viral posts and new studies', '<span class="soon-tag">Soon</span>')}
+        ${item('competitors', 'Competitors', 'Posts that took off and why, plus the watch list')}
+        ${item('research', 'News & research', 'Studies, recalls, competitor moves and trends')}
       </ul></section>
       <section class="sec"><h2>Coming next</h2><ul class="list">${soonMods.map(m => item(m.id, m.label, m.kpi, '<span class="soon-tag">Soon</span>')).join('')}</ul></section>
       ${S.user && !S.user.open ? `<button class="btn quiet" type="button" id="signout">Sign out (${esc(S.user.email)})</button>` : ''}`;
@@ -238,15 +238,47 @@
     if (!withM.length) return `<div class="empty"><h3>Numbers start after the first posts go live</h3><p>Reach, saves, shares and comments for every post, plus which hooks, looks and posting times work best.</p></div>`;
     return `<ul class="list">${withM.map(p => `<li class="rowlink">${thumb(p)}<span class="rt"><b>${esc(titleOf(p))}</b><small>${['reach', 'saves', 'shares', 'comments'].map(k => `${k} ${esc(p.metrics[k] ?? '–')}`).join(' · ')}</small></span></li>`).join('')}</ul>`;
   }
+  // ---------- insights: competitor watch + news radar ----------
+  const TYPE = { post_idea: ['Post idea', 'info'], heads_up: ['Heads-up', ''], risk_alert: ['Risk alert', 'bad'], own_win: ['Our post worked', 'ok'] };
+  const GATE = { blocked_region: 'Not for the US', blocked_occasion: 'Not a US occasion', blocked_claim: 'Claim risk', blocked_season: 'Wrong season or too early' };
+  const flag = c => c && c !== 'US' && c !== 'XX' ? ` · ${esc(c)}` : '';
+  function card(x) {
+    const [t, k] = TYPE[x.type] || [x.type, ''];
+    const acts = x.gate === 'ok' && x.status === 'new' ? `<div class="row-acts"><button class="btn small" data-ins="${x.id}" data-st="accepted">${x.type === 'risk_alert' || x.type === 'heads_up' ? 'Got it' : 'Use this idea'}</button><button class="btn small quiet" data-ins="${x.id}" data-st="dismissed">Dismiss</button></div>` : x.status !== 'new' ? `<span class="pill">${x.status === 'accepted' ? 'Saved' : x.status === 'used' ? 'Used' : 'Dismissed'}</span>` : '';
+    return `<article class="feat ins"><div class="ins-top"><span class="pill ${k}">${t}</span>${x.gate !== 'ok' ? `<span class="pill warn">${esc(GATE[x.gate] || x.gate)}</span>` : ''}</div>
+      <h3>${esc(x.title)}</h3>${x.why ? `<p><b>Why:</b> ${esc(x.why)}</p>` : ''}${x.idea ? `<p><b>For us:</b> ${esc(x.idea)}</p>` : ''}${x.gate_reason ? `<p class="note">${esc(x.gate_reason)}</p>` : ''}
+      <p class="note">${x.source_url ? `<a href="${esc(x.source_url)}" target="_blank" rel="noopener">${esc(x.source_label || 'Source')}</a>` : esc(x.source_label || '')}${flag(x.source_country)} · ${fmt(x.created_at, { month: 'short', day: 'numeric' })}</p>${acts}</article>`;
+  }
+  const chips = (cur, opts) => `<div class="chips" role="group">${opts.map(([k, l]) => `<button type="button" data-tab="${k}" aria-pressed="${cur === k}">${l}</button>`).join('')}</div>`;
   async function competitors() {
-    let rows = []; try { rows = await S.db.competitors(); } catch (e) { return `<div class="empty"><h3>Could not load</h3><p>${esc(e.message)}</p></div>`; }
-    if (!rows.length) return `<div class="empty"><h3>Competitor tracking is being set up</h3><p>We will watch the brands you pick and show which of their posts take off and why, so the AI can borrow the idea, never the content.</p></div>`;
-    return `<ul class="list">${rows.map(r => `<li><a class="rowlink" href="${esc(r.post_url)}" target="_blank" rel="noopener"><span class="rt"><b>${esc(r.account)}</b><small>${esc(r.platform)} · ${fmt(r.posted_at, { month: 'short', day: 'numeric' })}</small></span>${ic('chev', 'ic chev')}</a></li>`).join('')}</ul>`;
+    const tab = S.compTab || 'ideas';
+    let all = [], acc = [];
+    try { [all, acc] = await Promise.all([S.db.insights(['competitor', 'own']), tab === 'watch' ? S.db.watchAccounts() : []]); } catch (e) { return `<div class="empty"><h3>Could not load</h3><p>${esc(e.message)}</p></div>`; }
+    const ok = all.filter(x => x.gate === 'ok' && x.status !== 'dismissed'), blocked = all.filter(x => x.gate !== 'ok');
+    let body;
+    if (tab === 'watch') body = `<ul class="list">${acc.map(a => `<li><div class="rowlink"><span class="rt"><b>@${esc(a.handle)}</b><small>${esc(a.platform)} · ${esc(a.country)} · ${esc(a.tier)}${a.followers ? ' · ' + Number(a.followers).toLocaleString() + ' followers' : ''}${a.note ? ' · ' + esc(a.note) : ''}</small></span><button class="btn small quiet" data-acc="${a.id}" data-on="${!a.active}">${a.active ? 'Pause' : 'Resume'}</button></div></li>`).join('')}</ul><p class="note">Scanned every Monday. Inspiration accounts count half when ranking ideas.</p>`;
+    else { const list = tab === 'ideas' ? ok : blocked;
+      body = list.length ? list.map(card).join('') : `<div class="empty"><h3>${tab === 'ideas' ? 'No ideas yet' : 'Nothing filtered out'}</h3><p>${tab === 'ideas' ? 'Every Monday we scan the watch list, find posts that did far better than usual and explain why they worked.' : 'Posts tied to non-US festivals, the wrong season or risky claims land here instead of in your ideas.'}</p></div>`; }
+    return chips(tab, [['ideas', `Ideas (${ok.length})`], ['blocked', `Filtered out (${blocked.length})`], ['watch', 'Watch list']]) + body;
+  }
+  async function research() {
+    const tab = S.newsTab || 'all';
+    let all = []; try { all = await S.db.insights(['news']); } catch (e) { return `<div class="empty"><h3>Could not load</h3><p>${esc(e.message)}</p></div>`; }
+    all = all.filter(x => x.status !== 'dismissed');
+    const list = tab === 'all' ? all : all.filter(x => x.type === tab);
+    return chips(tab, [['all', 'All'], ['risk_alert', 'Risk alerts'], ['post_idea', 'Post ideas'], ['heads_up', 'Heads-up']]) +
+      (list.length ? list.map(card).join('') : `<div class="empty"><h3>Nothing new</h3><p>Each morning we check Google News, PubMed, FDA, FTC, UK FSA, Reddit and clinical trials, and keep only what matters to Therapeia Zoi.</p></div>`);
+  }
+  async function todayPlus(r) {
+    const base = await today(r);
+    let top = []; try { top = (await S.db.insights(['competitor', 'own', 'news'])).filter(x => x.gate === 'ok' && x.status === 'new'); } catch (e) { return base; }
+    if (!top.length) return base;
+    const risks = top.filter(x => x.type === 'risk_alert'), ideas = top.filter(x => x.type !== 'risk_alert').sort((a, b) => b.score - a.score).slice(0, 3);
+    return `${risks.length ? `<section class="sec"><h2>Risk alerts</h2>${risks.slice(0, 3).map(card).join('')}</section>` : ''}${base}<section class="sec"><h2>Ideas for you</h2>${ideas.map(card).join('')}<a class="btn quiet" href="#competitors">See all ideas</a></section>`;
   }
   const soonBody = m => `<p class="lead">${esc(m.pitch)}</p><span class="pill">Coming in phase ${m.phase}</span>
     ${m.features.map(([t, d]) => `<article class="feat"><h3>${esc(t)}</h3><p>${esc(d)}</p></article>`).join('')}
     ${m.note ? `<p class="note">${esc(m.note)}</p>` : ''}`;
-  const research = () => soonBody({ phase: 2, pitch: 'What is going viral in our niche and what new research says, brought in as ideas for the content engine.', features: [['Viral in our niche', 'Fast-rising wellness posts on Instagram and TikTok.'], ['New studies', 'Recent ashwagandha and shilajit studies from PubMed, checked before any claim is used.']] });
   const soon = r => soonBody(MODS.find(m => m.id === r));
 
   // ---------- SHEET (post detail from anywhere) ----------
@@ -318,6 +350,9 @@
 
   function wire(v) {
     carousels(v);
+    v.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { if (route() === 'research') S.newsTab = b.dataset.tab; else S.compTab = b.dataset.tab; render(); });
+    v.querySelectorAll('[data-ins]').forEach(b => b.onclick = () => act(() => S.db.setInsight(b.dataset.ins, b.dataset.st), b.dataset.st === 'dismissed' ? 'Dismissed' : 'Saved'));
+    v.querySelectorAll('[data-acc]').forEach(b => b.onclick = () => act(() => S.db.toggleAccount(b.dataset.acc, b.dataset.on === 'true'), b.dataset.on === 'true' ? 'Resumed' : 'Paused'));
     v.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openSheet(b.dataset.open));
     v.querySelectorAll('[data-pf]').forEach(b => b.onclick = () => { S.pf = b.dataset.pf; S.entered = (queue()[S.i] || {}).id; render(); });
     v.querySelectorAll('[data-step]').forEach(b => b.onclick = () => { S.i += +b.dataset.step; S.entered = null; render(); window.scrollTo({ top: 0 }); });

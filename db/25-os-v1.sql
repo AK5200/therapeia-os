@@ -553,3 +553,7 @@ revoke all on public.v_os_posts, public.v_os_learning from anon;
 --     update os_settings set open_access = false;  and set requireLogin: true in js/config.js
 alter table public.os_settings add column if not exists open_access boolean not null default false;
 -- os_role() now returns 'admin' for anyone when open_access is true (see runner execution 44 for the full statement).
+
+-- 16. Competitor watch + news radar (applied via n8n SQL runner, Nov 3 2026)
+-- Tables: watch_accounts, watch_posts, signals, insights, us_occasions. RLS read via os_role(client_id).
+-- Functions: os_set_insight(id, status), os_toggle_account(id, active). Seeded: 34 IG, 8 TikTok, 3 YouTube accounts + US occasion calendar.

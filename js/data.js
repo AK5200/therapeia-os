@@ -29,6 +29,16 @@
       stats: [{ category: 'image_lighting', times: 3 }, { category: 'headline_copy', times: 2 }, { category: 'text_size_position', times: 1 }]
     };
     let settings = { ...DEFAULT_SETTINGS };
+    const ago = h => new Date(now - h * 36e5).toISOString();
+    const demoIns = [
+      { id: 'i1', origin: 'competitor', type: 'post_idea', title: 'Partner giveaway with a sleep brand', why: 'A two-brand giveaway asked people to tag friends, so comments jumped to 5x the usual.', idea: 'Team up with a US sleep or tea brand for a "wind-down kit" giveaway with KSM-66.', source_label: '@cymbiotika · instagram · 5.3x usual · giveaway', source_url: 'https://www.instagram.com/cymbiotika/', source_country: 'US', gate: 'ok', status: 'new', score: 5.3, created_at: ago(5) },
+      { id: 'i2', origin: 'competitor', type: 'post_idea', title: 'Science story carousel', why: 'A calm, curious carousel about invisible soil microbes made people save and share it.', idea: 'A 6-slide "where shilajit comes from" story: rock, altitude, centuries, lab testing.', source_label: '@seed · instagram · 19x usual · science_story', source_url: 'https://www.instagram.com/seed/', source_country: 'US', gate: 'ok', status: 'new', score: 19, created_at: ago(9) },
+      { id: 'i3', origin: 'own', type: 'own_win', title: 'Our 7-Day Reset Short beat our usual', why: 'A clear challenge with a start date gave people a reason to watch to the end.', idea: 'Repeat as a 7-day carousel series, one tip per day.', source_label: '@therapeiazoi · youtube · 10x usual', source_url: 'https://www.youtube.com/@therapeiazoi', source_country: 'US', gate: 'ok', status: 'new', score: 10, created_at: ago(20) },
+      { id: 'i4', origin: 'competitor', type: 'post_idea', title: 'Dhanteras gold offer', why: 'Festival offer tied to buying gold for luck.', idea: 'Festival bundle.', source_label: '@kapiva_official · instagram · 8x usual · offer_sale', source_url: 'https://www.instagram.com/kapiva_official/', source_country: 'IN', occasion: 'Dhanteras', gate: 'blocked_occasion', gate_reason: '"Dhanteras" is not a US occasion', status: 'new', score: 4, created_at: ago(30) },
+      { id: 'n1', origin: 'news', type: 'risk_alert', title: 'Shilajit brand recalled for high lead', why: 'Buyers will ask if our shilajit is tested.', idea: 'Post our third-party lab results and how to read them.', source_label: 'FDA recalls', source_url: 'https://www.fda.gov/safety/recalls-market-withdrawals-safety-alerts', source_country: 'US', gate: 'ok', status: 'new', score: 9, created_at: ago(3) },
+      { id: 'n2', origin: 'news', type: 'post_idea', title: 'New sleep study on ashwagandha', why: 'Fresh, neutral science people are searching for.', idea: '"What the new study says" carousel, education only, no claims.', source_label: 'PubMed', source_url: 'https://pubmed.ncbi.nlm.nih.gov/', gate: 'ok', status: 'new', score: 8, created_at: ago(6) },
+      { id: 'n3', origin: 'news', type: 'heads_up', title: 'Competitor launches in a big retailer', why: 'Retail launches raise the whole category in shoppers\' minds.', idea: '', source_label: 'Google News · competitors', source_url: 'https://news.google.com/', source_country: 'US', gate: 'ok', status: 'new', score: 7, created_at: ago(12) }];
+    const demoAcc = [['cymbiotika', 'instagram', 'US', 'direct', 566626], ['healf', 'instagram', 'GB', 'direct', 416907], ['kapiva_official', 'instagram', 'IN', 'direct', 815000], ['bloomsupps', 'instagram', 'US', 'adjacent', 800322], ['ritual', 'tiktok', 'US', 'adjacent', 167700], ['thenue_co', 'instagram', 'GB', 'inspiration', 100000], ['therapeiazoi', 'youtube', 'US', 'own', 20]].map(([handle, platform, country, tier, followers], i) => ({ id: 'a' + i, handle, platform, country, tier, followers, active: true }));
     const nextSlot = () => {
       const taken = new Set(posts.filter(p => p.scheduled_for).map(p => p.scheduled_for.slice(0, 10)));
       for (let d = 1; d < 90; d++) { const s = at(d, 9); if (!taken.has(s.slice(0, 10))) return s; }
@@ -59,6 +69,10 @@
       async settings() { return { ...settings }; },
       async saveSettings(s) { settings = { ...settings, ...s }; return { ...settings }; },
       async competitors() { return []; },
+      async insights(origins) { return demoIns.filter(x => origins.includes(x.origin)).map(x => ({ ...x })); },
+      async setInsight(id, st) { const x = demoIns.find(i => i.id === id); if (x) x.status = st; },
+      async watchAccounts() { return demoAcc.map(a => ({ ...a })); },
+      async toggleAccount(id, on) { const a = demoAcc.find(x => x.id === id); if (a) a.active = on; },
       async markPosted(id, platform, posted, url) {
         const p = find(id); const r = { ...(p.publish_results || {}) };
         if (posted) r[platform] = { status: 'published', url: url || null, at: new Date().toISOString(), via: 'manual' }; else delete r[platform];
@@ -107,6 +121,10 @@
       },
       async decideApproval(id, decision, text) { return ok(await sb.rpc('os_decide_approval', { p_approval: id, p_decision: decision, p_text: text || null })); },
       async retireRule(id) { return ok(await sb.rpc('os_retire_rule', { p_rule: id })); },
+      async insights(origins) { return ok(await sb.from('insights').select('*').eq('client_id', C.clientId).in('origin', origins).order('created_at', { ascending: false }).limit(150)); },
+      async setInsight(id, st) { return ok(await sb.rpc('os_set_insight', { p_id: id, p_status: st })); },
+      async watchAccounts() { return ok(await sb.from('watch_accounts').select('*').eq('client_id', C.clientId).order('platform').order('tier').order('handle')); },
+      async toggleAccount(id, on) { return ok(await sb.rpc('os_toggle_account', { p_id: id, p_active: on })); },
       async competitors() { return ok(await sb.from('competitor_posts').select('*').eq('client_id', C.clientId).order('momentum_score', { ascending: false, nullsFirst: false }).limit(60)); }
     };
   }
