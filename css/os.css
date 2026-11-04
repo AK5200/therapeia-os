@@ -57,13 +57,13 @@ main.view.wide{max-width:1040px}
 
 @media (min-width:900px){
   .app{padding-left:220px}
-  .tabs{top:0; right:auto; width:220px; height:100vh; grid-template-columns:none; grid-auto-rows:min-content; align-content:start; gap:4px; border-top:0; border-right:1px solid var(--line);
+  .tabs{top:0; right:auto; width:220px; height:100vh; display:flex; flex-direction:column; gap:4px; border-top:0; border-right:1px solid var(--line);
     padding:20px 12px; background:var(--surface)}
   .tabs .rail-brand{display:flex}
   .tab{flex-direction:row; justify-content:flex-start; gap:12px; height:46px; padding:0 14px; border-radius:12px; font-size:15px}
   .tab[aria-current="page"]{background:var(--soft)}
   .tab .dot{position:static; margin-left:auto}
-  .credit{display:block; margin-top:24px; padding:0 14px; font-size:12px; color:var(--muted); text-decoration:none}
+  .credit{display:block; margin-top:auto; padding:14px 14px 4px; border-top:1px solid var(--line); font-size:12.5px; color:var(--muted); text-decoration:none}
   .credit b{color:var(--ink); font-weight:600}
   .top .brandmark{display:none}
   main.view{padding-block:12px 48px}
@@ -240,13 +240,13 @@ h1,h2,h3{font-weight:650}
 .idea-grid{display:grid; gap:14px; grid-template-columns:minmax(0,1fr)}
 @media (min-width:760px){ .idea-grid{grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start} }
 .idea{display:flex; flex-direction:column; gap:10px; padding:14px; border-radius:18px; background:var(--surface); border:1px solid var(--line); box-shadow:0 1px 2px rgba(10,45,40,.04)}
-.idea.risk{border-color:var(--coral); box-shadow:inset 4px 0 0 var(--coral)}
 .idea-head{display:flex; gap:10px; justify-content:space-between; align-items:center}
 .who{display:flex; flex-direction:column; min-width:0}
 .who b{font-size:17px; overflow-wrap:anywhere}
 .who small{color:var(--muted); font-size:13px}
 .ring{--rc:#94A3B8; position:relative; flex:0 0 auto; width:54px; height:54px; border-radius:50%; display:grid; place-items:center; background:conic-gradient(var(--rc) calc(var(--p)*1%), var(--soft) 0)}
-.ring.hi{--rc:#16A34A} .ring.mid{--rc:#F59E0B}
+.ring.top{--rc:#059669} .ring.hi{--rc:#16A34A} .ring.mid{--rc:#F59E0B}
+.ring.top::after{content:""; position:absolute; inset:-3px; border-radius:50%; box-shadow:0 0 0 2px rgba(5,150,105,.25), 0 0 14px rgba(5,150,105,.35)}
 .ring::before{content:""; position:absolute; inset:5px; border-radius:50%; background:var(--surface)}
 .ring b,.ring small{position:relative; line-height:1}
 .ring b{font:700 14px/1 var(--f-head); margin-top:6px; font-variant-numeric:tabular-nums}
@@ -290,3 +290,52 @@ h1,h2,h3{font-weight:650}
 .para.us{padding:12px 14px; border-radius:14px; background:var(--ok-bg)}
 .para .bars li{grid-template-columns:1fr 90px 44px}
 .para .bars span{white-space:normal}
+
+/* caption editor in Approve: a calm panel, full-width save, never under the decision bar */
+details.more{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:2px 14px}
+details.more[open]{padding-bottom:14px; margin-bottom:12px}
+details.more .field{margin-bottom:12px}
+details.more .btn.sm{width:100%; min-height:44px}
+.post .decide{margin-top:6px}
+/* auto-approve + tags */
+.autotick{display:inline-flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700; color:#15803D; background:rgba(22,163,74,.12); padding:7px 11px; border-radius:999px}
+:root[data-theme="dark"] .autotick{color:#4ADE80}
+.autoic{display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:#16A34A; color:#fff; flex:0 0 auto}
+.autoic .ki{width:18px; height:18px}
+.tags{display:flex; gap:6px; flex-wrap:wrap}
+.pill.vis{background:linear-gradient(135deg,rgba(124,58,237,.14),rgba(236,72,153,.14)); color:#7C3AED}
+:root[data-theme="dark"] .pill.vis{color:#C4B5FD}
+.rowlink.move .heat{flex:0 0 auto}
+/* stored slides in cards */
+.media.pm{border-radius:14px; overflow:hidden; aspect-ratio:4/5; background:var(--soft)}
+.media.pm .track img{width:100%; height:100%; object-fit:cover}
+.media.pm .track{height:100%}
+.swatches{display:flex; gap:6px} .swatches span{width:30px; height:30px; border-radius:8px; background:var(--c); border:1px solid var(--line)}
+.vis-dl{display:grid; grid-template-columns:auto 1fr; gap:6px 12px; margin:6px 0 0; font-size:15px} .vis-dl dt{color:var(--muted); font-weight:600} .vis-dl dd{margin:0}
+.para h4 small{font-weight:500}
+.para .bars li{grid-template-columns:minmax(0,1fr) 80px 36px}
+.para .bars span small{color:var(--muted)}
+.credit-m{display:block; text-align:center; font-size:13px; color:var(--muted); text-decoration:none; padding:8px}
+.credit-m b{color:var(--ink)}
+@media (min-width:900px){ .credit-m{display:none} }
+/* calendar */
+.cal{display:flex; flex-direction:column; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:12px}
+.cal-head{display:flex; align-items:center; justify-content:space-between}
+.cal-head b{font:700 17px var(--f-head)}
+.stepbtn{width:38px; height:38px; border-radius:11px; border:1px solid var(--line); background:var(--surface); display:grid; place-items:center; cursor:pointer; color:var(--ink)}
+.cal-grid{display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px}
+.cal-w{font-size:11.5px; font-weight:700; color:var(--muted); text-align:center; padding:2px 0}
+.cal-d{all:unset; box-sizing:border-box; cursor:pointer; min-height:64px; border-radius:10px; padding:4px; display:flex; flex-direction:column; gap:3px; background:var(--paper); border:1px solid transparent}
+.cal-d.out{opacity:.4}
+.cal-d.now .n{background:var(--accent); color:var(--accent-ink)}
+.cal-d.sel{border-color:var(--accent)}
+.cal-d:focus-visible{outline:3px solid var(--accent)}
+.cal-d .n{font-size:12.5px; font-weight:700; width:22px; height:22px; border-radius:50%; display:grid; place-items:center}
+.cal-th{display:flex; gap:2px; align-items:center; flex-wrap:wrap}
+.cal-th img{width:18px; height:22px; border-radius:4px; object-fit:cover; border:2px solid #2E5E9C}
+.cal-th img.published{border-color:#16A34A} .cal-th img.failed{border-color:var(--coral)}
+.cal-th i{font-style:normal; font-size:10.5px; font-weight:700; color:var(--muted)}
+@media (min-width:700px){ .cal-d{min-height:92px} .cal-th img{width:28px; height:35px} }
+.cal-key{margin:0; font-size:12.5px; color:var(--muted); display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+.cal-key .k{width:10px; height:10px; border-radius:3px; display:inline-block; border:2px solid #2E5E9C} .cal-key .k.published{border-color:#16A34A} .cal-key .k.failed{border-color:var(--coral)}
+.para p.small{font-size:13.5px; line-height:1.4}

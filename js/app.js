@@ -69,7 +69,7 @@
         const n = k === 'review' ? waiting : k === 'more' ? learnBadge : 0;
         return `<a class="tab" href="#${k}" ${tabOf(r) === k ? 'aria-current="page"' : ''}>${ic(k)}<span>${l}</span>${n ? `<span class="dot">${n}</span>` : ''}</a>`;
       }).join('')
-      + (C.credit === false ? '' : `<a class="credit" href="https://saltpilot.com" target="_blank" rel="noopener">Built by <b>Saltpilot</b></a>`);
+      + (C.credit === false ? '' : `<a class="credit" href="https://saltpilot.com" target="_blank" rel="noopener">Powered by <b>Saltpilot</b></a>`);
     $('#title').textContent = SUB[r] || ({ today: C.brand.name, review: 'Approve', plan: 'Plan', news: 'News', competitors: 'Competitors', more: 'More' })[r];
     $('#back').hidden = !SUB[r]; $('#brandmark').hidden = !!SUB[r] || r !== 'today';
     document.title = `${SUB[r] || TABS.find(t => t[0] === r)[1]} · ${C.brand.name}`;
@@ -162,10 +162,32 @@
 
   // ---------- PLAN (upcoming agenda + posted history, one tab) ----------
   function plan() {
-    const F = { upcoming: ['Upcoming', p => ['scheduled', 'publishing'].includes(p.status)], posted: ['Posted', p => p.status === 'published'], failed: ['Didn\'t post', p => p.status === 'failed'], rejected: ['Rejected', p => p.status === 'rejected'] };
+    const F = { upcoming: ['Upcoming', p => ['scheduled', 'publishing'].includes(p.status)], calendar: ['Calendar', null], posted: ['Posted', p => p.status === 'published'], failed: ['Didn\'t post', p => p.status === 'failed'], rejected: ['Rejected', p => p.status === 'rejected'] };
     if (!F[S.postedFilter]) S.postedFilter = 'upcoming';
-    const chips = `<div class="chips" role="group" aria-label="Show">${Object.entries(F).map(([k, [l, f]]) => `<button type="button" data-filter="${k}" aria-pressed="${S.postedFilter === k}">${l} (${S.posts.filter(f).length})</button>`).join('')}</div>`;
-    return chips + (S.postedFilter === 'upcoming' ? agenda() : history(F[S.postedFilter][1]));
+    const chips = `<div class="chips" role="group" aria-label="Show">${Object.entries(F).map(([k, [l, f]]) => `<button type="button" data-filter="${k}" aria-pressed="${S.postedFilter === k}">${l}${f ? ` (${S.posts.filter(f).length})` : ''}</button>`).join('')}</div>`;
+    return chips + (S.postedFilter === 'upcoming' ? agenda() : S.postedFilter === 'calendar' ? calendar() : history(F[S.postedFilter][1]));
+  }
+  // Month calendar: everything posted, scheduled or failed, by day
+  function calendar() {
+    const base = S.calMonth ? new Date(S.calMonth) : new Date(); base.setDate(1); base.setHours(0, 0, 0, 0);
+    const dayOf = p => p.status === 'published' ? (p.published_at || p.scheduled_for) : p.scheduled_for;
+    const items = S.posts.filter(p => ['scheduled', 'publishing', 'published', 'failed'].includes(p.status) && dayOf(p));
+    const key = d => { const x = new Date(d); return `${x.getFullYear()}-${x.getMonth()}-${x.getDate()}`; };
+    const by = {}; items.forEach(p => (by[key(dayOf(p))] ||= []).push(p));
+    const start = new Date(base); start.setDate(1 - ((base.getDay() + 6) % 7));
+    const todayK = key(new Date()), sel = S.calDay || todayK;
+    const cells = [...Array(42)].map((_, i) => { const d = new Date(start); d.setDate(start.getDate() + i); return d; });
+    const last = cells.slice(35).every(d => d.getMonth() !== base.getMonth()) ? 35 : 42;
+    const cell = d => { const k = key(d), ps = by[k] || [];
+      return `<button type="button" class="cal-d ${d.getMonth() !== base.getMonth() ? 'out' : ''} ${k === todayK ? 'now' : ''} ${k === sel ? 'sel' : ''}" data-cday="${k}" aria-label="${d.toDateString()}, ${ps.length} posts">
+        <span class="n">${d.getDate()}</span><span class="cal-th">${ps.slice(0, 2).map(p => `<img src="${esc((p.ig_slides || [])[0] || '')}" alt="" loading="lazy" class="${p.status}">`).join('')}${ps.length > 2 ? `<i>+${ps.length - 2}</i>` : ''}</span></button>`; };
+    const list = by[sel] || [];
+    const lab = { published: ['Posted', 'ok'], scheduled: ['Scheduled', 'info'], publishing: ['Posting', 'info'], failed: ['Didn\'t post', 'bad'] };
+    return `<div class="cal"><div class="cal-head"><button class="stepbtn" type="button" data-cmon="-1" aria-label="Previous month">${ic('prev')}</button><b>${base.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</b><button class="stepbtn" type="button" data-cmon="1" aria-label="Next month">${ic('next')}</button></div>
+      <div class="cal-grid">${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(w => `<span class="cal-w">${w}</span>`).join('')}${cells.slice(0, last).map(cell).join('')}</div>
+      <p class="cal-key"><span class="k published"></span>Posted <span class="k scheduled"></span>Scheduled <span class="k failed"></span>Didn't post</p></div>
+      <section class="sec"><h2>${new Date(+sel.split('-')[0], +sel.split('-')[1], +sel.split('-')[2]).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</h2>
+      ${list.length ? `<ul class="list">${list.map(p => `<li><button class="rowlink" type="button" data-open="${p.id}">${thumb(p)}<span class="rt"><b>${esc(titleOf(p))}</b><small>${timeOnly(dayOf(p))} · ${kind(p)}</small></span><span class="pill ${lab[p.status][1]}">${lab[p.status][0]}</span>${ic('chev', 'ic chev')}</button></li>`).join('')}</ul>` : '<p class="lead small">Nothing on this day.</p>'}</section>`;
   }
   function agenda() {
     const sch = S.posts.filter(p => ['scheduled', 'publishing', 'published'].includes(p.status) && p.scheduled_for);
@@ -199,6 +221,7 @@
         ${item('analytics', 'Analytics', 'How posts perform')}
       </ul></section>
       <section class="sec"><h2>Coming next</h2><ul class="list">${soonMods.map(m => item(m.id, m.label, m.kpi, '<span class="soon-tag">Soon</span>')).join('')}</ul></section>
+      ${C.credit === false ? '' : '<a class="credit-m" href="https://saltpilot.com" target="_blank" rel="noopener">Powered by <b>Saltpilot</b></a>'}
       ${S.user && !S.user.open ? `<button class="btn quiet" type="button" id="signout">Sign out (${esc(S.user.email)})</button>` : ''}`;
   }
 
@@ -250,6 +273,7 @@
     heart: '<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/>',
     chat: '<path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/>',
     eye: '<path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>',
+    check: '<path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/>',
     flame: '<path d="M12 2c1 4-3 5.5-3 9.5a3 3 0 0 0 6 0c0-1-.5-2-1-2.8 3 1.3 5 3.8 5 6.8a7 7 0 0 1-14 0c0-5 4-7.5 7-13.5z"/>',
     img: '<path d="M4 5h16v14H4zM4 16l5-5 4 4 3-3 4 4" fill="none" stroke="currentColor" stroke-width="2"/>',
     play: '<path d="M8 5v14l11-7z"/>',
@@ -260,10 +284,11 @@
   const isStill = f => /sidecar|image|slideshow|carousel|photo/i.test(f || '');
   const fmtName = (pl, f) => /sidecar|carousel/i.test(f || '') ? 'Carousel' : /slideshow/i.test(f || '') ? 'Slideshow' : /image|photo/i.test(f || '') ? 'Image' : pl === 'youtube' ? 'Short' : pl === 'instagram' ? 'Reel' : 'Video';
   const flag = c => c && c !== 'US' && c !== 'XX' ? c : '';
-  const pct = x => Math.max(0, Math.min(100, Math.round(x.origin === 'news' ? Number(x.score) * 10 : Number(x.score) || 0)));
-  const tier = n => n >= 75 ? 'hi' : n >= 55 ? 'mid' : 'lo';
-  const ring = n => `<span class="ring ${tier(n)}" style="--p:${n}" title="How well this fits Therapeia Zoi"><b>${n}%</b><small>match</small></span>`;
-  const heat = m => `<span class="heat ${m >= 20 ? 't3' : m >= 10 ? 't2' : 't1'}">${ki('flame')}<b>${m.toFixed(m >= 10 ? 0 : 1)}x</b><small>usual</small></span>`;
+  const s10 = x => { const v = x.score10 != null ? Number(x.score10) : x.origin === 'news' ? Number(x.score) : Number(x.score) / 10; return Math.max(1, Math.min(10, Math.round((v || 1) * 10) / 10)); };
+  const pct = x => s10(x) * 10;
+  const tier = n => n >= 9 ? 'top' : n >= 8 ? 'hi' : n >= 6 ? 'mid' : 'lo';
+  const ring = x => { const n = s10(x); return `<span class="ring ${tier(n)}" style="--p:${n * 10}" title="How good this is for Therapeia Zoi (1-10). 9+ = adapt almost directly."><b>${n.toFixed(1)}</b><small>/10</small></span>`; };
+  const heat = m => `<span class="heat ${m >= 5 ? 't3' : m >= 2 ? 't2' : 't1'}">${ki('flame')}<b>${m.toFixed(m >= 10 ? 0 : 1)}x</b><small>usual</small></span>`;
   const stat = (cls, icon, n, label) => `<span class="stat ${cls}" title="${label}">${ki(icon)}<b>${nx(n)}</b></span>`;
   function embedUrl(post, full) {
     if (!post || !post.url) return null; const u = post.url; let m;
@@ -273,6 +298,14 @@
     return null;
   }
   const frame = (post, full) => { const em = embedUrl(post, full); return em ? `<div class="frame"><iframe src="${esc(em.src)}" style="height:${em.h}px" loading="lazy" allowfullscreen scrolling="no" title="Post preview"></iframe></div>` : ''; };
+  // Slides saved to our storage by the workflow (fast, never expire). Falls back to the platform embed for older ideas.
+  const slidesOf = x => ((x.visual && x.visual.slides) || []).filter(Boolean);
+  function postMedia(x, full) {
+    const sl = slidesOf(x), n = sl.length;
+    if (!n) return frame(x.post, full);
+    const nav = n > 1 ? `<button class="cnav prev" type="button" aria-label="Previous slide" hidden>${ic('prev')}</button><button class="cnav next" type="button" aria-label="Next slide">${ic('next')}</button><span class="cbadge">1/${x.post && x.post.slide_count > n ? x.post.slide_count : n}</span>` : '';
+    return `<div class="media pm ${full ? 'full' : ''}" data-n="${n}" data-i="0" tabindex="0"><div class="track">${sl.map(u => `<img src="${esc(u)}" alt="" loading="lazy" draggable="false">`).join('')}</div>${nav}</div>`;
+  }
   function meta(x) {
     const po = x.post, news = x.origin === 'news', sl = String(x.source_label || '').split(' · ');
     const handle = po ? po.handle : (!news && /^@/.test(sl[0]) ? sl[0].slice(1) : null);
@@ -294,39 +327,57 @@
     }
     return b.length ? `<div class="stats">${b.join('')}</div>` : '';
   }
-  const stateTag = x => x.status !== 'new' ? `<span class="pill">${x.status === 'accepted' ? 'Saved' : x.status === 'used' ? 'Used' : 'Dismissed'}</span>` : '';
-  const insActs = x => x.gate === 'ok' && x.status === 'new' ? `<div class="row-acts"><button class="btn small primary" type="button" data-ins="${x.id}" data-st="accepted">${x.type === 'risk_alert' || x.type === 'heads_up' ? 'Got it' : 'Use this idea'}</button><button class="btn small quiet" type="button" data-ins="${x.id}" data-st="dismissed">Dismiss</button></div>` : stateTag(x);
-  // One card. opts.media = show the post inside the card (Competitors page).
+  const STATE = { accepted: ['In the queue', 'ok'], used: ['Made into a post', 'ok'], dismissed: ['Dismissed', ''] };
+  const stateTag = x => x.auto_approved && x.status === 'accepted' ? `<span class="autotick">${ki('check')} Auto-approved · in the next content run</span>` : STATE[x.status] ? `<span class="pill ${STATE[x.status][1]}">${STATE[x.status][0]}</span>` : '';
+  function insActs(x) {
+    if (x.gate !== 'ok') return '';
+    const headsup = x.lane === 'headsup' || x.type === 'risk_alert' || x.type === 'heads_up';
+    if (x.status === 'new') return `<div class="row-acts"><button class="btn small primary" type="button" data-ins="${x.id}" data-st="accepted">${headsup ? 'Got it' : 'Add to queue'}</button><button class="btn small quiet" type="button" data-ins="${x.id}" data-st="dismissed">Dismiss</button></div>`;
+    if (x.status === 'accepted' && !headsup) return `<div class="row-acts">${stateTag(x)}<button class="btn small quiet" type="button" data-ins="${x.id}" data-st="dismissed">${x.auto_approved ? 'Reject' : 'Remove'}</button></div>`;
+    return stateTag(x);
+  }
   function card(x, opts = {}) {
-    const m = meta(x), [t, k] = TYPE[x.type] || [x.type, ''], n = pct(x);
-    return `<article class="idea ${x.type === 'risk_alert' ? 'risk' : ''}">
-      <header class="idea-head"><span class="who"><b>${m.who}</b><small>${m.sub}</small></span>${x.gate !== 'ok' ? '' : ring(n)}</header>
-      ${opts.media ? frame(m.po) : ''}
+    const m = meta(x), [t, k] = TYPE[x.type] || [x.type, ''];
+    const heads = x.lane === 'headsup';
+    return `<article class="idea">
+      <header class="idea-head"><span class="who"><b>${m.who}</b><small>${m.sub}${m.po && m.po.source && m.po.source !== 'account' ? ' · found by niche search' : ''}</small></span>${x.gate !== 'ok' || heads ? '' : ring(x)}</header>
+      ${opts.media ? postMedia(x) : ''}
       ${stats(x, m)}
       ${x.gate !== 'ok' ? `<p class="note warn-note"><b>${esc(GATE[x.gate] || x.gate)}.</b> ${esc(x.gate_reason || '')}</p>` : ''}
-      <button class="idea-body" type="button" data-iopen="${x.id}"><span class="pill ${k}">${t}</span><h3>${esc(x.title)}</h3>
-        ${x.why ? `<p class="one"><b>${m.news ? 'Why it matters' : 'Why it worked'}</b> ${esc(x.why)}</p>` : ''}${x.idea ? `<p class="one"><b>For us</b> ${esc(x.idea)}</p>` : ''}<span class="more">Read the full idea</span></button>
-      ${opts.media ? `<div class="idea-foot">${x.source_url ? `<a class="ext" href="${esc(x.source_url)}" target="_blank" rel="noopener">${ki('ext')} Open on ${esc(PNAME[m.plat] || 'the site')}</a>` : ''}${insActs(x)}</div>` : ''}</article>`;
+      <button class="idea-body" type="button" data-iopen="${x.id}"><span class="tags"><span class="pill ${k}">${heads ? 'Move in your space' : t}</span>${x.visual_score ? `<span class="pill vis">Visual ${Number(x.visual_score).toFixed(1)}</span>` : ''}</span><h3>${esc(x.title)}</h3>
+        ${x.why ? `<p class="one"><b>${m.news ? 'Why it matters' : 'Why it worked'}</b> ${esc(x.why)}</p>` : ''}${x.idea ? `<p class="one"><b>${heads ? 'For Deep' : 'For us'}</b> ${esc(x.idea)}</p>` : ''}<span class="more">Read the full breakdown</span></button>
+      <div class="idea-foot">${opts.media && x.source_url ? `<a class="ext" href="${esc(x.source_url)}" target="_blank" rel="noopener">${ki('ext')} Open on ${esc(PNAME[m.plat] || 'the site')}</a>` : ''}${insActs(x)}</div></article>`;
   }
-  // Full detail sheet for one idea
+  // Short line for Home: "@brand did X and got 2.5x their usual"
+  function moveRow(x) {
+    const m = meta(x);
+    return `<li><button class="rowlink move" type="button" data-iopen="${x.id}">${m.mult ? heat(m.mult) : ''}<span class="rt"><b style="white-space:normal">${m.who}: ${esc(x.title)}</b><small style="white-space:normal">${esc(x.idea || x.why || '')}</small></span>${ic('chev', 'ic chev')}</button></li>`;
+  }
+  // Full breakdown sheet for one idea
   function insSheet() {
     const x = (S.insCache || []).find(i => i.id === S.insSheet); if (!x) return null;
-    const m = meta(x), [t, k] = TYPE[x.type] || [x.type, ''], n = pct(x), sp = x.score_parts;
-    const bar = (l, v) => `<li><span>${l}</span><i style="--w:${v}%"></i><b>${v}%</b></li>`;
+    const m = meta(x), [t, k] = TYPE[x.type] || [x.type, ''], sp = x.score_parts || {}, v = x.visual || {};
+    const bar = (l, val, w) => `<li><span>${l} <small>${w}</small></span><i style="--w:${val * 10}%"></i><b>${Number(val).toFixed(val % 1 ? 1 : 0)}</b></li>`;
+    const crit = sp.R != null ? `<section class="para"><h4>Why ${s10(x).toFixed(1)} / 10</h4><ul class="bars">${bar('Fits our products', sp.R, '25%')}${bar('Easy as image/carousel', sp.F, '20%')}${bar('Proven performance', sp.P, '15%')}${bar('Save/share potential', sp.S, '15%')}${bar('Compliance safe', sp.C, '10%')}${bar('New for us', sp.N, '10%')}${bar('Timely', sp.T, '5%')}</ul>
+      ${(sp.caps || []).length ? `<p class="note warn-note"><b>Score capped:</b> ${esc(sp.caps.join('; '))}</p>` : ''}<p class="small muted">9+ means we can adapt it almost directly. 8+ with safe compliance is auto-approved into the next content run.</p></section>` : '';
+    const vis = v.V != null ? `<section class="para"><h4>Visual ${Number(x.visual_score || 0).toFixed(1)} / 10 <small>craft ${v.V} · freshness ${v.Vf}</small></h4>
+      ${(v.palette || []).length ? `<div class="swatches">${v.palette.map(c => `<span style="--c:${esc(c)}" title="${esc(c)}"></span>`).join('')}</div>` : ''}
+      <dl class="vis-dl">${v.type ? `<dt>Type</dt><dd>${esc(v.type)}</dd>` : ''}${v.layout ? `<dt>Layout</dt><dd>${esc(v.layout)}${v.text_density ? ' · ' + esc(v.text_density) + ' text' : ''}</dd>` : ''}${v.hook ? `<dt>Scroll-stopper</dt><dd>${esc(v.hook)}</dd>` : ''}${v.adapt ? `<dt>For our designer</dt><dd>${esc(v.adapt)}</dd>` : ''}</dl></section>` : '';
     return `<div class="scrim" data-close></div><div class="sheet" role="dialog" aria-modal="true" aria-label="Idea">
-      <div class="sheet-head"><h2><span class="pill ${k}">${t}</span></h2><button class="x" type="button" data-close aria-label="Close">${ic('x')}</button></div>
+      <div class="sheet-head"><h2><span class="pill ${k}">${x.lane === 'headsup' ? 'Move in your space' : t}</span></h2><button class="x" type="button" data-close aria-label="Close">${ic('x')}</button></div>
       <div class="sheet-body">
-        <div class="idea-head"><span class="who"><b>${m.who}</b><small>${m.sub}</small></span>${x.gate !== 'ok' ? '' : ring(n)}</div>
-        ${frame(m.po, true)}
+        <div class="idea-head"><span class="who"><b>${m.who}</b><small>${m.sub}</small></span>${x.gate !== 'ok' || x.lane === 'headsup' ? '' : ring(x)}</div>
+        ${postMedia(x, true)}
         ${stats(x, m)}
         <h3 class="big">${esc(x.title)}</h3>
         ${x.gate !== 'ok' ? `<p class="note warn-note"><b>${esc(GATE[x.gate] || x.gate)}.</b> ${esc(x.gate_reason || '')}</p>` : ''}
         ${x.why ? `<section class="para"><h4>${m.news ? 'Why it matters' : 'Why it worked'}</h4><p>${esc(x.why)}</p></section>` : ''}
-        ${x.idea ? `<section class="para us"><h4>For us</h4><p>${esc(x.idea)}</p></section>` : ''}
-        ${sp ? `<section class="para"><h4>Why ${n}% match</h4><ul class="bars">${bar('Fits Therapeia Zoi (60% of score)', sp.relevance)}${bar('How well it performed (25%)', sp.performance)}${bar('Image or carousel (15%)', sp.format)}</ul>
-          <p class="small muted">Fit is rated on product, US audience and how easily we can make it with our own assets.</p></section>` : ''}
+        ${x.mechanic ? `<section class="para"><h4>The template behind it</h4><p>${esc(x.mechanic)}</p></section>` : ''}
+        ${x.idea ? `<section class="para us"><h4>${x.lane === 'headsup' ? 'For Deep' : 'Our version'}</h4><p>${esc(x.idea)}</p></section>` : ''}
+        ${crit}${vis}
         ${x.source_url ? `<a class="btn block" href="${esc(x.source_url)}" target="_blank" rel="noopener">${ki('ext')} ${m.po ? 'Open on ' + esc(PNAME[m.po.platform] || 'the site') : 'Read the source'}</a>` : ''}
         ${insActs(x)}
+        ${x.lane !== 'headsup' && x.status === 'new' && x.gate === 'ok' ? '<p class="small muted">Add to queue sends this to the next daily content run. The AI rewrites it in Therapeia Zoi\'s voice and rules, designs it, and it comes to Approve like any other post. Nothing is posted without you.</p>' : ''}
       </div></div>`;
   }
   const chips = (cur, opts, attr = 'data-tab') => `<div class="chips" role="group">${opts.map(([k, l]) => `<button type="button" ${attr}="${k}" aria-pressed="${cur === k}">${l}</button>`).join('')}</div>`;
@@ -336,38 +387,45 @@
     let all = [], acc = [];
     try { [all, acc] = await Promise.all([S.db.insights(['competitor', 'own']), tab === 'watch' ? S.db.watchAccounts() : []]); } catch (e) { return `<div class="empty"><h3>Could not load</h3><p>${esc(e.message)}</p></div>`; }
     remember(all);
-    const okAll = all.filter(x => x.gate === 'ok' && x.status !== 'dismissed'), blocked = all.filter(x => x.gate !== 'ok');
-    const stills = okAll.filter(x => x.post && isStill(x.post.format)).length, vids = okAll.filter(x => x.post && !isStill(x.post.format)).length;
-    const ok = okAll.filter(x => S.fmt === 'all' || !x.post || (S.fmt === 'still') === isStill(x.post.format)).sort((a, b) => pct(b) - pct(a));
+    const live = all.filter(x => x.gate === 'ok' && x.status !== 'dismissed');
+    const ideas = live.filter(x => x.lane !== 'headsup'), moves = live.filter(x => x.lane === 'headsup'), blocked = all.filter(x => x.gate !== 'ok');
+    const stills = ideas.filter(x => x.post && isStill(x.post.format)).length, vids = ideas.filter(x => x.post && !isStill(x.post.format)).length;
+    const queued = ideas.filter(x => x.status === 'accepted').length;
+    const shown = ideas.filter(x => S.fmt === 'all' || !x.post || (S.fmt === 'still') === isStill(x.post.format)).sort((a, b) => s10(b) - s10(a));
+    const empty = (h, p) => `<div class="empty"><h3>${h}</h3><p>${p}</p></div>`;
     let body;
-    if (tab === 'watch') body = `<ul class="list">${acc.map(a => `<li><div class="rowlink"><span class="rt"><b>@${esc(a.handle)}</b><small>${esc(a.platform)} · ${esc(a.country)} · ${esc(a.tier)}${a.followers ? ' · ' + Number(a.followers).toLocaleString() + ' followers' : ''}${a.note ? ' · ' + esc(a.note) : ''}</small></span><button class="btn small quiet" data-acc="${a.id}" data-on="${!a.active}">${a.active ? 'Pause' : 'Resume'}</button></div></li>`).join('')}</ul><p class="note">Scanned every Monday. Inspiration accounts count half when ranking ideas.</p>`;
-    else { const list = tab === 'ideas' ? ok : blocked;
-      body = list.length ? `<div class="idea-grid">${list.map(x => card(x, { media: true })).join('')}</div>` : `<div class="empty"><h3>${tab === 'ideas' ? 'No ideas yet' : 'Nothing filtered out'}</h3><p>${tab === 'ideas' ? 'Every Monday we scan the watch list, find posts that did far better than usual and explain why they worked.' : 'Posts tied to non-US festivals, the wrong season or risky claims land here instead of in your ideas.'}</p></div>`; }
-    const best = okAll.length ? Math.max(...okAll.map(pct)) : 0;
-    return (tab === 'ideas' && okAll.length ? `<div class="summary"><div><b>${okAll.length}</b><small>ideas</small></div><div><b>${stills}</b><small>image / carousel</small></div><div><b>${best}%</b><small>best match</small></div></div>` : '')
-      + chips(tab, [['ideas', `Ideas (${okAll.length})`], ['blocked', `Filtered out (${blocked.length})`], ['watch', 'Watch list']])
-      + (tab === 'ideas' ? chips(S.fmt, [['all', 'All formats'], ['still', `Images & carousels (${stills})`], ['video', `Videos (${vids})`]], 'data-fmt') : '')
-      + (tab === 'ideas' ? `<p class="lead small">Best match first. Match % is mostly how well the idea fits Therapeia Zoi, then how well the post did, then format.</p>` : '') + body;
+    if (tab === 'watch') body = `<ul class="list">${acc.map(a => `<li><div class="rowlink"><span class="rt"><b>@${esc(a.handle)}</b><small>${esc(a.platform)} · ${esc(a.country)} · ${esc(a.tier)}${a.followers ? ' · ' + Number(a.followers).toLocaleString() + ' followers' : ''}${a.note ? ' · ' + esc(a.note) : ''}</small></span><button class="btn small quiet" data-acc="${a.id}" data-on="${!a.active}">${a.active ? 'Pause' : 'Resume'}</button></div></li>`).join('')}</ul><p class="note">Scanned every Monday, plus weekly searches for ashwagandha, shilajit, KSM-66, adaptogens and cortisol posts from anyone. Ideas older than 10 days drop off unless you queued them.</p>`;
+    else if (tab === 'moves') body = moves.length ? `<div class="idea-grid">${moves.sort((a, b) => (b.post ? b.post.outlier_x : 0) - (a.post ? a.post.outlier_x : 0)).map(x => card(x, { media: true })).join('')}</div>` : empty('No big moves this week', 'Collabs, retail launches, sales and partner giveaways that worked for others show here. Good to know, but not something we post right away.');
+    else if (tab === 'blocked') body = blocked.length ? `<div class="idea-grid">${blocked.map(x => card(x, { media: true })).join('')}</div>` : empty('Nothing filtered out', 'Posts tied to non-US festivals or needing health claims land here.');
+    else body = shown.length ? `<div class="idea-grid">${shown.map(x => card(x, { media: true })).join('')}</div>` : empty('No ideas yet', 'Every Monday we scan the watch list and niche searches, find posts that beat their usual for their format, and score how well each fits us.');
+    const best = ideas.length ? Math.max(...ideas.map(s10)) : 0;
+    return (tab === 'ideas' && ideas.length ? `<div class="summary"><div><b>${ideas.length}</b><small>ideas</small></div><div><b>${queued}</b><small>in the queue</small></div><div><b>${best.toFixed(1)}</b><small>best score</small></div></div>` : '')
+      + chips(tab, [['ideas', `Ideas (${ideas.length})`], ['moves', `Moves in your space (${moves.length})`], ['blocked', `Filtered (${blocked.length})`], ['watch', 'Watch list']])
+      + (tab === 'ideas' ? chips(S.fmt, [['all', 'All formats'], ['still', `Images & carousels (${stills})`], ['video', `Videos (${vids})`]], 'data-fmt') + `<p class="lead small">Best score first. 9+ = adapt almost directly. 8+ goes into the next content run automatically, and you can still remove it.</p>` : '') + body;
   }
   async function research() {
     const tab = S.newsTab || 'all';
     let all = []; try { all = await S.db.insights(['news']); } catch (e) { return `<div class="empty"><h3>Could not load</h3><p>${esc(e.message)}</p></div>`; }
     remember(all);
     all = all.filter(x => x.status !== 'dismissed');
-    const list = (tab === 'all' ? all : all.filter(x => x.type === tab)).sort((a, b) => pct(b) - pct(a));
+    const list = (tab === 'all' ? all : all.filter(x => x.type === tab)).sort((a, b) => s10(b) - s10(a));
     return chips(tab, [['all', 'All'], ['risk_alert', 'Risk alerts'], ['post_idea', 'Post ideas'], ['heads_up', 'Heads-up']]) +
-      (list.length ? `<div class="idea-grid">${list.map(x => card(x)).join('')}</div>` : `<div class="empty"><h3>Nothing new</h3><p>Each morning we check Google News, PubMed, FDA, FTC, UK FSA, Reddit and clinical trials, and keep only what matters to Therapeia Zoi.</p></div>`);
+      (list.length ? `<div class="idea-grid">${list.map(x => card(x)).join('')}</div>` : `<div class="empty"><h3>Nothing new</h3><p>Each morning we check Google News, PubMed, FDA, FTC, UK FSA, Reddit and clinical trials. News stays here for 20 days.</p></div>`);
   }
   async function todayPlus(r) {
-    let top = []; try { top = (await S.db.insights(['competitor', 'own', 'news'])).filter(x => x.gate === 'ok' && x.status === 'new'); } catch (e) { return today(); }
+    let top = []; try { top = (await S.db.insights(['competitor', 'own', 'news'])).filter(x => x.gate === 'ok' && ['new', 'accepted'].includes(x.status)); } catch (e) { return today(); }
     remember(top);
-    const risks = top.filter(x => x.type === 'risk_alert').slice(0, 2);
-    const ideas = top.filter(x => x.origin !== 'news').sort((a, b) => pct(b) - pct(a)).slice(0, 3);
-    const news = top.filter(x => x.origin === 'news' && x.type !== 'risk_alert').sort((a, b) => pct(b) - pct(a)).slice(0, 2);
+    const risks = top.filter(x => x.type === 'risk_alert' && x.status === 'new').slice(0, 2);
+    const auto = top.filter(x => x.auto_approved && x.status === 'accepted');
+    const ideas = top.filter(x => x.origin !== 'news' && x.lane !== 'headsup' && x.status === 'new').sort((a, b) => s10(b) - s10(a)).slice(0, 3);
+    const moves = top.filter(x => x.lane === 'headsup' && x.status === 'new').sort((a, b) => (b.post ? b.post.outlier_x : 0) - (a.post ? a.post.outlier_x : 0)).slice(0, 3);
+    const news = top.filter(x => x.origin === 'news' && x.type !== 'risk_alert' && x.status === 'new').sort((a, b) => s10(b) - s10(a)).slice(0, 2);
     const sec = (h, sub, list, more, href) => list.length ? `<section class="sec"><h2>${h}</h2><p class="lead small">${sub}</p><div class="idea-grid">${list.map(x => card(x)).join('')}</div><a class="btn quiet" href="${href}">${more}</a></section>` : '';
     return today({
       risks: risks.length ? `<section class="sec"><h2>Risk alerts</h2><div class="idea-grid">${risks.map(x => card(x)).join('')}</div></section>` : '',
-      ideas: sec('Best ideas for you', 'Posts from competitors and our own accounts that beat their usual, ranked by how well they fit Therapeia Zoi.', ideas, 'See all competitor ideas', '#competitors'),
+      ideas: (auto.length ? `<section class="sec"><h2>Auto-approved ideas</h2><p class="lead small">Scored 8 or more, so they go into the next content run. Remove any you don't want.</p><ul class="list">${auto.map(x => `<li><button class="rowlink" type="button" data-iopen="${x.id}"><span class="autoic">${ki('check')}</span><span class="rt"><b>${esc(x.title)}</b><small>${s10(x).toFixed(1)}/10 · from ${meta(x).who}</small></span>${ic('chev', 'ic chev')}</button></li>`).join('')}</ul></section>` : '')
+        + sec('Best ideas for you', 'Posts that beat their usual, scored 1-10 on how well they fit Therapeia Zoi.', ideas, 'See all ideas', '#competitors')
+        + (moves.length ? `<section class="sec"><h2>Moves in your space</h2><p class="lead small">Collabs, launches and sales that worked for others. Ideas for Deep, not posts.</p><ul class="list">${moves.map(moveRow).join('')}</ul></section>` : ''),
       news: sec('In the news', 'From Google News, PubMed, FDA and others.', news, 'See all news', '#news')
     });
   }
@@ -376,11 +434,12 @@
     ${m.note ? `<p class="note">${esc(m.note)}</p>` : ''}`;
   const soon = r => soonBody(MODS.find(m => m.id === r));
 
+  const insMsg = st => st === 'dismissed' ? 'Removed' : 'Added to the queue. The next content run turns it into a post for Approve.';
   // ---------- SHEET (post detail from anywhere) ----------
   function renderSheet() {
     const root = $('#sheet-root');
     if (S.insSheet) { const h = insSheet(); if (h) { root.innerHTML = h; document.body.style.overflow = 'hidden'; root.querySelectorAll('[data-close]').forEach(b => b.onclick = closeSheet);
-      root.querySelectorAll('[data-ins]').forEach(b => b.onclick = () => act(() => S.db.setInsight(b.dataset.ins, b.dataset.st), b.dataset.st === 'dismissed' ? 'Dismissed' : 'Saved', () => { S.insSheet = null; })); return; } S.insSheet = null; }
+      carousels(root); root.querySelectorAll('[data-ins]').forEach(b => b.onclick = () => act(() => S.db.setInsight(b.dataset.ins, b.dataset.st), insMsg(b.dataset.st), () => { S.insSheet = null; })); return; } S.insSheet = null; }
     const p = S.sheet && S.posts.find(x => x.id === S.sheet);
     if (!p) { root.innerHTML = ''; document.body.style.overflow = ''; return; }
     document.body.style.overflow = 'hidden';
@@ -450,12 +509,14 @@
     v.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { if (route() === 'news') S.newsTab = b.dataset.tab; else S.compTab = b.dataset.tab; render(); });
     v.querySelectorAll('[data-fmt]').forEach(b => b.onclick = () => { S.fmt = b.dataset.fmt; render(); });
     v.querySelectorAll('[data-iopen]').forEach(b => b.onclick = () => { S.insSheet = b.dataset.iopen; renderSheet(); });
-    v.querySelectorAll('[data-ins]').forEach(b => b.onclick = () => act(() => S.db.setInsight(b.dataset.ins, b.dataset.st), b.dataset.st === 'dismissed' ? 'Dismissed' : 'Saved'));
+    v.querySelectorAll('[data-ins]').forEach(b => b.onclick = () => act(() => S.db.setInsight(b.dataset.ins, b.dataset.st), insMsg(b.dataset.st)));
     v.querySelectorAll('[data-acc]').forEach(b => b.onclick = () => act(() => S.db.toggleAccount(b.dataset.acc, b.dataset.on === 'true'), b.dataset.on === 'true' ? 'Resumed' : 'Paused'));
     v.querySelectorAll('[data-open]').forEach(b => b.onclick = () => openSheet(b.dataset.open));
     v.querySelectorAll('[data-pf]').forEach(b => b.onclick = () => { S.pf = b.dataset.pf; S.entered = (queue()[S.i] || {}).id; render(); });
     v.querySelectorAll('[data-step]').forEach(b => b.onclick = () => { S.i += +b.dataset.step; S.entered = null; render(); window.scrollTo({ top: 0 }); });
     v.querySelectorAll('[data-filter]').forEach(b => b.onclick = () => { S.postedFilter = b.dataset.filter; render(); });
+    v.querySelectorAll('[data-cday]').forEach(b => b.onclick = () => { S.calDay = b.dataset.cday; render(); });
+    v.querySelectorAll('[data-cmon]').forEach(b => b.onclick = () => { const d = S.calMonth ? new Date(S.calMonth) : new Date(); d.setDate(1); d.setMonth(d.getMonth() + +b.dataset.cmon); S.calMonth = d.toISOString(); S.calDay = null; render(); });
     v.querySelectorAll('[data-do]').forEach(b => b.onclick = () => {
       const id = b.dataset.id, d = b.dataset.do;
       const whenV = fromLocalInput(($('#f-when', v) || {}).value);
