@@ -31,6 +31,7 @@ Ids never change once used. To retire a section, mark it `edit: retired`, do not
 | carousel/archetypes.md | 15 slide-by-slide templates (one section each) | brain (list), copy + critic (the chosen one) |
 | carousel/hooks.md | Hook formulas (one section each) | brain (list), copy (the chosen one) |
 | carousel/rubric.md | 20-point pre-publish score | critic, watcher |
+| copy/critic.md | Self-Critique agent: checks and rubric output | critic |
 | copy/copywriter.md | The Copy agent's job, text limits, captions, punctuation | copy |
 | visual/style.md | Brand look, palette, light, surfaces, photo realism rules | art, image |
 | visual/people.md | Who may appear and how (single master copy) | art, image, design_critic |

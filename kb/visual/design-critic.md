@@ -24,5 +24,4 @@ for: design_critic | edit: locked
 
 Per slide action: keep (no problem) · regenerate (a new image could fix it) · use_real_photo (the product label came out wrong twice; replace with a real product photo).
 verdict: pass (every slide keep) · fix (some regenerate or use_real_photo) · flag (a human must decide, e.g. consistency or taste).
-Also return design_score 0, 1 or 2 for rubric.score `design`.
 Problems are specific and short; quote wrong words exactly ("reads 'Vithin', should be 'Within'"). Return ONLY the JSON required by the schema.
