@@ -24,4 +24,4 @@ Never use em dashes or en dashes in slides, captions or hashtags. Use a full sto
 ## voice.facts: Facts and numbers
 for: brain, copy, critic | edit: locked
 
-Use ONLY facts, numbers, doses and dates that appear in the brief or in brand/products.md. Never invent statistics, years, percentages, study sizes or study details. If a point needs a number we do not have, write it without the number.
+Follow comp.principles rules 1 and 2: facts and numbers come only from the approved facts and product label notes supplied with the task. A fact that appears only in a brief's key points or a competitor idea is NOT approved. If a point needs a fact we do not have, write it without the fact or drop the point.

@@ -3,12 +3,22 @@
 Master copy. Every agent that writes or checks words reads this file. The deterministic word blocklist in the workflow is a safety net that mirrors `comp.banned`; if you change one, change both.
 Not legal advice: the approved claims library should be reviewed by a regulatory attorney.
 
-## comp.claims: Allowed and forbidden claims
+## comp.principles: The five hard rules (they override everything else)
 for: brain, copy, critic, compliance, art | edit: locked
 
-ALLOWED: structure/function claims about NORMAL body function: "supports a healthy response to everyday stress", "supports restful sleep", "supports energy and vitality", "helps maintain", "may support", "research suggests". These need the disclaimer.
-FORBIDDEN: any claim to diagnose, treat, cure, prevent, mitigate or relieve a disease or its symptoms, stated OR implied. Never name a disease or condition: anxiety, anxiety disorder, depression, insomnia, ADHD, erectile dysfunction, low testosterone as a condition, diabetes, blood pressure, cancer, thyroid disease, infertility, arthritis, Alzheimer's, inflammation as a disease.
-Also forbidden: "clinically proven", "doctor recommended", "FDA approved", "FDA registered" as a quality claim, guaranteed results, "no side effects", "pharmaceutical grade", drug comparisons (Ozempic, GLP-1, Wegovy), before/after results, unsubstantiated claims about competitors ("most brands", "most products have no research").
+These rules cover whole categories on purpose. If something is not explicitly allowed by them, it is not allowed.
+
+1. ONE SOURCE OF FACTS. The only facts, numbers, ingredients, doses, studies and claims we may state are the APPROVED FACTS list and the product label notes supplied with the task (use `safe_wording` where given; never use anything marked blocked). Everything else (competitor posts and the ideas taken from them, news, trends, research summaries, your own knowledge) is inspiration for the FORMAT and ANGLE only, never a source of facts.
+2. EVERY NUMBER MUST BE TRACEABLE. Any number with a unit or a claim attached (mg, %, ranges, study sizes, years of research, "X people") must appear in the approved facts or label notes. If it does not, remove the number. Counting words for structure ("5 habits", "step 3", "30-day routine") are fine.
+3. WELLBEING, NEVER MEDICINE. We talk about everyday wellbeing, routines, ingredients and quality. We never talk about: diseases, conditions or symptoms; diagnoses; lab tests, blood work, biomarkers, hormone or blood levels and their ranges; medications or drug comparisons; treatments or therapies; doctors' advice; medical settings. This applies to slides, captions, hashtags, images and ideas alike.
+4. STRUCTURE/FUNCTION ONLY. A product or ingredient may only "support", "help maintain" or "promote" a normal body function ("supports a healthy response to everyday stress", "supports restful sleep"), never diagnose, treat, cure, prevent or relieve anything. No "clinically proven", "doctor recommended", "FDA approved", guarantees or results.
+5. WHEN IN DOUBT, LEAVE IT OUT. A shorter post is always better than a risky line. Never argue a borderline line into the post.
+
+## comp.claims: Allowed and forbidden wording (detail for rules 3 and 4)
+for: brain, copy, critic, compliance, art | edit: locked
+
+ALLOWED: "supports", "helps maintain", "may support", "research suggests" (only for research in the approved facts). These need the disclaimer.
+FORBIDDEN, stated OR implied: disease and condition names (for example anxiety, depression, insomnia, ADHD, erectile dysfunction, low testosterone, diabetes, blood pressure, cancer, thyroid disease, infertility, arthritis), "FDA registered" as a quality claim, "no side effects", "pharmaceutical grade", before/after results, unsubstantiated claims about competitors ("most brands", "most products have no research").
 
 ## comp.banned: Banned words (mirrored by the workflow blocklist)
 for: copy, critic, compliance | edit: locked
@@ -21,7 +31,7 @@ for: brain, copy, critic, compliance | edit: locked
 - Ashwagandha: FDA's Nov 2023 warning letter to Lone Star Botanicals cited "helps reduce anxiety" and "reduces anxiety and depression" as drug claims. Say "everyday stress" and "calm", never anxiety.
 - Shilajit: FDA letters (2017 Healthy Nutrition Group, 2020 KetoKerri) cited traditional-use lines such as "used for centuries to treat diabetes...". Traditional or Ayurvedic framing does NOT make a disease claim legal.
 - Sexual function, testosterone and "vitality" for men: say "energy", "drive", "stamina"; never sexual performance or hormone levels.
-- Research: only cite what is in the brief, with the extract studied. KSM-66 results do not transfer to generic ashwagandha. Never overstate a study.
+- Research: only cite research that is in the approved facts, with the extract studied. KSM-66 results do not transfer to generic ashwagandha. Never overstate a study.
 
 ## comp.implied: Implied claims through images and context
 for: art, image, design_critic, critic | edit: locked

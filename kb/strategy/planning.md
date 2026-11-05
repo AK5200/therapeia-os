@@ -32,7 +32,8 @@ for: brain | edit: learn
 ## plan.sources: Using competitor and own signals
 for: brain | edit: learn
 
-- competitor_pattern: borrow the STRUCTURE (archetype, hook formula, slide roles, what made it saveable or sendable) from the competitor breakdown and set source_ref to its id. Never copy wording, visuals or the exact topic. Adapt it to our product and voice.
+- competitor_pattern: borrow the STRUCTURE (archetype, hook formula, slide roles, what made it saveable or sendable) from the competitor breakdown and set source_ref to its id. Never copy wording, visuals or the exact topic. Adapt it to our product and voice. The idea text may contain facts, numbers or medical topics from the competitor: drop all of them (comp.principles) and rebuild the content from our approved facts. If the idea only works with medical content, change the angle to a wellbeing one.
+- key_points may only contain facts from the approved facts list, never facts from signals.
 - own_winner: reuse a winning post's archetype and hook with a NEW topic.
 - original: a fresh idea nobody fed you.
 - If the requested source has no signals, plan an original.

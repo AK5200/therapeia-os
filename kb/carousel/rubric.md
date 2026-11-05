@@ -3,7 +3,7 @@
 ## rubric.score: 20-point pre-publish score
 for: critic, watcher | edit: learn
 
-Score each criterion 0, 1 or 2. Publish at 15 or more AND no zero on hook, rehook, save_send or compliance. Below that: rewrite (max 2 rounds), then flag for a human.
+Score each criterion 0, 1 or 2, strictly: 2 only when the criterion is fully met with no doubt. A typical first draft scores 13 to 17; 20 is rare. Compliance is 0 if any line breaks comp.principles. For single images score rehook and pacing as 2 (not applicable). Publish at 15 or more AND no zero on hook, rehook, save_send or compliance. Below that: rewrite (max 2 rounds), then flag for a human.
 
 | key | criterion | 0 | 1 | 2 |
 |---|---|---|---|---|
