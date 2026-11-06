@@ -32,7 +32,7 @@ Instagram often re-shows a skipped carousel starting from slide 2 (Mosseri, 2024
 for: copy, critic, art | edit: learn
 
 Job: deliver the promise, one idea each.
-- Headline max 7 words, body max 18 words in max 3 short lines.
+- Headline max 7 words, body max 12 words in one or two short lines. The image carries one idea; anything longer goes in the caption.
 - Pattern: headline, then 1 or 2 supporting lines.
 - Use numbered progress when the archetype is a list or steps.
 
@@ -56,7 +56,7 @@ On product posts the last slide shows the product clearly.
 for: brain, copy, critic | edit: learn
 
 Default 7 slides (6 to 9). Quick formats 5 or 6. Deep dives 8 or 9. Hard max 10 (publishing API limit). Never pad.
-Text: cover headline max 8 words; other headlines max 7; body max 18 words, max 3 lines; never more than 4 lines of text on a slide. No hashtags, emojis or links on slides.
+Text: cover headline max 8 words; other headlines max 7; body max 12 words, max 2 lines; never more than 3 lines of text on a slide. No hashtags, emojis or links on slides.
 
 ## anat.caption: Caption pairing
 for: copy, critic | edit: learn
