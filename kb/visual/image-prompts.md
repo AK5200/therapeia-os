@@ -141,3 +141,23 @@ RULES: spell every quoted word exactly; no other words, labels or captions anywh
 for: image | edit: learn
 
 TEXT STYLE: headline big (8% of the height, 11% on the cover), bold, fully opaque, perfectly kerned, on a calm low-detail area. Colour must pop: white or cream on dark or saturated areas, near-black or forest green on light areas, never the same colour family as behind it. No calm area: put the words on a solid band or soft dark gradient. Body semi-bold, never thin or grey. Accent only as a stroke under one word, never through it.
+
+## img.look.7: Look 7 ugc
+for: image | edit: learn
+
+LOOK: real everyday phone photo: candid, warm natural or lamp light, lived-in home, handheld framing; casual handwritten or bold lowercase type.
+
+## img.text.elegant: Text style elegant
+for: image | edit: learn
+
+TEXT STYLE: refined editorial typography with generous empty space: elegant serif heading (large or small as the layout says, one word may be italic), light clean sans body, white or soft charcoal chosen to stay readable on what is behind it, perfectly kerned, on a calm area. Never heavy or bold.
+
+## img.text.hand: Text style handwritten
+for: image | edit: learn
+
+TEXT STYLE: natural handwriting (brush script or marker) for the headline, real and slightly imperfect, plus small clean lowercase sans for any second line; colour pops against what is behind it (cream or white on dark, black on light), on a calm area.
+
+## img.styleref: Style reference role
+for: image | edit: locked
+
+STYLE REFERENCE: the last reference image is a style reference only. Copy its layout, text placement, type style, colour grade and lighting mood. Never copy its scene, people, faces, product, objects, logo or any of its words.

@@ -9,50 +9,69 @@ Follow visual/people.md, visual/style.md, brand/products.md and compliance/rules
 ## art.looks: Step 1, pick ONE look for the whole post
 for: art | edit: learn
 
-The look sets the type family and texture for the body slides. The cover is always a full-bleed hero (art.cover) whatever the look.
+Pick ONE look for the whole post, then a layout for every slide from visual/layouts.md (layout.list). The layout fixes composition, text position and text style; you fill in scene, people, product placement and exact words.
 Obey RECENT POSTS: never the look used in the previous post; any look at most 2 times in the last 7.
-1 LIFESTYLE: real outdoor or home location, 35mm film grain, natural light, elegant italic serif headline + small spaced caps.
-2 POP: full-bleed saturated colour from the product's own packaging, crisp studio light, a product-in-use macro bleeding off one edge, bold rounded geometric sans with heavy/regular contrast, ONE key word on a hand-brushed marker stroke.
-3 NOTES: a phone notes-app page (warm off-white, faint ruled lines, small yellow back arrow + the word "Notes"), typed checklist, one tilted photo pasted into the note. No status bar, no app logos.
-4 COLLAGE: warm cream textured paper, torn-edge scraps, washi tape, cut-out photos with white borders, a bold condensed serif headline cut from magazine strips + a handwritten ink note.
-5 FILM DIARY: an instant-film print on a real sunlit surface, 35mm grain and faded colour inside the print, a small orange date stamp, a handwritten marker caption on the white border.
-6 SPLIT: one half a real photo, the other half a solid warm cream card holding the text, thin coloured rule on its edge. Only for comparison posts (this vs that), never as the default.
+1 EDITORIAL (Cymbiotika-like): editorial models, still lifes and landscapes, small or large elegant serif type, lots of space. Layouts editorial.*.
+2 POP (Ryze-like): one saturated colour field from the product's packaging across the whole post, appetizing macros, heavy rounded sans with a brushed marker stroke, chips and steps. Layouts pop.*.
+3 NOTES: notes-app page (notes.list). 4 COLLAGE: magazine collage (collage.poster). 5 FILM DIARY: instant-film print (film.polaroid). 6 SPLIT: photo + cream card (split.mythfact), only for myth_fact and comparison.
+7 UGC: real phone photos of everyday moments, handwritten or bold lowercase type. Layouts ugc.*.
+
+LAYOUTS (visual/layouts.md):
+| id | look | role | use it for |
+|---|---|---|---|
+| pop.cover | 2 pop | cover | bold cover: ingredient or product-in-use macro, big question or claim-free hook |
+| pop.ingredient | 2 pop | body | what it is / where it comes from: ingredient macro |
+| pop.qa | 2 pop | body | a question + an honest short answer (FAQ, myth) |
+| pop.howto | 2 pop | body | how to use it: a hand using the product, 2 to 3 word steps |
+| pop.step | 2 pop | body | numbered step with one pill chip |
+| pop.chips | 2 pop | body, payoff | what's inside / key facts as 3 pill chips around the product |
+| pop.hero | 2 pop | payoff, cta | product hero on a plinth with name and CTA |
+| editorial.model | 1 editorial | cover | model + product, large elegant serif headline |
+| editorial.quiet | 1 editorial | body, cover | model + product, one small serif line only |
+| editorial.stilllife | 1 editorial | body, payoff, cta | product still life on pale seamless with small serif heading + up to 3 small lines |
+| editorial.landscape | 1 editorial | body, cover | nature landscape (mountain, sea, field), small serif heading + one line, no product |
+| ugc.hand | 7 ugc | cover, body | a hand holding the product in a real cosy scene, handwritten headline |
+| ugc.selfie | 7 ugc | cover | mirror selfie or candid phone shot with the product, bold lowercase headline |
+| notes.list | 3 notes | cover, body | notes-app checklist with a tilted photo |
+| collage.poster | 4 collage | cover, body | magazine cut-out headline, handwritten note, cut-out photos and product |
+| film.polaroid | 5 film diary | cover, body | instant-film print on a sunlit surface, handwritten caption on the border |
+| split.mythfact | 6 split | cover, body | photo half + cream card half with MYTH / FACT (myth_fact and comparison only) |
+
+Rules: one look per post; every slide's layout must belong to that look (pop.* for look 2, editorial.* for look 1, ugc.* for look 7). Looks 3 to 6 are single-layout looks: use them for single images or short posts; in a carousel, their cover uses that layout and the other slides may use ugc.hand or editorial.quiet for variety.
 
 ## art.match: Matching look to archetype
 for: art | edit: learn
 
-myth_fact, faq, mistakes -> 2 or 4 · how_to, routine_shift, relatable -> 1, 3 or 5 · ingredient_deep_dive, story -> 4 or 1 · listicle, checklist -> 3 or 1 · tweet_style, quiz -> 3 · comparison -> 6 · study_breakdown, what_happens, timeline -> 1, 2 or 4 · conversion posts -> 2 or 1.
+Education with or without product (myth_fact, faq, ingredient_deep_dive, how_to, checklist, listicle, what_happens, study_breakdown) -> 2 or 1 · relatable, story, routine_shift, tweet_style, quiz -> 7, 3, 5 or 1 · comparison -> 6 or 2 · conversion posts -> 2 or 1 · single images -> any look; 3, 4 and 5 shine as singles.
+Product-free education (no product in the brief) -> 1 with editorial.landscape / editorial.stilllife-free slides, or 2 with ingredient macros.
 The Brain's visual_recipe (visual/recipes.md) is a scene hint inside the chosen look, not a separate look.
 
 ## art.cover: Step 2, cover type
 for: art | edit: learn
 
-The cover is ALWAYS a full-bleed hero image (photo edge to edge, no cards, panels or split) with ONE big drawn headline filling 10 to 12% of the image height. Never the split look, never a text card.
-
-Across the feed about 3 of 4 covers show a PERSON with the product (UGC style, never presented as a customer review), 1 of 4 a product hero. Use RECENT POSTS to keep the balance. Product-only covers never use looks 3 or 5.
-The cover must work as a thumbnail: one big idea, face or product large, headline readable at 2 cm wide, critical content in the centre (3:4 grid crop). It carries the swipe cue line.
-Slide 2 is a second cover (anat.rehook): give it its own strong subject and a large headline.
+The cover uses a cover layout of the chosen look (layout.list role "cover"). It must work as a thumbnail: one big idea, face or product large, critical content in the centre (3:4 grid crop), readable at 2 cm wide, and it carries the swipe cue.
+Across the feed about 3 of 4 covers show a PERSON with the product (UGC or editorial, never presented as a customer review), 1 of 4 a product or ingredient hero. Use RECENT POSTS to keep the balance.
+Slide 2 is a second cover (anat.rehook): give it its own strong subject.
 
 ## art.type: Step 3, type family
 for: art | edit: learn
 
-One type family for the whole post, used on EVERY slide: headline style, label style, body style, 2 or 3 text colours from the palette and one accent treatment. It must differ from the previous post in font pairing or text position. Headline large (cover 10 to 12%, other slides 7 to 9% of image height), fully opaque, high contrast.
+Type comes from each layout's text style (bold, elegant or handwritten), so it is consistent by design. Only choose the colours: 2 or 3 text colours from the palette that stay readable on the backgrounds you brief, plus the accent colour for marker strokes. Put them in type_family; headline and body describe the font briefly (max 8 words).
 
 ## art.slide: Step 4, per slide brief
 for: art | edit: learn
 
-RHYTHM: Vary the layout while keeping one type family. Never more than two text-led slides (camera "graphic") in a row: alternate them with full-bleed photo slides (person, product in use, texture or ingredient macro). Change the text_zone and the subject from slide to slide. No two neighbouring slides should look like the same template.
-
-
-- engine: "product" (our real product; reference photos attached) or "scene" (no product anywhere).
-- camera: "phone" (candid iPhone UGC), "editorial" (35mm film), "studio" (medium format; white seamless or the pop colour field only) or "graphic" (looks 3 to 6 and text-led slides).
-- scene: location, props, surfaces, time of day. 25 to 60 words, concrete nouns.
+For every slide:
+- layout: one id from layout.list that belongs to the chosen look. Do not repeat the same layout on two neighbouring slides when the look has more than one layout.
+- engine: "product" (our real product; reference photos attached) or "scene" (no product anywhere). The cover and the last slide of a post with a product use "product".
+- camera: "phone" (UGC), "editorial" (35mm film), "studio" (medium format) or "graphic" (notes, collage, split and other designed slides).
+- scene: location, props, surfaces, time of day; max 40 words, concrete nouns, consistent with the layout.
 - person: null or { ethnicity, gender, age (22-40), hair, outfit, crop, pose, expression } following visual/people.md.
 - product_action: where the product is and how it is held; null when engine = scene.
-- light: source, direction, quality.
-- text_zone: top-left | top | top-right | bottom-left | bottom | left-half | right-half | centre. Never over a face or the product label.
-- text_lines: every line of the slide copy, in order, each { text, role: label|headline|body|note|cta, accent? }. Copy the words EXACTLY: you may split a sentence across lines and pick ONE accent word per slide; never change, add or drop words. One idea on the image: the headline plus at most one short line.
-- extras: hand-drawn arrow, marker stroke, checkboxes, washi tape, date stamp, polaroid border, thin rule. Only what the look uses.
+- light: max 12 words.
+- text_zone: where the layout puts the text (top-left | top | top-right | bottom-left | bottom | left-half | right-half | centre). Never over a face or the product label.
+- text_lines: every line of the slide copy, in order, each { text, role: label|headline|body|note|cta, accent? }. Copy the words EXACTLY: you may split a sentence across lines and pick ONE accent word; never change, add or drop words.
+- extras: only what the layout uses (marker stroke, arrow, chip, checkboxes, washi tape, date stamp, thin rule).
 
 ## art.product: Product slides
 for: art | edit: locked
