@@ -14,8 +14,8 @@ for: brain | edit: learn
 | what_happens | What happens when / timeline | send, save | trust, retention |
 | ingredient_deep_dive | Ingredient explained | save, follow | trust |
 | study_breakdown | A study, simply explained | save, send | trust |
-| story | Founder or ritual story | follow, comment | retention, trust |
-| routine_shift | Before vs after a routine (never a body) | save | awareness, retention |
+| story | Ritual story (a moment in an ordinary day) | follow, comment | retention, trust |
+| routine_shift | Old habit vs new habit (never results) | save | awareness, retention |
 | checklist | What to look for | save | trust |
 | mistakes | Mistakes to avoid | save, send | trust |
 | faq | Honest answers | save, comment | trust, conversion |
@@ -90,22 +90,19 @@ Only when the brief contains the study details.
 N-1 payoff: what it means for you.
 N CTA: save. Cite the study in the caption.
 
-## arch.story: Founder or ritual story
+## arch.story: Ritual story (a moment in an ordinary day)
 for: copy, critic | edit: learn
 
-1 cover: a tension line ("I almost didn't make this").
-2 re-hook: the problem moment.
-3 to N-2: turning points, one per slide.
-N-1 payoff: the lesson.
-N CTA: follow or comment.
-Real people and real events only. Never invent a founder moment.
+A short scene from an ordinary day told in second person ("You get home at 7..."), built around a routine: tea, a walk, putting the phone away, taking the gummies with dinner.
+1 cover: the moment in one line. 2 re-hook: why this moment matters. 3 to N-2: the ritual, one step per slide. N-1 payoff: the line worth saving. N CTA: follow or comment.
+NEVER a founder story, a customer story, a named or first-person character with a backstory, or anything presented as something that really happened to a real person. No results, feelings after taking the product, or before/after.
 
-## arch.routine_shift: Before vs after a routine
+## arch.routine_shift: Old habit vs new habit
 for: copy, critic | edit: locked
 
-Frames ROUTINES, never bodies, symptoms or results. "My evenings before vs after a wind-down routine": phone in bed vs book and tea.
-1 cover: the contrast in one line. 2 re-hook: the moment that changed. 3 to N-2: before/after pairs of habits. N-1 payoff: the new routine. N CTA: save.
-Never depict anyone unwell in the before. Never imply the product caused a result.
+Swaps HABITS, never outcomes. "Swap scrolling in bed for 10 minutes with a book."
+1 cover: the swap in one line. 2 re-hook: why small swaps stick. 3 to N-2: one swap per slide, headline "Swap X for Y", body one plain reason. N-1 payoff: the full list of swaps. N CTA: save.
+NEVER write the words "before", "after", "before and after" or "then vs now". Never describe how someone feels, sleeps or performs after the swap (no "you sleep through", "calmer mornings"). Never depict anyone unwell. Never imply the product caused anything.
 
 ## arch.checklist: What to look for
 for: copy, critic | edit: learn
@@ -132,6 +129,7 @@ for: copy, critic | edit: learn
 1 cover: the real question ("Wait, what is shilajit?").
 2 to N-1: one real question per slide as the headline, body opens with a short confident answer ("Short answer: no.") and one plain line.
 N CTA: comment ("Ask yours below").
+Questions ONLY about the product and routine: what it is, what it tastes like, how to take it, gummies vs capsules, when to take it, how long a bottle lasts, how it is tested, where the ingredient comes from. NEVER about safety, side effects, medications, pregnancy, conditions, who should not take it or "is it safe". Leave those topics out entirely.
 
 ## arch.quiz: Pick your type
 for: copy, critic | edit: learn

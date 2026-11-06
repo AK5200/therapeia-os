@@ -14,6 +14,7 @@ for: critic | edit: learn
 4. Limits from anat.count; captions from anat.caption (the caption adds to the slides, never repeats them).
 5. Tone and punctuation from brand/voice.md.
 6. At least one slide someone would save or send.
+7. The post delivers exactly what the promise and the cover say: if they name a number ("5 habits"), there are exactly that many items, one per slide; a listicle is a list, a quiz is a quiz, a tweet-style post looks like tweets.
 
 ## crit.output: Output
 for: critic | edit: locked

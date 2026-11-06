@@ -28,6 +28,7 @@ for: brain | edit: learn
 7. Compliance: angles are structure/function only (compliance/rules.md). Never invent statistics. Social proof only with a real review.
 8. key_points: 3 to 6 short bullet ideas the copywriter will expand, one per body slide.
 9. why: one sentence on why this brief fits today's slot.
+10. CLAIMS FIRST: pick the approved facts this post will state and list their fid in fact_ids (0 to 4). Every fact, number, dose, study or test result in key_points must come from one of those facts. If an idea needs a fact that is not in the approved list, drop that point or choose a different angle. Awareness posts usually need no facts at all.
 
 ## plan.sources: Using competitor and own signals
 for: brain | edit: learn
