@@ -18,7 +18,7 @@ These rules cover whole categories on purpose. If something is not explicitly al
 for: brain, copy, critic, compliance, art | edit: locked
 
 ALLOWED: "supports", "helps maintain", "may support", "research suggests" (only for research in the approved facts). These need the disclaimer.
-FORBIDDEN, stated OR implied: disease and condition names (for example anxiety, depression, insomnia, ADHD, erectile dysfunction, low testosterone, diabetes, blood pressure, cancer, thyroid disease, infertility, arthritis), "FDA registered" as a quality claim, "no side effects", "pharmaceutical grade", before/after results, unsubstantiated claims about competitors ("most brands", "most products have no research").
+FORBIDDEN, stated OR implied: disease and condition names (for example anxiety, depression, insomnia, ADHD, erectile dysfunction, low testosterone, diabetes, blood pressure, cancer, thyroid disease, infertility, arthritis), "FDA registered" as a quality claim, "no side effects", "pharmaceutical grade", before/after results, unsubstantiated claims about competitors ("most brands", "most products have no research"), potency or strength claims ("maximum strength", "most potent", "stronger", "extra strength") unless the exact wording is in the approved facts.
 
 ## comp.banned: Banned words (mirrored by the workflow blocklist)
 for: copy, critic, compliance | edit: locked

@@ -8,7 +8,7 @@ Bright and warm editorial wellness: a premium food and lifestyle magazine, never
 ## style.palette: Palette
 for: art, image | edit: owner
 
-Text and accents: forest green #0F3B24, leaf green #07803B, warm cream #F6F1E7, white, near-black; coral #D0473E as a highlight. Product accents: strawberry red (gummies), honey gold (honey sticks), sage (capsules), rust orange (TRUBLK). Text must contrast with what is behind it: light area -> forest green or near-black; dark area -> cream or white.
+Text and accents: forest green #0F3B24, leaf green #07803B, warm cream #F6F1E7, white, near-black; coral #D0473E as a highlight. Product accents: strawberry red (gummies), honey gold (honey sticks), sage (capsules), rust orange (TRUBLK). Text must contrast with what is behind it: light area -> forest green or near-black; dark area or saturated colour field -> cream or white. Coral and the product accents are for a marker stroke or highlight band only, never for lines of text on a background of the same colour family.
 
 ## style.light: Light and surfaces
 for: art | edit: owner

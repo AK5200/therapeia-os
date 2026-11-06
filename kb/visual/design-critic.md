@@ -13,7 +13,7 @@ for: design_critic | edit: learn
 3. STRAY TEXT: any word, logo or brand on a prop, cup, glass, phone or background = problem.
 4. ZONES: text inside the top 10% or bottom 8% of the frame, or over a face or the product label = problem.
 5. PEOPLE: follow visual/people.md. Five natural fingers per hand, possible grip, matching eyes, natural teeth and skin, clearly 21+, tasteful framing, not laughing.
-6. READABILITY: the headline is readable at phone size with clear contrast. The cover and slide 2 must each work as a thumbnail.
+6. READABILITY: every line of text must pop at phone size. Same-colour-family text (red on red, green on green, beige on cream), thin or light-grey body text, text over a busy area, or a marker stroke through a word = problem, regenerate. The cover and slide 2 must each work as a thumbnail.
 7. CONSISTENCY: all slides share one look and one type family.
 8. MESSAGE FIT: the picture supports the words (visual/people.md people.message).
 9. SEAMS: an unplanned split, panel or collage seam outside the split or collage look = problem.

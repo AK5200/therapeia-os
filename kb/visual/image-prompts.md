@@ -142,4 +142,5 @@ AVOID: children or anyone who looks under 21; pregnant people; medical settings;
 ## img.headline: Headline size
 for: image | edit: learn
 
-HEADLINE: large (about 7 to 9 percent of the image height), fully opaque and high-contrast against what is behind it; never faded, transparent, tiny or blended into the background.
+HEADLINE: large (about 7 to 9 percent of the image height, 10 to 12 percent on the cover), bold or extra-bold, fully opaque; never faded, transparent, thin, tiny or blended into the background.
+CONTRAST: every line of text must pop off the image. Put the text over a calm, low-detail area (sky, wall, colour field, out-of-focus background). Text colour: pure white or warm cream on dark or saturated areas; near-black or deep forest green on light areas. Never text in the same colour family as what is behind it (red on red, green on green, beige on cream). If no calm area exists, set the words on a solid highlight band or over a soft dark gradient. Body and label text are semi-bold or bold, never thin or light grey. The accent colour is only for a marker stroke under one word or a highlight band, never for whole lines and never struck through a word.
