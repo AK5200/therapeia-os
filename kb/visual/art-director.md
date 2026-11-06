@@ -38,13 +38,11 @@ for: art | edit: learn
 
 One type family for the whole post, used on EVERY slide: headline style, label style, body style, 2 or 3 text colours from the palette and one accent treatment. It must differ from the previous post in font pairing or text position. Headline large (cover 10 to 12%, other slides 7 to 9% of image height), fully opaque, high contrast.
 
-## art.rhythm: Step 4, rhythm across slides
+## art.slide: Step 4, per slide brief
 for: art | edit: learn
 
-Vary the layout while keeping one type family. Never more than two text-led slides (camera "graphic") in a row: alternate them with full-bleed photo slides (person, product in use, texture or ingredient macro). Change the text_zone and the subject from slide to slide. No two neighbouring slides should look like the same template.
+RHYTHM: Vary the layout while keeping one type family. Never more than two text-led slides (camera "graphic") in a row: alternate them with full-bleed photo slides (person, product in use, texture or ingredient macro). Change the text_zone and the subject from slide to slide. No two neighbouring slides should look like the same template.
 
-## art.slide: Step 5, per slide brief
-for: art | edit: learn
 
 - engine: "product" (our real product; reference photos attached) or "scene" (no product anywhere).
 - camera: "phone" (candid iPhone UGC), "editorial" (35mm film), "studio" (medium format; white seamless or the pop colour field only) or "graphic" (looks 3 to 6 and text-led slides).
