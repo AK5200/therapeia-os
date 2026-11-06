@@ -66,7 +66,7 @@ for: art, image | edit: learn
 look: 1
 text: elegant
 ref: editorial-model-serif.jpg
-LAYOUT: editorial campaign portrait on a soft plain backdrop or a sunny real location; the model holds the product near the shoulder or chest, label to camera, in the lower two thirds. Upper left: a large elegant serif headline over 2 to 3 lines, one word in italic, a thin short rule and a small spaced-caps label below.
+LAYOUT: editorial campaign portrait on a soft plain backdrop or a sunny real location; the model holds the product near the shoulder or chest, label to camera, in the lower two thirds. Upper left: a large elegant serif headline over 2 to 3 lines, one word in italic, and a thin short rule below it; a second small line only if the copy has one. No other text.
 
 ## layout.editorial.quiet: Editorial quiet
 for: art, image | edit: learn
@@ -82,7 +82,7 @@ for: art, image | edit: learn
 look: 1
 text: elegant
 ref: editorial-stilllife.jpg
-LAYOUT: premium still life on a pale warm-white seamless surface in soft window daylight, lots of empty space; the product upright in the lower middle with one or two of its real ingredients beside it. Upper left: a small elegant serif heading and up to three small light sans lines.
+LAYOUT: premium still life on a pale warm-white seamless surface in soft window daylight, lots of empty space; the product upright in the lower middle with one or two of its real ingredients beside it. Upper left: a small elegant serif heading and the copy's short lines in small light sans. No other text.
 
 ## layout.editorial.landscape: Editorial landscape
 for: art, image | edit: learn

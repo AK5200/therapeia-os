@@ -21,6 +21,7 @@ for: copy | edit: learn
 ## copy.rules: Copy rules
 for: copy | edit: learn
 
+Never use asterisks or markdown for emphasis. The only asterisk allowed is the single * at the end of a sentence that states what the product or ingredient does (comp.disclaimer).
 - Carousel covers end with a short swipe cue as the body.
 - Facts, numbers and doses ONLY if they are in the brief.
 - No testimonials and no results; first-person lines are routines only.
