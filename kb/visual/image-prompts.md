@@ -5,102 +5,102 @@ Fixed text blocks the Build Image Jobs step snaps into every image prompt. Ids a
 ## img.look.1: Look 1 lifestyle
 for: image | edit: learn
 
-LOOK: lifestyle editorial. Real outdoor or home location, natural light, 35mm film feel, warm and airy. Typography: elegant high-contrast italic serif headline with small wide-spaced uppercase sans labels.
+LOOK: lifestyle editorial: real home or outdoor location, natural light, warm airy 35mm film feel. Type: elegant high-contrast italic serif headline, small wide-spaced sans labels.
 
 ## img.look.2: Look 2 pop
 for: image | edit: learn
 
-LOOK: bold pop colour. A saturated seamless backdrop in the product's own packaging colour with a soft lighter glow behind the subject, crisp studio light, an appetizing product-in-use macro that bleeds off one edge. Typography: bold rounded geometric sans in heavy and regular weights with strong weight contrast, one key word on a hand-brushed marker stroke.
+LOOK: bold pop: saturated seamless backdrop in the product's packaging colour with a soft glow, crisp studio light, appetizing macro bleeding off one edge. Type: heavy rounded geometric sans, one key word on a brushed marker stroke.
 
 ## img.look.3: Look 3 notes
 for: image | edit: learn
 
-LOOK: a clean phone notes-app page: warm off-white paper-like background with faint ruled lines, a small amber-yellow back arrow and the word "Notes" near the top of the content area, no status bar, no app logo. Text typed in a clean black system sans-serif, left-aligned; checklists with round checkboxes. One slightly tilted photo pasted into the note with a soft shadow.
+LOOK: phone notes-app page: warm off-white background, faint ruled lines, small amber back arrow and the word "Notes" at the top, no status bar. Black system sans, left-aligned, round checkboxes, one tilted pasted photo with a soft shadow.
 
 ## img.look.4: Look 4 collage
 for: image | edit: learn
 
-LOOK: handmade magazine collage on warm cream textured paper with visible grain: torn-edge paper scraps, strips of translucent beige washi tape, cut-out photos with thin white borders and soft shadows. Typography: bold black condensed serif cut from magazine paper strips, plus a casual handwritten note in black ink.
+LOOK: handmade magazine collage on grainy cream paper: torn scraps, beige washi tape, white-bordered cut-out photos with soft shadows. Type: bold black condensed serif cut from magazine strips, plus a handwritten ink note.
 
 ## img.look.5: Look 5 film diary
 for: image | edit: learn
 
-LOOK: film photo diary. An instant-film print with a thick white border lying slightly tilted on a real sunlit surface with a soft real shadow; inside the print a grainy 35mm snapshot with warm faded colour and a slight light leak; a small orange digital date stamp in the corner of the photo. Typography: handwritten black marker on the white border.
+LOOK: film diary: a white-bordered instant-film print lying tilted on a sunlit real surface; inside, a grainy warm 35mm snapshot with a light leak and an orange date stamp. Type: handwritten black marker on the white border.
 
 ## img.look.6: Look 6 split
 for: image | edit: learn
 
-LOOK: split screen. One half is a real photograph, the other half is a solid warm cream card with a thin coloured rule along its inner edge. Typography: bold black grotesk sans headline with small coloured uppercase labels, all text on the cream card.
+LOOK: split screen: one half a real photograph, the other a solid warm cream card with a thin coloured rule on its inner edge. Type: bold black grotesk headline, small coloured uppercase labels, all text on the card.
 
 ## img.camera.phone: Camera phone
 for: image | edit: learn
 
-Candid vertical 3:4 smartphone photo, shot on an iPhone main camera (26mm equivalent), handheld with a slight natural tilt, phone HDR look, light sensor grain, true-to-life colors, no retouching, no beauty filter. It looks like a real person's everyday Instagram post, not an ad.
+Candid vertical 3:4 iPhone photo (26mm), handheld with a slight tilt, phone HDR, light sensor grain, true colours, no filter: a real person's everyday post, not an ad.
 
 ## img.camera.editorial: Camera editorial
 for: image | edit: learn
 
-Vertical 3:4 editorial photograph from a real photoshoot, shot on a full-frame camera with a 50mm lens at f/4, natural light, fine film grain like Kodak Portra 400, true-to-life colors, unretouched skin. It looks like a campaign image from a modern wellness brand's Instagram, not a stock photo and not AI art.
+Vertical 3:4 editorial photo from a real wellness-brand shoot, full-frame 50mm f/4, natural light, Kodak Portra 400 grain, true colours: not stock, not AI art.
 
 ## img.camera.studio: Camera studio
 for: image | edit: learn
 
-Vertical 3:4 beauty-campaign photograph from a professional studio shoot, shot on a medium-format camera with an 80mm lens at f/8, tack-sharp detail, true-to-life skin tones, unretouched skin with every pore visible. It looks like a premium wellness brand's Instagram campaign image, not a stock photo and not AI art.
+Vertical 3:4 premium studio campaign photo, medium format 80mm f/8, tack-sharp, true skin tones: not stock, not AI art.
 
 ## img.camera.graphic: Camera graphic
 for: image | edit: learn
 
-Vertical 3:4 designed Instagram carousel slide for a premium wellness brand, made from real photographic elements and real paper textures, not a stock template and not AI art.
+Vertical 3:4 designed Instagram slide for a premium wellness brand, built from real photos and real paper textures: not a stock template, not AI art.
 
 ## img.model.f: Female model look
 for: image | edit: locked
 
-She has the look of a professional fashion model: striking, well-proportioned features, clear bright eyes, groomed natural brows, minimal fresh makeup, natural satin lips with no gloss.
+Model looks: striking natural features, bright eyes, groomed brows, minimal fresh makeup, satin lips.
 
 ## img.model.m: Male model look
 for: image | edit: locked
 
-He has the look of a professional fitness model: strong well-proportioned features, clear bright eyes, a neatly trimmed short beard or clean shave, healthy and fit without looking bulky.
+Model looks: strong natural features, bright eyes, short trimmed beard or clean shave, fit, not bulky.
 
 ## img.skin: Skin
 for: image | edit: locked
 
-SKIN: real, healthy, high-resolution skin: visible pores across the nose, cheeks and forehead, fine vellus hair, a few small beauty marks, subtle natural variation in tone, a natural satin sheen on the cheekbones and nose bridge; no blemishes or acne, no airbrushing, no smoothing, no waxy, oily or plastic look, no perfect symmetry; real hair with natural flyaways.
+SKIN: real high-resolution skin: visible pores, fine vellus hair, a few small beauty marks, natural tone variation, satin sheen on cheekbones; no airbrushing, no plastic or waxy look, no perfect symmetry; natural flyaway hairs.
 
 ## img.skin.deep: Deep skin tones
 for: image | edit: locked
 
-Deep brown skin is rich and warm with red-gold undertones, exposed brightly enough that every pore and texture detail stays visible in the darker tones; no crushed shadows, no grey or ashy cast.
+Deep brown skin: rich and warm with red-gold undertones, bright enough that texture stays visible; never grey or ashy.
 
 ## img.hands: Hands
 for: image | edit: locked
 
-HANDS: five natural fingers each, real knuckle creases and skin texture, short natural nails.
+HANDS: five natural fingers, real knuckle creases, short natural nails.
 
 ## img.expr.happy: Expression happy
 for: image | edit: learn
 
-EXPRESSION: genuinely happy and at ease, a soft natural closed-mouth smile reaching the eyes, relaxed gentle smile lines, the quiet contentment of someone who feels good inside; not laughing, not a posed grin.
+EXPRESSION: genuinely content, soft closed-mouth smile reaching the eyes; not laughing, not posed.
 
 ## img.expr.confident: Expression confident
 for: image | edit: learn
 
-EXPRESSION: calm, quietly confident and content, the faint hint of a smile at the corners of the mouth.
+EXPRESSION: calm and quietly confident, a faint smile.
 
 ## img.expr.serene: Expression serene
 for: image | edit: learn
 
-EXPRESSION: eyes softly lowered, a small private smile, peaceful and content, enjoying the moment.
+EXPRESSION: eyes softly lowered, a small private smile, peaceful.
 
 ## img.crop.hand_only: Crop hand only
 for: image | edit: locked
 
-Only one adult hand and part of the forearm are visible, no face.
+Only one adult hand and part of the forearm, no face.
 
 ## img.crop.face_hidden: Crop face hidden
 for: image | edit: locked
 
-The face is out of frame, turned away or hidden behind a phone; only the smile may show.
+Face out of frame, turned away or hidden behind a phone.
 
 ## img.crop.chin_down: Crop chin down
 for: image | edit: locked
@@ -115,32 +115,29 @@ Face fully visible.
 ## img.product: Product block
 for: image | edit: locked
 
-PRODUCT: the exact product from the reference images, {product_desc}, sealed, front label facing the camera and readable, true-to-life size. Keep its shape, colors and label artwork identical to the references, same orientation, lid or cap on top, label the right way up. Do not redraw, simplify, translate or invent any label text or artwork.
+PRODUCT: the exact product from the reference images, {product_desc}: sealed, upright, front label facing camera and readable, true size. Identical shape, colours and label artwork; never redraw, simplify or invent label text.
 
 ## img.hero_set: Product hero set
 for: image | edit: learn
 
-SET: a professional product photoshoot set with dramatic directional light: a hard key light from one side, deep soft shadows, a warm glowing rim on the product; the product stands on a real surface such as a travertine plinth, dark stone, rippled water or raw linen, styled with a few fresh botanicals or its ingredient. Rich, premium, editorial. Never a flat empty background, never a plain colour card, never several products lined up.
+SET: professional product shoot: hard side key light, deep soft shadows, warm rim glow; product on travertine, dark stone, rippled water or raw linen with a few fresh botanicals. Never a flat empty backdrop or a row of products.
 
 ## img.no_product: No product
 for: image | edit: locked
 
-No supplement product, bottle, tub, pouch, capsule, gummy or packaging anywhere in the image.
+No supplement product, bottle, tub, pouch, capsule, gummy or packaging anywhere.
 
 ## img.safe: Safe zones
 for: image | edit: locked
 
-SAFE ZONES: all text between 14 percent and 88 percent of the image height and at least 7 percent from the left and right edges; the top 13 percent and bottom 11 percent stay free of text and of important objects (a logo and a disclaimer are added there later). Text never covers a face or the product label.
+SAFE ZONES: text only between 14% and 88% of the height and 7% in from each side; keep the top 13% and bottom 11% empty (logo and disclaimer go there). Text never covers a face or the label.
 
 ## img.rules: Text and avoid rules
 for: image | edit: locked
 
-TEXT RULES: spell every word exactly as written in quotes, no extra words, no extra lines, no labels or captions that are not listed. No logos, brand names, embossing, printed pages, book text or writing on any prop, cup, glass, phone or object other than our own product label. No watermarks, no other brands, no FDA logo or seal.
-BACKGROUND: one continuous real background or surface from edge to edge, no collage seams unless the look is a collage.
-AVOID: children or anyone who looks under 21; pregnant people; medical settings; revealing or body-focused framing; laughing or exaggerated grins; the product upside down or touching the lips; smooth plastic AI skin; plain coloured paper backdrops (except the pop look colour field).
+RULES: spell every quoted word exactly; no other words, labels or captions anywhere. No logos, brands, watermarks, FDA seal, or writing on any prop, cup, phone or page except our own product label. One continuous real background (seams only in collage). AVOID: anyone under 21, pregnancy, medical settings, body-focused framing, laughing grins, product upside down or at the lips, plastic AI skin, plain paper backdrops (except pop).
 
 ## img.headline: Headline size
 for: image | edit: learn
 
-HEADLINE: large (about 7 to 9 percent of the image height, 10 to 12 percent on the cover), bold or extra-bold, fully opaque; never faded, transparent, thin, tiny or blended into the background.
-CONTRAST: every line of text must pop off the image. Put the text over a calm, low-detail area (sky, wall, colour field, out-of-focus background). Text colour: pure white or warm cream on dark or saturated areas; near-black or deep forest green on light areas. Never text in the same colour family as what is behind it (red on red, green on green, beige on cream). If no calm area exists, set the words on a solid highlight band or over a soft dark gradient. Body and label text are semi-bold or bold, never thin or light grey. The accent colour is only for a marker stroke under one word or a highlight band, never for whole lines and never struck through a word.
+TEXT STYLE: headline big (8% of the height, 11% on the cover), bold, fully opaque, perfectly kerned, on a calm low-detail area. Colour must pop: white or cream on dark or saturated areas, near-black or forest green on light areas, never the same colour family as behind it. No calm area: put the words on a solid band or soft dark gradient. Body semi-bold, never thin or grey. Accent only as a stroke under one word, never through it.

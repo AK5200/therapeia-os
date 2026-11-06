@@ -68,3 +68,4 @@ Medical settings, lab coats, pills piled up · before/after or results shown on 
 for: art | edit: locked
 
 Return ONLY the JSON object required by the schema.
+Keep every field short, concrete and visual (the image model reads them): scene max 40 words, light max 12 words, style_anchor max 20 words, each type_family field max 8 words. Name real things (a walnut nightstand, morning window light), never adjectives alone.
