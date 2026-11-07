@@ -155,7 +155,7 @@ TEXT STYLE: refined editorial typography with generous empty space: elegant seri
 ## img.text.hand: Text style handwritten
 for: image | edit: learn
 
-TEXT STYLE: natural handwriting (brush script or marker) for the headline, real and slightly imperfect, plus small clean lowercase sans for any second line; colour pops against what is behind it (cream or white on dark, black on light), on a calm area.
+TEXT STYLE: natural handwriting (brush script or marker) for the headline only (max 10 words), real and slightly imperfect; every other line in clean sans; colour pops against what is behind it (cream or white on dark, black on light), on a calm area.
 
 ## img.styleref: Style reference role
 for: image | edit: locked
@@ -165,4 +165,4 @@ STYLE REFERENCE: the last reference image is a style reference only. Copy its la
 ## img.panel: Reading panel for longer text
 for: image | edit: learn
 
-READING PANEL: the body text (2 or 3 sentences) sits on a solid reading panel so it is effortless to read on a phone: a warm cream card with softly rounded corners (or a torn paper card) covering 35 to 45% of the frame, never over a face or the product label. Inside it, left aligned, near-black or forest green semi-bold sans at a comfortable reading size with generous line spacing; the headline sits just above the text, on the panel or on a calm area. Same panel style on every slide of the post. Only the given words, no extra labels.
+READING PANEL: the body text (2 or 3 sentences) sits on a solid reading panel so it is effortless to read on a phone: a warm cream card with softly rounded corners (or a torn paper card) covering 35 to 45% of the frame, never over a face or the product label. Inside it, left aligned, near-black or forest green semi-bold sans at a comfortable reading size with generous line spacing; the headline sits just above the text, on the panel or on a calm area. Body text is ALWAYS a clean sans (never handwriting or thin script, even when the headline is handwritten). Same panel style on every slide of the post. Only the given words: no extra labels, chips or small print.

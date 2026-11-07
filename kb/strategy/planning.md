@@ -46,4 +46,4 @@ for: brain | edit: learn
 ## plan.slides: Choosing slide_count
 for: brain | edit: learn
 
-Single image: 1. Carousels: default 7 (range 6 to 9). Quick formats (myth_fact with 2 myths, comparison, tweet_style): 5 or 6. Deep dives (study_breakdown, ingredient_deep_dive): 8 or 9. Never more than 10. Never pad: every slide must add something new.
+Single image: 1. Carousels: default 8 (range 7 to 10). Quick formats (myth_fact with 2 myths, tweet_style): 5 or 6. Deep dives (study_breakdown, ingredient_deep_dive): 9 or 10. Never more than 10. Never pad: every slide must add something new.

@@ -54,8 +54,8 @@ Ask for ONE thing, matched to goal_signal and allowed by the funnel stage:
 ## anat.count: Slide count and limits
 for: brain, copy, critic | edit: learn
 
-Default 7 slides (6 to 9). Quick formats 5 or 6. Deep dives 8 or 9. Hard max 10. Never pad.
-Text limits: cover headline max 10 words + body max 10; other headlines max 8 words; body max 35 words in max 3 short sentences; payoff checklist max 5 items. No hashtags, emojis or links on slides.
+Default 8 slides (7 to 10); short carousels of 2 to 4 slides underperform, so never go under 5 (5 or 6 only for myth_fact with 2 myths or tweet_style). Hard max 10. Never pad.
+Text limits: cover headline 6 to 10 words + body max 10; other headlines max 8 words; body max 35 words in max 3 short sentences; payoff checklist max 5 items. No hashtags, emojis or links on slides.
 
 ## anat.caption: Caption pairing
 for: copy, critic | edit: learn
@@ -67,4 +67,4 @@ alt_text: one plain sentence describing the cover image.
 ## anat.single: Single image posts
 for: copy, critic | edit: learn
 
-One slide that wins STOP and SEND on its own (viral.reader). Headline max 10 words: the reader's moment, a surprising fact, or a tiny routine name ("my 9pm reset"). Body optional, max 25 words, delivering one specific useful thing.
+Single images reach the fewest people, so one only earns its place as a line worth sending: a validation statement, a permission line, or a tiny routine. Headline 6 to 10 words; body optional, max 25 words, one specific useful thing. Never a topic announcement.
