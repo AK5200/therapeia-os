@@ -59,7 +59,7 @@ Slide 2 is a second cover (anat.rehook): give it its own strong subject.
 ## art.type: Step 3, type family
 for: art | edit: learn
 
-Type comes from each layout's text style (bold, elegant or handwritten), so it is consistent by design. Only choose the colours: 2 or 3 text colours from the palette that stay readable on the backgrounds you brief, plus the accent colour for marker strokes. Put them in type_family; headline and body describe the font briefly (max 8 words).
+Type comes from each layout's text style (bold, elegant or handwritten), so it is consistent by design; keep the same text position on every slide. Only choose the colours, by topic: night, sleep and stress posts on deep forest green or charcoal; energy, focus and morning posts on warm cream or sand; one saturated accent colour for the key word. Choose 2 or 3 text colours from the palette that stay readable on the backgrounds you brief, plus the accent colour for marker strokes. Put them in type_family; headline and body describe the font briefly (max 8 words).
 
 ## art.slide: Step 4, per slide brief
 for: art | edit: learn

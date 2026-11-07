@@ -22,7 +22,8 @@ for: brain, copy, critic | edit: learn
 1. Cover: the reader's moment or the surprising fact, plus an open-loop line ("Here's what's actually going on...").
 2. Slide 2 (works alone, Instagram may start here): name it and validate it ("You're not imagining it. It's a pattern.").
 3. Why it happens: the mechanism in plain words, 1 or 2 slides.
-4. What helps: specific, doable steps or swaps, one per slide (this is where the ingredient fits in, as one part of the answer, never the hero in awareness posts).
+4. What helps: specific, doable steps or swaps, one per slide, numbered (1/5, 2/5...) so the reader sees how much is left (this is where the ingredient fits in, as one part of the answer, never the hero in awareness posts).
+   In posts of 8 or more slides, put one surprise just before the payoff (a myth busted or a fact they did not expect) to re-spike attention.
 5. Payoff: the screenshot slide, a short checklist or the one-line takeaway.
 6. CTA: send to someone specific, or save for a specific moment.
 Archetypes change the order (a myth_fact post opens with the myth), never the pull from slide to slide.
