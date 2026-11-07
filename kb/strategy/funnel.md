@@ -7,7 +7,7 @@ for: brain, copy, critic | edit: learn
 
 Goal: earn attention and a save or send by teaching one useful thing.
 Topics: relatable pain points (stress, poor sleep, fatigue, low energy), what KSM-66 or shilajit is, myth vs fact, root powder vs standardized extract, Ayurveda education, founder philosophy, did-you-know research.
-ZERO selling: no product names in copy, no prices, no "shop". The product may appear in the visuals only.
+ZERO selling: no product names in copy, no prices, no "shop", and NO product in the pictures either (the US audience must learn what the ingredient is before we sell it).
 cta_level: none. CTA: save, send or comment ("Save this for tonight", "Send this to someone who needs it").
 Best archetypes: myth_fact, listicle, tweet_style, relatable, quiz.
 
@@ -16,7 +16,7 @@ for: brain, copy, critic | edit: learn
 
 Goal: show why quality, standardization and testing matter, and build credibility.
 Topics: KSM-66 vs generic ashwagandha, standardized TRUBLK, why clinically studied branded ingredients matter, third-party testing and Certificates of Analysis, format comparisons, FAQs, objection handling, behind-the-scenes quality.
-Quality practices may be mentioned; no purchase push.
+Quality practices may be mentioned; no purchase push. Pictures: no product, except at most on the last slide.
 cta_level: soft. CTA: "Learn more, link in bio" or save.
 Best archetypes: study_breakdown, ingredient_deep_dive, checklist, comparison, faq, mistakes.
 

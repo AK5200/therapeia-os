@@ -43,14 +43,14 @@ Rules: one look per post; every slide's layout must belong to that look (pop.* f
 for: art | edit: learn
 
 Education with or without product (myth_fact, faq, ingredient_deep_dive, how_to, checklist, listicle, what_happens, study_breakdown) -> 2 or 1 · relatable, story, routine_shift, tweet_style, quiz -> 7, 3, 5 or 1 · comparison -> 6 or 2 · conversion posts -> 2 or 1 · single images -> any look; 3, 4 and 5 shine as singles.
-Product-free education (no product in the brief) -> 1 with editorial.landscape / editorial.stilllife-free slides, or 2 with ingredient macros.
+Product-free posts (PRODUCT RULE: none) -> 1 with editorial.landscape, editorial.model and editorial.stilllife showing the ingredient, or 2 with ingredient macros, or 7 with everyday moments.
 The Brain's visual_recipe (visual/recipes.md) is a scene hint inside the chosen look, not a separate look.
 
 ## art.cover: Step 2, cover type
 for: art | edit: learn
 
 The cover uses a cover layout of the chosen look (layout.list role "cover"). It must work as a thumbnail: one big idea, face or product large, critical content in the centre (3:4 grid crop), readable at 2 cm wide, and it carries the swipe cue.
-Across the feed about 3 of 4 covers show a PERSON with the product (UGC or editorial, never presented as a customer review), 1 of 4 a product or ingredient hero. Use RECENT POSTS to keep the balance.
+About 3 of 4 covers show a PERSON (UGC or editorial, never presented as a customer review), 1 of 4 an ingredient, nature or product hero. The product is on the cover only when the PRODUCT RULE allows it.
 Slide 2 is a second cover (anat.rehook): give it its own strong subject.
 
 ## art.type: Step 3, type family
@@ -63,7 +63,7 @@ for: art | edit: learn
 
 For every slide:
 - layout: one id from layout.list that belongs to the chosen look. Do not repeat the same layout on two neighbouring slides when the look has more than one layout.
-- engine: "product" (our real product; reference photos attached) or "scene" (no product anywhere). The cover and the last slide of a post with a product use "product".
+- engine: "product" (our real product; reference photos attached) or "scene" (no product anywhere). Follow the PRODUCT RULE in FIXED FOR THIS POST: none = every slide "scene"; last slide only = only the last slide "product"; cover and last = both "product", others your choice; natural = your choice.
 - camera: "phone" (UGC), "editorial" (35mm film), "studio" (medium format) or "graphic" (notes, collage, split and other designed slides).
 - scene: location, props, surfaces, time of day; max 40 words, concrete nouns, consistent with the layout.
 - person: null or { ethnicity, gender, age (22-40), hair, outfit, crop, pose, expression } following visual/people.md.
@@ -76,7 +76,7 @@ For every slide:
 ## art.product: Product slides
 for: art | edit: locked
 
-The cover shows our product (held by a person or as a hero) and the last slide shows it clearly and front-facing, with the CTA line. Product hero slides are a real photoshoot set with dramatic directional light (hard key light from one side, deep soft shadows, warm rim on the product) on a real surface (travertine plinth, dark stone, rippled water, raw linen) with a few fresh botanicals or its ingredient. Never a flat background, never several products lined up.
+When the PRODUCT RULE allows it, the product is shown clearly and front-facing (held by a person or as a hero). On product-free slides show the ingredient (root, resin, rock, leaves), a person's everyday moment or nature instead, never an unbranded jar, bottle or pouch. Product hero slides are a real photoshoot set with dramatic directional light (hard key light from one side, deep soft shadows, warm rim on the product) on a real surface (travertine plinth, dark stone, rippled water, raw linen) with a few fresh botanicals or its ingredient. Never a flat background, never several products lined up.
 
 ## art.never: Never in a brief
 for: art, design_critic | edit: locked

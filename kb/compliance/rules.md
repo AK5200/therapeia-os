@@ -3,16 +3,17 @@
 Master copy. Every agent that writes or checks words reads this file. The deterministic word blocklist in the workflow is a safety net that mirrors `comp.banned`; if you change one, change both.
 Not legal advice: the approved claims library should be reviewed by a regulatory attorney.
 
-## comp.principles: The five hard rules (they override everything else)
+## comp.principles: The six hard rules (they override everything else)
 for: brain, copy, critic, compliance, art | edit: locked
 
 These rules cover whole categories on purpose. If something is not explicitly allowed by them, it is not allowed.
 
 1. ONE SOURCE OF FACTS. The only facts, numbers, ingredients, doses, studies and claims we may state are the APPROVED FACTS list and the product label notes supplied with the task (use `safe_wording` where given; never use anything marked blocked). Everything else (competitor posts and the ideas taken from them, news, trends, research summaries, your own knowledge) is inspiration for the FORMAT and ANGLE only, never a source of facts.
 2. EVERY NUMBER MUST BE TRACEABLE. Any number with a unit or a claim attached (mg, %, ranges, study sizes, years of research, "X people") must appear in the approved facts or label notes. If it does not, remove the number. Counting words for structure ("5 habits", "step 3", "30-day routine") are fine.
-3. WELLBEING, NEVER MEDICINE. We talk about everyday wellbeing, routines, ingredients and quality. We never talk about: diseases, conditions or symptoms; diagnoses; lab tests, blood work, biomarkers, hormone or blood levels and their ranges; medications or drug comparisons; treatments or therapies; doctors' advice; medical settings. This applies to slides, captions, hashtags, images and ideas alike.
+3. WELLBEING, NEVER MEDICINE. We talk about everyday wellbeing, routines, ingredients and quality. We never talk about: diseases, conditions or symptoms; diagnoses; lab tests, blood work, biomarkers, hormone or blood levels and their ranges; medications or drug comparisons; treatments or therapies; doctors' advice; medical settings. This applies to slides, captions, hashtags, images and ideas alike. The only exception is the STUDY NOTE (rule 6).
 4. STRUCTURE/FUNCTION ONLY. A product or ingredient may only "support", "help maintain" or "promote" a normal body function ("supports a healthy response to everyday stress", "supports restful sleep"), never diagnose, treat, cure, prevent or relieve anything. No "clinically proven", "doctor recommended", "FDA approved", guarantees or results.
 5. WHEN IN DOUBT, LEAVE IT OUT. A shorter post is always better than a risky line. Never argue a borderline line into the post.
+6. RESEARCH STAYS IN THE CAPTION. Facts marked [caption only] come from a published study that a person approved. Never put their result, numbers, study name or citation on a slide or in an image; a slide may name the topic only ("What one sleep study looked at", "Read the study in the caption"). The system adds a STUDY NOTE paragraph to the end of the caption (the approved finding word for word, the citation and link, and a line that the findings are the researchers' and not verified by us). Never write, edit or repeat the STUDY NOTE, and never stretch it anywhere else in the post: no "proven", no promise that the reader will get the same result, no transfer to other extracts or to our product unless the fact itself names it (KSM-66 results are not results for all ashwagandha). The STUDY NOTE may name what the study measured (for example cortisol); that is the only exception to rule 3. Disease-population studies, longevity, anti-aging, pregnancy and children are never used, even inside a STUDY NOTE.
 
 ## comp.claims: Allowed and forbidden wording (detail for rules 3 and 4)
 for: brain, copy, critic, compliance, art | edit: locked
