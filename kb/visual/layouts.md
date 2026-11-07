@@ -47,7 +47,7 @@ for: art, image | edit: learn
 look: 2
 text: bold
 ref: pop-step.jpg
-LAYOUT: top 55% the colour field with a real photo of an adult hand doing the step; bottom 45% a solid warm cream panel. Top-left in the colour field: "Step N" in bold rounded sans and one short line below; in the cream panel one rounded outlined pill chip with a few words.
+LAYOUT: top 55% the colour field with a real photo of an adult hand doing the step; bottom 45% a solid warm cream panel. Top-left in the colour field: "Step N" in bold rounded sans and one short line below; in the cream panel the body text, left aligned, dark and easy to read.
 NOPRODUCT: the hand does an everyday step (pouring tea, opening a window, writing a note); no packaging.
 
 ## layout.pop.chips: Pop chips

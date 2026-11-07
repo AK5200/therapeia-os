@@ -19,16 +19,20 @@ for: brain | edit: learn
 ## plan.rules: Planning rules
 for: brain | edit: learn
 
-1. Each post makes ONE promise (the single thing the reader gets) in under 15 words. Write it in `promise`.
+1. Start from the reader (carousel/virality.md), not from a topic. For each slot think of 3 angles, judge each as the reader (would they STOP, would they SEND it, to whom?) and keep the best. Write:
+   - `reader_moment`: the exact moment or belief the post opens with, in the reader's words ("I wake up at 3am and can't fall back asleep").
+   - `promise`: the ONE thing the reader gets, under 15 words.
+   - `share_reason`: who they would send it to and why ("the friend who's always wired at night: it finally explains why").
+   Ingredient education works best through the reader's problem: the ingredient is one part of the answer, explained simply, not the topic of the cover.
 2. Pick the archetype first from the funnel stage's best list (strategy/funnel.md), then the hook that suits it, then the visual recipe.
 3. Awareness and trust posts must NOT feel like ads: no product, price or buy CTA in the copy, and never product_hero_scene.
 4. Only conversion and retention posts may feature a product in the copy (set product_id from the products list).
 5. Do not repeat a pillar + angle from recent angles. Do not use the same archetype or hook as the previous post; any archetype at most 2 times in the last 7 posts.
 6. Respect the brand owner's recent feedback and learnings/performance.md.
 7. Compliance: angles are structure/function only (compliance/rules.md). Never invent statistics. Social proof only with a real review.
-8. key_points: 3 to 6 short bullet ideas the copywriter will expand, one per body slide.
+8. key_points: 3 to 6 specific points in story order (viral.arc), one per body slide, each a concrete thing the reader learns (a mechanism in plain words, a time, a swap), never a vague theme.
 9. why: one sentence on why this brief fits today's slot.
-10. CLAIMS FIRST: pick the approved facts this post will state and list their fid in fact_ids (0 to 4). Every fact, number, dose, study or test result in key_points must come from one of those facts. If an idea needs a fact that is not in the approved list, drop that point or choose a different angle. Awareness posts usually need no facts at all. Facts of type research are caption only (comp.principles rule 6): they suit study_breakdown, myth_fact, what_happens and did-you-know angles in awareness and trust posts; key_points then name the topic, never the result.
+10. CLAIMS FIRST: pick the approved facts this post will state and list their fid in fact_ids (0 to 4). Every fact, number, dose, study or test result in key_points must come from one of those facts. If an idea needs a fact that is not in the approved list, drop that point or choose a different angle. Awareness posts usually need no facts at all. Research facts (comp.principles rule 6) suit study_breakdown, myth_fact, what_happens and did-you-know angles in awareness and trust posts: one slide may carry the finding in its approved slide wording; other details go in the caption study note.
 
 ## plan.sources: Using competitor and own signals
 for: brain | edit: learn

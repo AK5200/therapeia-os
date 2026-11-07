@@ -51,6 +51,7 @@ for: art | edit: learn
 
 The cover uses a cover layout of the chosen look (layout.list role "cover"). It must work as a thumbnail: one big idea, face or product large, critical content in the centre (3:4 grid crop), readable at 2 cm wide, and it carries the swipe cue.
 About 3 of 4 covers show a PERSON (UGC or editorial, never presented as a customer review), 1 of 4 an ingredient, nature or product hero. The product is on the cover only when the PRODUCT RULE allows it.
+The cover picture must stop a fast thumb on its own: a real face looking at the camera or caught in the reader's moment (faces get about 38% more likes), or one striking, unexpected image. Never a generic flat-lay or an empty scene on a cover.
 Slide 2 is a second cover (anat.rehook): give it its own strong subject.
 
 ## art.type: Step 3, type family

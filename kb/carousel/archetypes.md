@@ -83,12 +83,12 @@ N CTA: follow.
 ## arch.study_breakdown: A study, simply explained
 for: copy, critic | edit: learn
 
-Only when the brief contains the study details.
-1 cover: "An [n]-person study on [topic]. Here's what it found."
-2 re-hook: the headline result in plain words.
-3 who was studied, 4 what they did, 5 results (structure/function wording), 6 limitations.
-N-1 payoff: what it means for you.
-N CTA: save. Cite the study in the caption.
+Only when the brief contains a research fact. Open with the reader's problem, not the paper.
+1 cover: the reader's moment or the question the study asked ("Researchers asked: can stressed adults feel calmer in 8 weeks?").
+2 re-hook: why this question matters to the reader, in plain words.
+3 the setup in plain words (who, how long, compared with what), 4 the finding as its approved slide wording, 5 what it does NOT mean (one study, one extract, results vary).
+N-1 payoff: what the reader can take from it today.
+N CTA: save or send. The full study is in the caption note.
 
 ## arch.story: Ritual story (a moment in an ordinary day)
 for: copy, critic | edit: learn
