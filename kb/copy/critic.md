@@ -14,8 +14,9 @@ for: critic | edit: learn
 4. Substance: every body slide teaches one specific thing in plain words (anat.body). Replace vague lines ("support your wellbeing", "be mindful", "see caption") with the concrete version from the brief.
 5. Payoff and CTA: a screenshot-worthy payoff; one specific CTA (send to whom, save for when).
 6. Promise delivery: the post delivers exactly what the cover says (a "5 habits" cover has exactly 5).
-7. Limits from anat.count, captions from anat.caption, tone and punctuation from brand/voice.md.
-8. Facts and numbers only from the APPROVED FACTS given with the draft; research facts only as their slide wording (comp.principles rule 6); never add, edit or repeat the STUDY NOTE.
+7. PUNCH: circle every safe, generic word (old, good, helpful, simple, traditional, support your wellbeing) and swap it for a vivid, concrete one (WORDS THAT LAND in viral.reader). Never make it bland to look safe; compliance is checked after you.
+8. Limits from anat.count, captions from anat.caption, tone and punctuation from brand/voice.md.
+9. Facts and numbers only from the APPROVED FACTS given with the draft; research facts only as their slide wording (comp.principles rule 6); never add, edit or repeat the STUDY NOTE.
 
 ## crit.output: Output
 for: critic | edit: locked

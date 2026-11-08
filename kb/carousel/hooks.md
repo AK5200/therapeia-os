@@ -42,7 +42,7 @@ for: copy | edit: learn
 ## hook.myth_vs_fact: Myth callout
 for: copy | edit: learn
 
-Open with the belief in the reader's own words ("Ashwagandha knocks you out"). Correct it calmly with one plain reason. Friendly, never mocking.
+Open with the belief in the reader's own words ("Ashwagandha knocks you out"). Correct it clearly and confidently with one plain reason. Friendly, never mocking.
 Examples: "Shilajit: 4 myths and 3 facts" · "Isn't ashwagandha just a TikTok trend?".
 
 ## hook.curiosity_gap: Curiosity gap
@@ -54,7 +54,7 @@ Examples: "The 2PM crash isn't a willpower problem".
 ## hook.mistake: Mistake / fear of loss
 for: copy | edit: learn
 
-"Stop taking your gummies like this". Calm, never scary or shaming.
+"Stop taking your gummies like this". Confident, never scary or shaming.
 Examples: "Stop doing this in the hour before bed".
 
 ## hook.identity: Identity

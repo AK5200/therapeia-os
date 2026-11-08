@@ -9,7 +9,7 @@ Ages 22 to 40, clearly adult. Never children or anyone who could look under 21. 
 ## people.framing: Crop, pose and expression
 for: art, image, design_critic | edit: locked
 
-- Crop by risk: hand only < face hidden or turned < chin down < full face. At most 2 full faces per carousel; most inside slides show no face.
+- Crop by risk: hand only < face hidden or turned < chin down < full face. The cover of a carousel that shows a person, and every single image with a person, uses a FULL FACE (never cut at the nose or chin). At most 2 full faces per carousel; most inside slides show no face.
 - Expression: happy (soft closed-mouth smile reaching the eyes), confident or serene. Never laughing or an open-mouth grin.
 - Tasteful framing: no swimwear, midriff or body-focused shots.
 - The product is held in one hand, label to camera, never at or near the lips.

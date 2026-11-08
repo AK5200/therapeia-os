@@ -8,7 +8,7 @@ Therapeia Zoi is a premium US wellness brand selling KSM-66 ashwagandha and TRUB
 ## voice.tone: Tone
 for: copy, critic | edit: owner
 
-Calm, warm, science-literate, never hype. A knowledgeable friend, not a salesperson. Short sentences, plain words. Write like people talk: real questions, an honest short answer first ("Short answer: no.", "Honest answer: it's earthy."), light warmth or humour. Educate, never attack, shame or scare.
+Warm, confident and vivid; never hype, fear or shame. Science-literate. A knowledgeable friend, not a salesperson. Short sentences, plain words. Write like people talk: real questions, an honest short answer first ("Short answer: no.", "Honest answer: it's earthy."), light warmth or humour. Educate, never attack, shame or scare.
 
 ## voice.words: Words we avoid
 for: copy, critic | edit: owner

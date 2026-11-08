@@ -32,6 +32,15 @@ ref: pop-qa.jpg
 LAYOUT: the same colour field; top: the question in small semi-bold sans; under it the answer as a big heavy headline with the key word on a brushed marker stroke and a small drawn arrow; centre: a product-in-use photo (a cup, a spoon, a glass) in sharp detail.
 NOPRODUCT: the centre photo is a warm drink, a spoon of honey or the raw ingredient, no packaging.
 
+## layout.pop.text: Pop colour-field text slide
+for: art, image | edit: learn
+
+look: 2
+text: bold
+ref:
+LAYOUT: no photo: the whole frame is one saturated colour field from the post's palette (tomato red, deep green or cobalt), the headline huge and heavy at the top with one word on a contrasting marker stroke, the body text large in cream below it, left aligned, lots of breathing room; optionally one small cut-out (a root, a glass, a hand) in a lower corner.
+NOPRODUCT: same layout (it shows no product).
+
 ## layout.pop.howto: Pop how to
 for: art, image | edit: learn
 

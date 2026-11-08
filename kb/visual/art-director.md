@@ -26,6 +26,7 @@ LAYOUTS (visual/layouts.md):
 | pop.step | 2 pop | body | numbered step with one pill chip |
 | pop.chips | 2 pop | body, payoff | what's inside / key facts as 3 pill chips around the product |
 | pop.hero | 2 pop | payoff, cta | product hero on a plinth with name and CTA |
+| pop.text | 2 pop | body, payoff | full colour-field text slide, no photo (breaks up photo slides) |
 | editorial.model | 1 editorial | cover | model + product, large elegant serif headline |
 | editorial.quiet | 1 editorial | body, cover | model + product, one small serif line only |
 | editorial.stilllife | 1 editorial | body, payoff, cta | product still life on pale seamless with small serif heading + up to 3 small lines |
@@ -65,7 +66,7 @@ Type comes from each layout's text style (bold, elegant or handwritten), so it i
 for: art | edit: learn
 
 For every slide:
-- layout: one id from layout.list that belongs to the chosen look. Do not repeat the same layout on two neighbouring slides when the look has more than one layout.
+- layout: one id from layout.list that belongs to the chosen look. Do not repeat the same layout on two neighbouring slides when the look has more than one layout. Rhythm: never more than 2 photo-with-text slides in a row; in look 2 break them with pop.text (a full colour-field text slide).
 - engine: "product" (our real product; reference photos attached) or "scene" (no product anywhere). Follow the PRODUCT RULE in FIXED FOR THIS POST: none = every slide "scene"; last slide only = only the last slide "product"; cover and last = both "product", others your choice; natural = your choice.
 - camera: "phone" (UGC), "editorial" (35mm film), "studio" (medium format) or "graphic" (notes, collage, split and other designed slides).
 - scene: location, props, surfaces, time of day; max 40 words, concrete nouns, consistent with the layout.

@@ -13,6 +13,7 @@ Every post wins or loses four decisions:
 3. SEND (Instagram's strongest signal for reaching non-followers). People send what helps someone they know, what makes them look smart, and what gives a jolt of surprise, relief or "so THAT's why". Name who it is for ("for the friend who's always wired at night"). Sadness and fear do not travel; calm surprise and relief do.
 4. SAVE (carousels earn about 9x the saves of single images). A concrete list, routine or checklist they can use tonight or tomorrow morning, with specifics (times, amounts of time, simple swaps), never "be mindful".
 
+WORDS THAT LAND: choose the vivid, concrete word over the safe one ('TikTok trend or ancient Ayurvedic root?' beats 'Trend or old plant?'; 'older than coffee' beats 'traditional'). Strong verbs, specific images, real contrast. Vivid is not hype: no invented numbers, no promised results.
 THE SAUCE IS ON THE SLIDES. Every slide must teach something on its own. The caption is a bonus for the curious (sources, the study note, extra detail); a slide that only says "see caption" is a wasted slide.
 NEVER: abstract topics (how to read research, our brand values, label jargon) as the main idea; a cover that names the topic instead of the reader's moment; slides with one vague line; hype, fear or shame.
 

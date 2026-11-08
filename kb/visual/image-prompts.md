@@ -165,4 +165,11 @@ STYLE REFERENCE: the last reference image is a style reference only. Copy its la
 ## img.panel: Reading panel for longer text
 for: image | edit: learn
 
-READING PANEL: the body text (2 or 3 sentences) sits on a solid reading panel so it is effortless to read on a phone: a warm cream card with softly rounded corners (or a torn paper card) covering 35 to 45% of the frame, never over a face or the product label. Inside it, left aligned, near-black or forest green semi-bold sans at a comfortable reading size with generous line spacing; the headline sits just above the text, on the panel or on a calm area. Body text is ALWAYS a clean sans (never handwriting or thin script, even when the headline is handwritten). Same panel style on every slide of the post. Only the given words: no extra labels, chips or small print.
+READING TEXT (2 or 3 sentences): {surface} Body text is ALWAYS a clean sans (never handwriting or thin script, even when the headline is handwritten), at a comfortable phone reading size with generous line spacing; the headline sits just above it. PLACEMENT: if a person is in the frame, put them in the left or right third and the text on the opposite side; the text and its surface never touch a head, face or shoulders, or the product label. Same treatment on every slide of the post. Only the given words: no extra labels, chips or small print.
+- look 1: no card; the text sits directly on calm negative space in the photo (sky, sea, a plain wall, soft shadow), dark or cream for strong contrast.
+- look 2: a solid block in the post's saturated palette colour (deep green, tomato red, cobalt) with cream text, square corners, or the slide is a full colour field with no photo.
+- look 3: the notes page itself, typed text on the page.
+- look 4: a torn paper scrap taped onto the collage.
+- look 5: a small off-white paper card beside the print.
+- look 6: the cream card half of the split.
+- look 7: a bold solid strip across the frame (black, deep green or white) or a frosted see-through card.
