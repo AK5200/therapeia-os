@@ -135,7 +135,7 @@ SAFE ZONES: text only between 14% and 88% of the height and 7% in from each side
 ## img.rules: Text and avoid rules
 for: image | edit: locked
 
-RULES: spell every quoted word exactly; no other words, labels or captions anywhere. No logos, brands, watermarks, FDA seal, or writing on any prop, cup, phone or page except our own product label. One continuous real background (seams only in collage). AVOID: anyone under 21, pregnancy, medical settings, body-focused framing, laughing grins, product upside down or at the lips, plastic AI skin, plain paper backdrops (except pop).
+RULES: spell every quoted word exactly; no other words, labels or captions anywhere. NEVER draw the brand name or the brand logo anywhere in the picture (the real logo is added later in the top band); the brand name may appear only where it is printed on the product pack itself. No other logos, brands, watermarks, FDA seal, or writing on any prop, cup, phone or page except our own product label. One continuous real background (seams only in collage). AVOID: anyone under 21, pregnancy, medical settings, body-focused framing, laughing grins, product upside down or at the lips, plastic AI skin, plain paper backdrops (except pop).
 
 ## img.headline: Headline size
 for: image | edit: learn
