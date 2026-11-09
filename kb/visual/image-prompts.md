@@ -75,7 +75,7 @@ Deep brown skin: rich and warm with red-gold undertones, bright enough that text
 ## img.hands: Hands
 for: image | edit: locked
 
-HANDS: five natural fingers, real knuckle creases, short natural nails. Simple, relaxed poses only: arms at the sides, on a table or holding one object in front of the body; never arms behind the head or back, brushing, tying or touching the hair, crossed arms, interlaced fingers or hands overlapping each other or the face.
+HANDS: five natural fingers, real knuckle creases, short natural nails.
 
 ## img.expr.happy: Expression happy
 for: image | edit: learn
@@ -135,7 +135,7 @@ SAFE ZONES: text only between 6% and 82% of the height and 7% in from each side;
 ## img.rules: Text and avoid rules
 for: image | edit: locked
 
-RULES: spell every quoted word exactly; no other words, labels or captions anywhere. NEVER draw the brand name or the brand logo anywhere in the picture (the real logo is added later in the top band); the brand name may appear only where it is printed on the product pack itself. No other logos, brands, watermarks, FDA seal, or writing on any prop, cup, phone or page except our own product label. One continuous real background (seams only in collage). AVOID: anyone under 21, pregnancy, medical settings, body-focused framing, laughing grins, product upside down or at the lips, plastic AI skin, plain paper backdrops (except pop).
+RULES: spell every quoted word exactly; no other words, labels or captions anywhere. People keep simple, relaxed poses (arms at the sides, on a table, or holding one object in front of the body); never arms behind the head or back, hands in or brushing the hair, crossed arms, interlaced fingers, or hands over each other or the face. NEVER draw the brand name or the brand logo anywhere in the picture (the real logo is added later in the top band); the brand name may appear only where it is printed on the product pack itself. No other logos, brands, watermarks, FDA seal, or writing on any prop, cup, phone or page except our own product label. One continuous real background (seams only in collage). AVOID: anyone under 21, pregnancy, medical settings, body-focused framing, laughing grins, product upside down or at the lips, plastic AI skin, plain paper backdrops (except pop).
 
 ## img.headline: Headline size
 for: image | edit: learn
