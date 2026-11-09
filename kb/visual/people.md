@@ -11,6 +11,7 @@ for: art, image, design_critic | edit: locked
 
 - Crop by risk: hand only < face hidden or turned < chin down < full face. The cover of a carousel that shows a person, and every single image with a person, uses a FULL FACE (never cut at the nose or chin). At most 2 full faces per carousel; most inside slides show no face.
 - Expression: happy (soft closed-mouth smile reaching the eyes), confident or serene. Never laughing or an open-mouth grin.
+- Pose: simple and relaxed (sitting, standing, holding one thing in front of the body). Never poses AI draws badly: arms behind the head or back, brushing or tying hair, crossed arms, interlaced fingers, hands over each other or the face.
 - Tasteful framing: no swimwear, midriff or body-focused shots.
 - The product is held in one hand, label to camera, never at or near the lips.
 - A model is never presented as a customer, and is never shown with a result on their body.

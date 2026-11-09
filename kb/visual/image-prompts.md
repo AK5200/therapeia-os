@@ -75,7 +75,7 @@ Deep brown skin: rich and warm with red-gold undertones, bright enough that text
 ## img.hands: Hands
 for: image | edit: locked
 
-HANDS: five natural fingers, real knuckle creases, short natural nails.
+HANDS: five natural fingers, real knuckle creases, short natural nails. Simple, relaxed poses only: arms at the sides, on a table or holding one object in front of the body; never arms behind the head or back, brushing, tying or touching the hair, crossed arms, interlaced fingers or hands overlapping each other or the face.
 
 ## img.expr.happy: Expression happy
 for: image | edit: learn
