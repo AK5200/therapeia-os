@@ -125,7 +125,7 @@ SET: professional product shoot: hard side key light, deep soft shadows, warm ri
 ## img.no_product: No product
 for: image | edit: locked
 
-No supplement product or packaging anywhere.
+No supplements, bottles, jars or packaging.
 
 ## img.safe: Safe zones
 for: image | edit: locked

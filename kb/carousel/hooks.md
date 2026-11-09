@@ -43,7 +43,7 @@ for: copy | edit: learn
 for: copy | edit: learn
 
 Open with the belief in the reader's own words ("Ashwagandha knocks you out"). Correct it clearly and confidently with one plain reason. Friendly, never mocking.
-Examples: "Shilajit: 4 myths and 3 facts" · "Isn't ashwagandha just a TikTok trend?".
+Examples: "Shilajit: 4 myths and 3 facts" · "Does ashwagandha make you sleepy all day?".
 
 ## hook.curiosity_gap: Curiosity gap
 for: copy | edit: learn
@@ -87,7 +87,7 @@ for: copy | edit: learn
 ## hook.question: Question
 for: copy | edit: learn
 
-The exact question the reader would type into Google or ask a friend ("Why do I wake up at 3am?", "Is ashwagandha just a trend?"). Max 8 words. Slide 2 gives the short answer, then the slides explain.
+The exact question the reader would type into Google or ask a friend ("Why do I wake up at 3am?", "Gummies or capsules: which fits my day?"). Max 8 words. Slide 2 gives the short answer, then the slides explain.
 
 ## hook.did_you_know: Did you know
 for: copy | edit: learn

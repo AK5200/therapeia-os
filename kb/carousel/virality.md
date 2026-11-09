@@ -5,7 +5,7 @@ Distilled from Instagram's own guidance (Mosseri 2024-2026: sends per reach is a
 ## viral.reader: How our reader decides
 for: brain, copy, critic | edit: learn
 
-OUR READER: a US adult, 25 to 45, busy, often tired but wired, sleeping badly, stressed by 3pm. Has never heard of ashwagandha or shilajit, or thinks it is a TikTok trend. Scrolls fast, reads only slides, rarely opens the caption. Smart, but not into science words.
+OUR READER: a US adult, 25 to 45, busy, often tired but wired, sleeping badly, stressed by 3pm. Has never heard of ashwagandha or shilajit, or files them under passing wellness fads. Scrolls fast, reads only slides, rarely opens the caption. Smart, but not into science words.
 
 Every post wins or loses four decisions:
 1. STOP (under a second, the cover). They stop for THEMSELVES: their own moment named exactly ("If you wake up at 3am every night..."), a surprising true fact about people like them, a myth they believe, permission to do less ("Your evening doesn't need a 12-step routine"), or a real face looking at them. They scroll past topics ("All about ashwagandha"), brand talk and vague wellness words.
@@ -13,7 +13,7 @@ Every post wins or loses four decisions:
 3. SEND (Instagram's strongest signal for reaching non-followers). People send what helps someone they know, what makes them look smart, and what gives a jolt of surprise, relief or "so THAT's why". Name who it is for ("for the friend who's always wired at night"). Sadness and fear do not travel; calm surprise and relief do.
 4. SAVE (carousels earn about 9x the saves of single images). A concrete list, routine or checklist they can use tonight or tomorrow morning, with specifics (times, amounts of time, simple swaps), never "be mindful".
 
-WORDS THAT LAND: choose the vivid, concrete word over the safe one ('TikTok trend or ancient Ayurvedic root?' beats 'Trend or old plant?'; 'older than coffee' beats 'traditional'). Strong verbs, specific images, real contrast. Vivid is not hype: no invented numbers, no promised results.
+WORDS THAT LAND: choose the vivid, concrete word over the safe one ('your 3am brain' beats 'poor sleep'; 'older than coffee' beats 'traditional'). Examples show the pattern; never reuse their words or angle. Strong verbs, specific images, real contrast. Vivid is not hype: no invented numbers, no promised results.
 THE SAUCE IS ON THE SLIDES. Every slide must teach something on its own. The caption is a bonus for the curious (sources, the study note, extra detail); a slide that only says "see caption" is a wasted slide.
 NEVER: abstract topics (how to read research, our brand values, label jargon) as the main idea; a cover that names the topic instead of the reader's moment; slides with one vague line; hype, fear or shame.
 

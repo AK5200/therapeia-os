@@ -30,7 +30,7 @@ The SLIDES list marks each slide's role. Design for it:
 ## art.scenes: Fresh scenes
 for: art | edit: learn
 
-Fresh, cinematic everyday scenes that break the usual nightstand / kitchen / desk rotation. The post context offers one FRESH SCENE OPTION per post: use it for the cover or slide 2 when it fits the reader moment and keep the rest of the post in the same world. Always a real wellness moment, never an ad; people rules still apply.
+Fresh, cinematic everyday scenes that break the usual nightstand / kitchen / desk rotation. The post context offers one FRESH SCENE per post: when it says required, build the cover around it; otherwise use it for the cover or slide 2 when it fits the reader moment. Keep the rest of the post in the same world. Always a real wellness moment, never an ad; people rules still apply.
 - a woman on a beach towel at sunrise, coffee in hand, wind in her hair
 - a man standing on his apartment rooftop at 5 a.m., the city skyline in blue hour
 - a woman in her parked car outside the grocery store, taking one slow breath
