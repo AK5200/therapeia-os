@@ -130,7 +130,7 @@ No supplement product, bottle, tub, pouch, capsule, gummy or packaging anywhere.
 ## img.safe: Safe zones
 for: image | edit: locked
 
-SAFE ZONES: text only between 14% and 88% of the height and 7% in from each side; keep the top 13% and bottom 11% empty (logo and disclaimer go there). Text never covers a face or the label.
+SAFE ZONES: text only between 6% and 82% of the height and 7% in from each side; keep the bottom 18% free of text (the logo and disclaimer go there) and leave a small margin at the very top (the edges get cropped). Headlines may start near the top. Text never covers a face or the label.
 
 ## img.rules: Text and avoid rules
 for: image | edit: locked
