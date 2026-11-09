@@ -35,7 +35,7 @@ Ids never change once used. To retire a section, mark it `edit: retired`, do not
 | copy/copywriter.md | The Copy agent's job, text limits, captions, punctuation | copy |
 | visual/style.md | Brand look, palette, light, surfaces, photo realism rules | art, image |
 | visual/people.md | Who may appear and how (single master copy) | art, image, design_critic |
-| visual/art-director.md | Looks, cover type, type family, per-slide brief | art |
+| visual/art-director.md | Visual virality, looks, cover type, slide-role jobs, fresh scenes, type family, per-slide brief | art |
 | visual/image-prompts.md | Fixed Seedream prompt blocks (looks, cameras, skin, product, safe zones) | image |
 | visual/layouts.md | The layout library: one section per slide layout (composition, text position, text style, reference image in refs/) | image (the table of layouts lives in art.looks) |
 | visual/recipes.md | Visual recipes (one section each) | brain (list), art (the chosen one) |
