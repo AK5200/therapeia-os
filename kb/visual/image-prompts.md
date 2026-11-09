@@ -65,7 +65,7 @@ Model looks: strong natural features, bright eyes, short trimmed beard or clean 
 ## img.skin: Skin
 for: image | edit: locked
 
-SKIN: real high-resolution skin: visible pores, fine vellus hair, a few small beauty marks, natural tone variation, satin sheen on cheekbones; no airbrushing, no plastic or waxy look, no perfect symmetry; natural flyaway hairs.
+SKIN: real skin with visible pores, fine vellus hair, small beauty marks and natural tone variation, satin sheen on the cheekbones; no airbrushing, plastic or waxy look; natural flyaway hairs.
 
 ## img.skin.deep: Deep skin tones
 for: image | edit: locked
@@ -125,22 +125,22 @@ SET: professional product shoot: hard side key light, deep soft shadows, warm ri
 ## img.no_product: No product
 for: image | edit: locked
 
-No supplement product, bottle, tub, pouch, capsule, gummy or packaging anywhere.
+No supplement product or packaging anywhere.
 
 ## img.safe: Safe zones
 for: image | edit: locked
 
-SAFE ZONES: text only between 6% and 82% of the height and 7% in from each side; keep the bottom 18% free of text (the logo and disclaimer go there) and leave a small margin at the very top (the edges get cropped). Headlines may start near the top. Text never covers a face or the label.
+SAFE ZONES: text only between 6% and 82% of the height, 7% in from the sides (the bottom 18% is for the logo and disclaimer). Text never covers a face, head or the product label.
 
 ## img.rules: Text and avoid rules
 for: image | edit: locked
 
-RULES: spell every quoted word exactly; no other words, labels or captions anywhere. People keep simple, relaxed poses (arms at the sides, on a table, or holding one object in front of the body); never arms behind the head or back, hands in or brushing the hair, crossed arms, interlaced fingers, or hands over each other or the face. NEVER draw the brand name or the brand logo anywhere in the picture (the real logo is added later in the top band); the brand name may appear only where it is printed on the product pack itself. No other logos, brands, watermarks, FDA seal, or writing on any prop, cup, phone or page except our own product label. One continuous real background (seams only in collage). AVOID: anyone under 21, pregnancy, medical settings, body-focused framing, laughing grins, product upside down or at the lips, plastic AI skin, plain paper backdrops (except pop).
+RULES: spell every quoted word exactly; no other words, logos, watermarks or writing anywhere except our own product label; never draw the brand name (it is added later). Simple relaxed poses: no arms behind the head or back, hands in the hair, crossed arms or interlaced fingers. One continuous real background (seams only in collage). AVOID: anyone under 21, pregnancy, medical settings, body-focused framing, open-mouth grins, product upside down or at the lips, plastic skin, plain paper backdrops (except pop).
 
 ## img.headline: Headline size
 for: image | edit: learn
 
-TEXT STYLE: headline big (8% of the height, 11% on the cover), bold, fully opaque, perfectly kerned, on a calm low-detail area. Colour must pop: white or cream on dark or saturated areas, near-black or forest green on light areas, never the same colour family as behind it. No calm area: put the words on a solid band or soft dark gradient. Body semi-bold, never thin or grey. Accent only as a stroke under one word, never through it.
+TEXT STYLE: big bold headline (8% of the height, 11% on the cover), opaque, perfectly kerned, on a calm area. Colour pops: cream or white on dark or saturated areas, near-black or forest green on light ones, never the background's colour; no calm area means a solid band or soft gradient behind it. Body semi-bold, never thin or grey. Accent: one stroke under one word.
 
 ## img.look.7: Look 7 ugc
 for: image | edit: learn
@@ -150,22 +150,22 @@ LOOK: real everyday phone photo: candid, warm natural or lamp light, lived-in ho
 ## img.text.elegant: Text style elegant
 for: image | edit: learn
 
-TEXT STYLE: refined editorial typography with generous empty space: elegant serif heading (large or small as the layout says, one word may be italic), light clean sans body, white or soft charcoal chosen to stay readable on what is behind it, perfectly kerned, on a calm area. Never heavy or bold.
+TEXT STYLE: refined editorial type with generous empty space: elegant serif heading (size as the layout says, one word may be italic), light clean sans body, white or soft charcoal readable on what is behind it, perfectly kerned, on a calm area. Never heavy or bold.
 
 ## img.text.hand: Text style handwritten
 for: image | edit: learn
 
-TEXT STYLE: natural handwriting (brush script or marker) for the headline only (max 10 words), real and slightly imperfect; every other line in clean sans; colour pops against what is behind it (cream or white on dark, black on light), on a calm area.
+TEXT STYLE: natural, slightly imperfect handwriting (brush script or marker) for the headline only; every other line in clean sans; colour pops against what is behind it, on a calm area.
 
 ## img.styleref: Style reference role
 for: image | edit: locked
 
-STYLE REFERENCE: the last reference image is a style reference only. Copy its layout, text placement, type style, colour grade and lighting mood. Never copy its scene, people, faces, product, objects, logo or any of its words.
+STYLE REFERENCE: the last reference image is a style guide only: copy its layout, text placement, type style and colour grade; never its scene, people, product, objects or words.
 
 ## img.panel: Reading panel for longer text
 for: image | edit: learn
 
-READING TEXT (2 or 3 sentences): {surface} Body text is ALWAYS a clean sans (never handwriting or thin script, even when the headline is handwritten), at a comfortable phone reading size with generous line spacing; the headline sits just above it. PLACEMENT: if a person is in the frame, put them in the left or right third and the text on the opposite side; the text and its surface never touch a head, face or shoulders, or the product label. Same treatment on every slide of the post. Only the given words: no extra labels, chips or small print.
+READING TEXT: {surface} Body in a clean sans (never handwriting), easy phone reading size, generous line spacing, headline just above. A person stays in the left or right third, the text on the other side. Same treatment on every slide.
 - look 1: no card; the text sits directly on calm negative space in the photo (sky, sea, a plain wall, soft shadow), dark or cream for strong contrast.
 - look 2: a solid block in the post's saturated palette colour (deep green, tomato red, cobalt) with cream text, square corners, or the slide is a full colour field with no photo.
 - look 3: the notes page itself, typed text on the page.
@@ -173,3 +173,4 @@ READING TEXT (2 or 3 sentences): {surface} Body text is ALWAYS a clean sans (nev
 - look 5: a small off-white paper card beside the print.
 - look 6: the cream card half of the split.
 - look 7: a bold solid strip across the frame (black, deep green or white) or a frosted see-through card.
+

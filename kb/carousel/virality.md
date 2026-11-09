@@ -3,7 +3,7 @@
 Distilled from Instagram's own guidance (Mosseri 2024-2026: sends per reach is a top signal; skipped carousels are re-shown from slide 2), sharing research (Berger and Milkman 2012; Scholz, Baek and Falk 2023), the face effect (Bakhshi et al. 2014, 1.1M Instagram photos: faces got 38% more likes) and a teardown of top wellness carousels (Nov 2026). Read it as taste, not as a checklist.
 
 ## viral.reader: How our reader decides
-for: brain, copy, critic, art | edit: learn
+for: brain, copy, critic | edit: learn
 
 OUR READER: a US adult, 25 to 45, busy, often tired but wired, sleeping badly, stressed by 3pm. Has never heard of ashwagandha or shilajit, or thinks it is a TikTok trend. Scrolls fast, reads only slides, rarely opens the caption. Smart, but not into science words.
 
