@@ -1,0 +1,20 @@
+-- One-off cleanup 2026-11-10: delete 36 duplicate posts (best version kept), with every row that points at them.
+create temp table _del on commit drop as select id from content_ledger
+ where client_id = '3034c840-dfc2-4c85-b949-bc8d4fd69208' and status not in ('scheduled','publishing','published') and id in ('cc6390dc-12ec-4a89-b96c-d5ed8d54d3cf','e3736cc8-a611-407e-953e-9da762dcd31c','b27939c4-145f-4b9f-923f-648e285acc2b','b6be77e9-3656-4105-bc68-d1d303bcfd33','f6834c10-bd90-4ccc-b6ea-0175f047535b','cb688fe6-e124-440a-8944-5ad1784653df','f30aadeb-aef5-4e77-84be-63c1c26b5e1f','58df9272-e3d2-49ba-8a56-42bebda6d369','847980a0-606b-450d-aea3-0203aacc7226','2f2e9753-af0f-4f3e-bf6b-833f045afe56','b9ea7585-2f64-4779-bbb1-72113bfa56a2','7a796d19-869d-444b-8b06-b35dbec645ea','5a605968-2c54-47b7-9897-6b7b05aa6ac4','d18114ca-daf7-4a1a-8118-1a2997904009','b7f35d5f-3d9b-46c4-b9da-0f107ad98a58','30b36c48-6bac-4258-9888-da0b606aebcd','f772878d-2876-4543-b0bc-8e1b8d690455','1ad065a7-6083-4bca-914d-f1af343dd1c2','eac01d58-ac7c-4742-bf85-d8972ad5f05a','e16f8eac-27cc-406a-8975-06c5086c9ff6','d93b8612-0fdf-4a9e-b620-5168fcdd6675','c39748a3-ac1d-4705-990e-15d3c57c4332','b31701ae-b73a-4f53-bb7f-e107c0be581c','2cca6d69-bc44-4110-aaec-1f99c149b508','bb308b62-b699-4c8e-9b9e-853cd48b471a','70daf7b1-4911-428d-b813-2f24fcd17f36','2d153a30-417a-425e-b4ab-c414b35832ec','bce7e782-7952-4e47-9863-75bc7027745b','2706d774-621b-4f48-94d2-e30b7c1c0a07','a48b783a-7a19-4d4c-9854-dede05005c4f','f2d26ab9-4de4-4e76-adae-3c41995ae45a','a427e640-f20a-41a7-9e14-fae0e75b67db','948bf46e-9587-4da7-839f-10cdd9740edc','c04e9b1c-5adc-405a-a602-019fa3deb9bf','a8b3c8cc-3885-4e18-8f18-a12c57d887ef','af906550-76fc-4b2b-8cfa-aa5168621a8e');
+do $$
+declare r record;
+begin
+  -- rows linked by a real foreign key to content_ledger
+  for r in select c.conrelid::regclass as tbl, a.attname as col
+             from pg_constraint c join pg_attribute a on a.attrelid = c.conrelid and a.attnum = c.conkey[1]
+            where c.contype = 'f' and c.confrelid = 'public.content_ledger'::regclass loop
+    execute format('delete from %s where %I in (select id from _del)', r.tbl, r.col);
+  end loop;
+  -- rows linked by id without a foreign key
+  delete from approvals where ref_id in (select id from _del);
+  delete from actions where ref_id in (select id from _del);
+  delete from feedback_log where ledger_id in (select id from _del);
+  delete from content_ledger where id in (select id from _del);
+end $$;
+select (select count(*) from _del) as matched,
+       (select count(*) from content_ledger where id in ('cc6390dc-12ec-4a89-b96c-d5ed8d54d3cf','e3736cc8-a611-407e-953e-9da762dcd31c','b27939c4-145f-4b9f-923f-648e285acc2b','b6be77e9-3656-4105-bc68-d1d303bcfd33','f6834c10-bd90-4ccc-b6ea-0175f047535b','cb688fe6-e124-440a-8944-5ad1784653df','f30aadeb-aef5-4e77-84be-63c1c26b5e1f','58df9272-e3d2-49ba-8a56-42bebda6d369','847980a0-606b-450d-aea3-0203aacc7226','2f2e9753-af0f-4f3e-bf6b-833f045afe56','b9ea7585-2f64-4779-bbb1-72113bfa56a2','7a796d19-869d-444b-8b06-b35dbec645ea','5a605968-2c54-47b7-9897-6b7b05aa6ac4','d18114ca-daf7-4a1a-8118-1a2997904009','b7f35d5f-3d9b-46c4-b9da-0f107ad98a58','30b36c48-6bac-4258-9888-da0b606aebcd','f772878d-2876-4543-b0bc-8e1b8d690455','1ad065a7-6083-4bca-914d-f1af343dd1c2','eac01d58-ac7c-4742-bf85-d8972ad5f05a','e16f8eac-27cc-406a-8975-06c5086c9ff6','d93b8612-0fdf-4a9e-b620-5168fcdd6675','c39748a3-ac1d-4705-990e-15d3c57c4332','b31701ae-b73a-4f53-bb7f-e107c0be581c','2cca6d69-bc44-4110-aaec-1f99c149b508','bb308b62-b699-4c8e-9b9e-853cd48b471a','70daf7b1-4911-428d-b813-2f24fcd17f36','2d153a30-417a-425e-b4ab-c414b35832ec','bce7e782-7952-4e47-9863-75bc7027745b','2706d774-621b-4f48-94d2-e30b7c1c0a07','a48b783a-7a19-4d4c-9854-dede05005c4f','f2d26ab9-4de4-4e76-adae-3c41995ae45a','a427e640-f20a-41a7-9e14-fae0e75b67db','948bf46e-9587-4da7-839f-10cdd9740edc','c04e9b1c-5adc-405a-a602-019fa3deb9bf','a8b3c8cc-3885-4e18-8f18-a12c57d887ef','af906550-76fc-4b2b-8cfa-aa5168621a8e')) as still_there;
