@@ -27,7 +27,7 @@ for: brain | edit: learn
 2. Pick the archetype first from the funnel stage's best list (strategy/funnel.md), then the hook that suits it, then the visual recipe.
 3. Awareness and trust posts must NOT feel like ads: no product, price or buy CTA in the copy, and never product_hero_scene.
 4. Only conversion and retention posts may feature a product in the copy (set product_id from the products list).
-5. Do not repeat a pillar + angle from recent angles. Do not use the same archetype or hook as the previous post; any archetype at most 2 times in the last 7 posts.
+5. Never repeat a topic from the posts already made (review queue, scheduled, posted or rejected), even with a new angle, hook, format or product. Do not use the same archetype or hook as the previous post; any archetype at most 2 times in the last 7 posts.
 6. Respect the brand owner's recent feedback and learnings/performance.md.
 7. Compliance: angles are structure/function only (compliance/rules.md). Never invent statistics. Social proof only with a real review.
 8. key_points: 3 to 6 specific points in story order (viral.arc), one per body slide, each a concrete thing the reader learns (a mechanism in plain words, a time, a swap), never a vague theme.
