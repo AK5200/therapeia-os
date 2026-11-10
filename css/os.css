@@ -339,3 +339,14 @@ details.more .btn.sm{width:100%; min-height:44px}
 .cal-key{margin:0; font-size:12.5px; color:var(--muted); display:flex; gap:6px; align-items:center; flex-wrap:wrap}
 .cal-key .k{width:10px; height:10px; border-radius:3px; display:inline-block; border:2px solid #2E5E9C} .cal-key .k.published{border-color:#16A34A} .cal-key .k.failed{border-color:var(--coral)}
 .para p.small{font-size:13.5px; line-height:1.4}
+
+/* Accounts & credits: Home banner, balance number, removed images */
+.svc-banner{display:flex; flex-direction:column; gap:4px; padding:14px 16px; border-radius:var(--r); text-decoration:none; color:var(--ink, inherit); border:1px solid transparent}
+.svc-banner.low{background:var(--warn-bg); border-color:var(--warn-bg)}
+.svc-banner.out{background:var(--bad-bg); border-color:var(--bad-bg)}
+.svc-banner b{font-size:16px} .svc-banner.low b{color:var(--amber)} .svc-banner.out b{color:var(--coral)}
+.svc-banner span{font-size:15px} .svc-banner small{color:var(--muted); font-weight:600}
+.svc-num{margin:0; font-size:28px; font-weight:700; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+.svc-num small{font-size:14px; font-weight:500; color:var(--muted)}
+.thumb.gone{display:inline-block; background:repeating-linear-gradient(45deg, var(--soft), var(--soft) 6px, transparent 6px, transparent 12px); border:1px solid var(--line)}
+form[data-svcbal]{align-items:flex-end} form[data-svcbal] .btn{align-self:flex-end}

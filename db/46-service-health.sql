@@ -47,9 +47,12 @@ begin
   if p_amount is null or p_amount < 0 or p_amount > 100000 then raise exception 'Enter the balance in US dollars, for example 50'; end if;
   insert into service_ledger (client_id, service, kind, amount, note, created_by)
   values (p_client, 'anthropic', 'balance', p_amount, p_note, coalesce(auth.email(), 'os'));
-  update service_status set balance = p_amount, level = case when p_amount <= 0 then 'out' else level end,
-         message = 'Balance updated from the OS', checked_at = now()
-   where client_id = p_client and service = 'anthropic';
+  insert into service_status (client_id, service, level, balance, unit, message, detail, checked_at)
+  values (p_client, 'anthropic', case when p_amount <= 0 then 'out' else 'ok' end, p_amount, 'usd',
+          'Balance entered in the OS; the next run updates the estimate',
+          jsonb_build_object('entered', p_amount, 'entered_at', now(), 'spent_since', 0, 'estimated', true), now())
+  on conflict (client_id, service) do update set balance = excluded.balance, level = excluded.level, unit = 'usd',
+         message = excluded.message, detail = excluded.detail, checked_at = now();
   return p_amount;
 end $$;
 

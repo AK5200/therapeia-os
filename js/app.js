@@ -39,7 +39,7 @@
   const titleOf = p => { const c = String(p.caption_instagram || '').split('\n').find(l => l.trim()) || p.angle || 'Untitled post'; return c.length > 80 ? c.slice(0, 78) + '…' : c; };
   const ytTitle = p => { const l = titleOf(p); return l.length > 95 ? l.slice(0, 94) + '…' : l; };
   const kind = p => p.format === 'carousel' ? `${(p.ig_slides || []).length}-slide carousel` : 'Single image';
-  const thumb = p => `<img class="thumb" src="${esc((p.ig_slides || [])[0] || '')}" alt="" loading="lazy">`;
+  const thumb = p => p.images_removed ? '<span class="thumb gone" aria-label="Image removed"></span>' : `<img class="thumb" src="${esc((p.ig_slides || [])[0] || '')}" alt="" loading="lazy">`;
   const pill = s => { const [t, k] = STATUS[s] || [s, '']; return `<span class="pill ${k}">${esc(t)}</span>`; };
 
   // ---------- toast + actions ----------
@@ -57,7 +57,7 @@
   // ---------- routes ----------
   // tabs + sub pages (sub pages live under More and show a back arrow)
   const TABS = [['today', 'Today'], ['review', 'Approve'], ['plan', 'Plan'], ['news', 'News'], ['competitors', 'Rivals'], ['more', 'More']];
-  const SUB = { learning: 'AI learning', setup: 'Posting settings', analytics: 'Analytics', creators: 'Creator outreach', store: 'Store & funnel', customers: 'Customer success' };
+  const SUB = { credits: 'Accounts & credits', learning: 'AI learning', setup: 'Posting settings', analytics: 'Analytics', creators: 'Creator outreach', store: 'Store & funnel', customers: 'Customer success' };
   const route = () => { let h = (location.hash || '#today').slice(1); if (h === 'research') h = 'news'; if (h === 'posted') { S.postedFilter = 'posted'; h = 'plan'; } return TABS.some(t => t[0] === h) || SUB[h] ? h : 'today'; };
   const tabOf = r => SUB[r] ? 'more' : r;
 
@@ -80,15 +80,16 @@
     const r = route();
     renderChrome(r);
     const v = $('#view');
-    const out = ({ today: todayPlus, review, plan, more, learning, setup, analytics, competitors, news: research, creators: soon, store: soon, customers: soon })[r](r);
+    const out = ({ today: todayPlus, review, plan, more, credits, learning, setup, analytics, competitors, news: research, creators: soon, store: soon, customers: soon })[r](r);
     const done = h => { v.innerHTML = h; wire(v); renderSheet(); };
     if (out && out.then) out.then(done); else done(out);
   }
 
   // ---------- post preview ----------
   function preview(p, pf) {
-    const slides = pf === 'ig' ? (p.ig_slides || []) : (p.tt_slides || []);
+    const slides = p.images_removed ? [] : pf === 'ig' ? (p.ig_slides || []) : (p.tt_slides || []);
     const n = slides.length;
+    if (p.images_removed) return `<p class="note">The images of this post were removed ${'60 days after it finished'} to keep storage free. The caption and results are kept.</p>`;
     const imgs = slides.map((u, i) => `<img src="${esc(u)}" alt="${esc(i === 0 ? p.alt_text || '' : 'Slide ' + (i + 1))}" draggable="false">`).join('');
     const nav = n > 1 ? `<button class="cnav prev" type="button" aria-label="Previous slide" hidden>${ic('prev')}</button><button class="cnav next" type="button" aria-label="Next slide">${ic('next')}</button><span class="cbadge">1/${n}</span>` : '';
     const media = `<div class="media" data-n="${n}" data-i="0" tabindex="0" aria-label="${n} slide${n > 1 ? 's' : ''}"><div class="track">${imgs}</div>${nav}</div>`;
@@ -122,7 +123,7 @@
           <a class="btn primary block" href="#review">Start approving</a></section>`
       : `<section class="hero-calm"><h2>You're all caught up</h2><p>New posts appear here as soon as the AI finishes them.${sch.length ? ` Next one goes out ${when(sch[0].scheduled_for)}.` : ''}</p></section>`;
     const row = (p, sub) => `<li><button class="rowlink" type="button" data-open="${p.id}">${thumb(p)}<span class="rt"><b>${esc(titleOf(p))}</b><small>${sub}</small></span>${ic('chev', 'ic chev')}</button></li>`;
-    return `${hero}
+    return `${svcBanner()}${hero}
       ${x.risks || ''}
       ${due.length && manual() ? `<section class="sec"><h2>Post today</h2><p class="lead small">Auto-posting is off. Open a post to copy the caption, save the images and tick each platform when it's up.</p>
         <ul class="list">${due.map(p => { const r = p.publish_results || {}; const left = enabledPlats().filter(([k]) => !(r[k] && r[k].status === 'published')).map(x => x[1]); return row(p, `${timeOnly(p.scheduled_for)} · ${left.length ? 'Still to post: ' + left.join(', ') : 'All posted'}`); }).join('')}</ul></section>` : ''}
@@ -215,7 +216,9 @@
   function more() {
     const item = (href, t, sub, tag) => `<li><a class="rowlink" href="#${href}"><span class="rt"><b>${esc(t)}</b><small>${esc(sub)}</small></span>${tag || ''}${ic('chev', 'ic chev')}</a></li>`;
     const soonMods = MODS.filter(m => m.status === 'soon');
+    const bad = svcAlerts();
     return `<section class="sec"><h2>Content</h2><ul class="list">
+        ${item('credits', 'Accounts & credits', 'kie.ai credits, Anthropic balance, Supabase space', bad.length ? `<span class="pill ${bad.some(a => a.level === 'out') ? 'bad' : 'warn'}">${bad.length} need${bad.length > 1 ? '' : 's'} attention</span>` : '<span class="pill ok">OK</span>')}
         ${item('learning', 'AI learning', 'Rules the AI learned from your notes', S.learnPending ? `<span class="pill warn">${S.learnPending} to review</span>` : '')}
         ${item('setup', 'Posting settings', 'Auto-posting, times and platforms')}
         ${item('analytics', 'Analytics', 'How posts perform')}
@@ -223,6 +226,44 @@
       <section class="sec"><h2>Coming next</h2><ul class="list">${soonMods.map(m => item(m.id, m.label, m.kpi, '<span class="soon-tag">Soon</span>')).join('')}</ul></section>
       ${C.credit === false ? '' : '<a class="credit-m" href="https://saltpilot.com" target="_blank" rel="noopener">Powered by <b>Saltpilot</b></a>'}
       ${S.user && !S.user.open ? `<button class="btn quiet" type="button" id="signout">Sign out (${esc(S.user.email)})</button>` : ''}`;
+  }
+
+  // ---------- ACCOUNTS & CREDITS (kie.ai, Anthropic, Supabase) ----------
+  const SVC = {
+    kie: { name: 'kie.ai image credits', link: 'https://kie.ai', linkText: 'Top up on kie.ai', why: 'Makes every image. Checked live before each daily run.' },
+    anthropic: { name: 'Anthropic (Claude) balance', link: 'https://console.anthropic.com/settings/billing', linkText: 'Top up in the Anthropic console', why: 'Writes, checks and plans every post. Estimated: the balance you enter below minus what each run spends (about $0.35 a post).' },
+    supabase: { name: 'Supabase storage', link: 'https://supabase.com/dashboard/project/weshvnbovvzucjxymllc', linkText: 'Open Supabase', why: 'Stores posts and images. Images are removed 60 days after a post finishes, so the free plan should be enough.' }
+  };
+  // a service needs attention when it is low or out, or when it stopped a run in the last 2 days
+  function svcAlerts() {
+    const x = S.svc; if (!x) return [];
+    const out = (x.status || []).filter(s => s.level === 'low' || s.level === 'out').map(s => ({ service: s.service, level: s.level, text: s.message }));
+    (x.stops || []).forEach(st => { if (!out.some(a => a.service === st.service && a.level === 'out')) out.unshift({ service: st.service, level: 'out', text: String(st.note || 'A run was stopped').replace(/^Run stopped( before spending)?: /, 'A run was stopped: ') }); });
+    return out;
+  }
+  function svcBanner() {
+    const a = svcAlerts(); if (!a.length) return '';
+    const out = a.some(x => x.level === 'out');
+    return `<a class="svc-banner ${out ? 'out' : 'low'}" href="#credits"><b>${out ? 'Posting is stopped or about to stop' : 'Top up soon'}</b>${a.slice(0, 3).map(x => `<span>${esc(x.text)}</span>`).join('')}<small>Open Accounts & credits</small></a>`;
+  }
+  function credits() {
+    const x = S.svc;
+    if (!x) return `<div class="empty"><h3>No check yet</h3><p>The numbers appear after the next daily run checks kie.ai, Anthropic and Supabase.</p></div>`;
+    const by = Object.fromEntries((x.status || []).map(s => [s.service, s]));
+    const lvl = { ok: ['OK', 'ok'], low: ['Low', 'warn'], out: ['Out', 'bad'], unknown: ['Not tracked yet', ''] };
+    const val = s => !s || s.balance == null ? '—' : s.unit === 'usd' ? `$${Number(s.balance).toFixed(2)}` : s.unit === 'pct_full' ? `${Math.round(s.balance)}% full` : `${Number(s.balance).toLocaleString('en-US')} credits`;
+    const panel = k => { const s = by[k], m = SVC[k], d = (s && s.detail) || {}, [t, c] = lvl[(s && s.level) || 'unknown'];
+      const extra = k === 'supabase' && d.plan ? `<p class="small muted">Database ${esc(d.db_used)} of ${esc(d.db_limit)} · Images ${esc(d.files_used)} of ${esc(d.files_limit)} · ${d.plan === 'pro' ? 'Pro' : 'Free'} plan</p>
+          <div class="row-btns"><label class="small" for="sb-plan">Plan</label><select id="sb-plan" data-svcplan><option value="free" ${d.plan !== 'pro' ? 'selected' : ''}>Free (500 MB database, 1 GB images)</option><option value="pro" ${d.plan === 'pro' ? 'selected' : ''}>Pro, $25/month (8 GB, 100 GB)</option></select></div>`
+        : k === 'anthropic' ? `<form class="row-btns" data-svcbal><div class="field" style="flex:1;min-width:0"><label for="anth-bal">Current balance in US$ <small>(from the Anthropic console, Billing)</small></label><input id="anth-bal" type="number" min="0" step="0.01" inputmode="decimal" placeholder="50.00"></div><button class="btn sm primary" type="submit">Save balance</button></form>
+          ${d.entered != null ? `<p class="small muted">You entered $${Number(d.entered).toFixed(2)}${d.entered_at ? ' on ' + esc(fmt(d.entered_at, { month: 'short', day: 'numeric' })) : ''}; runs since then used about $${Number(d.spent_since || 0).toFixed(2)}.</p>` : ''}` : '';
+      return `<section class="panel"><h3>${esc(m.name)} <span class="pill ${c}">${t}</span></h3>
+        <p class="svc-num">${val(s)}${s && s.days_left != null ? `<small>about ${Math.max(0, Math.round(s.days_left))} days left</small>` : ''}</p>
+        <p class="small">${esc((s && s.message) || '')}</p><p class="small muted">${esc(m.why)}${s ? ` Checked ${esc(when(s.checked_at))}.` : ''}</p>
+        ${extra}<a class="btn sm" href="${m.link}" target="_blank" rel="noopener">${m.linkText}</a></section>`; };
+    return `<p class="lead">If kie.ai or Anthropic runs out, or storage is full, the daily run stops before it spends anything and a banner appears on Today.</p>
+      ${(x.stops || []).length ? `<p class="note ai">${esc(x.stops[0].note)} (${esc(when(x.stops[0].created_at))})</p>` : ''}
+      ${['kie', 'anthropic', 'supabase'].map(panel).join('')}`;
   }
 
   // ---------- AI LEARNING ----------
@@ -506,6 +547,11 @@
   const copy = async (text, field) => { try { await navigator.clipboard.writeText(text || ''); toast('Copied'); } catch (e) { if (field) { field.closest('details') && (field.closest('details').open = true); field.select(); } toast('Select the text and copy it', 'bad'); } };
 
   function wire(v) {
+    const bal = $('[data-svcbal]', v);
+    if (bal) bal.onsubmit = e => { e.preventDefault(); const n = Number(($('#anth-bal', v) || {}).value); if (!(n >= 0) || ($('#anth-bal', v).value || '') === '') return toast('Enter the balance in US dollars', 'bad');
+      act(async () => { await S.db.setAnthropicBalance(n); S.svc = await S.db.services(); }, 'Balance saved. Tracking starts now'); };
+    const plan = $('[data-svcplan]', v);
+    if (plan) plan.onchange = () => act(async () => { await S.db.setSupabasePlan(plan.value); }, 'Plan saved. The next run uses the new limits');
     carousels(v);
     v.querySelectorAll('[data-tab]').forEach(b => b.onclick = () => { if (route() === 'news') S.newsTab = b.dataset.tab; else S.compTab = b.dataset.tab; render(); });
     v.querySelectorAll('[data-fmt]').forEach(b => b.onclick = () => { S.fmt = b.dataset.fmt; render(); });
@@ -567,6 +613,7 @@
       $('#app').hidden = false; $('#login').hidden = true;
       [S.posts, S.settings] = await Promise.all([S.db.posts(), S.db.settings()]);
       S.db.learning().then(L => { S.learnPending = L.proposals.length; renderChrome(route()); }).catch(() => {});
+      S.db.services().then(x => { S.svc = x; if (['today', 'more', 'credits'].includes(route())) render(); }).catch(() => {});
       render();
     } catch (e) { $('#app').hidden = false; $('#view').innerHTML = `<div class="empty"><h3>Something went wrong</h3><p>${esc(e.message)}</p><button class="btn" onclick="location.reload()">Reload</button></div>`; }
   }

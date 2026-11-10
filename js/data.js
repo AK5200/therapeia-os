@@ -96,7 +96,16 @@
         const a = learning.proposals.splice(i, 1)[0];
         if (decision === 'approve') { learning.rules = learning.rules.filter(r => r.category !== a.payload.category); learning.rules.push({ id: 'r' + Date.now(), category: a.payload.category, agent: a.payload.agent, rule_text: text || a.payload.rule_text, created_at: new Date().toISOString() }); }
       },
-      async retireRule(id) { learning.rules = learning.rules.filter(r => r.id !== id); }
+      async retireRule(id) { learning.rules = learning.rules.filter(r => r.id !== id); },
+      async services() {
+        const t = new Date(Date.now() - 3 * 36e5).toISOString();
+        return { stops: [], status: [
+          { service: 'kie', level: 'ok', balance: 1840, unit: 'credits', days_left: 23, message: 'Enough kie.ai credits', detail: { per_day: 80 }, checked_at: t },
+          { service: 'anthropic', level: 'low', balance: 6.4, unit: 'usd', days_left: 6, message: 'Anthropic balance (~$6.40) lasts about 6 days', detail: { entered: 20, spent_since: 13.6, per_day: 1.05 }, checked_at: t },
+          { service: 'supabase', level: 'ok', balance: 56, unit: 'pct_full', days_left: null, message: 'Supabase has room', detail: { plan: 'free', db_used: '25 MB', db_limit: '500 MB', db_pct: 5, files_used: '556 MB', files_limit: '1000 MB', files_pct: 56 }, checked_at: t }] };
+      },
+      async setAnthropicBalance(amount) { return amount; },
+      async setSupabasePlan(plan) { return plan; }
     };
   }
 
@@ -143,7 +152,18 @@
       async setInsight(id, st) { return ok(await sb.rpc('os_set_insight', { p_id: id, p_status: st })); },
       async watchAccounts() { return ok(await sb.from('watch_accounts').select('*').eq('client_id', C.clientId).order('platform').order('tier').order('handle')); },
       async toggleAccount(id, on) { return ok(await sb.rpc('os_toggle_account', { p_id: id, p_active: on })); },
-      async competitors() { return ok(await sb.from('competitor_posts').select('*').eq('client_id', C.clientId).order('momentum_score', { ascending: false, nullsFirst: false }).limit(60)); }
+      async competitors() { return ok(await sb.from('competitor_posts').select('*').eq('client_id', C.clientId).order('momentum_score', { ascending: false, nullsFirst: false }).limit(60)); },
+      // kie.ai credits, Anthropic balance, Supabase space: written by the pipeline's start-of-run check
+      async services() {
+        const since = new Date(Date.now() - 2 * 864e5).toISOString();
+        const [status, stops] = await Promise.all([
+          sb.from('service_status').select('*').eq('client_id', C.clientId).then(ok),
+          sb.from('service_ledger').select('service,note,created_at').eq('client_id', C.clientId).eq('kind', 'stop').gte('created_at', since).order('created_at', { ascending: false }).limit(5).then(ok)
+        ]);
+        return { status, stops };
+      },
+      async setAnthropicBalance(amount) { return ok(await sb.rpc('os_set_anthropic_balance', { p_client: C.clientId, p_amount: amount, p_note: null })); },
+      async setSupabasePlan(plan) { return ok(await sb.rpc('os_set_supabase_plan', { p_client: C.clientId, p_plan: plan })); }
     };
   }
 
