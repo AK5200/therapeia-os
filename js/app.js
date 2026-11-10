@@ -179,7 +179,7 @@
     const cells = [...Array(42)].map((_, i) => { const d = new Date(start); d.setDate(start.getDate() + i); return d; });
     const last = cells.slice(35).every(d => d.getMonth() !== base.getMonth()) ? 35 : 42;
     const cell = d => { const k = key(d), ps = by[k] || [];
-      return `<button type="button" class="cal-d ${d.getMonth() !== base.getMonth() ? 'out' : ''} ${k === todayK ? 'now' : ''} ${k === sel ? 'sel' : ''}" data-cday="${k}" aria-label="${d.toDateString()}, ${ps.length} posts">
+      return `<button type="button" class="cal-d ${d.getMonth() !== base.getMonth() ? 'out' : ''} ${k === todayK ? 'now' : ''} ${k === sel ? 'sel' : ''}" data-cday="${k}" data-cone="${ps.length === 1 ? ps[0].id : ''}" aria-label="${d.toDateString()}, ${ps.length} posts">
         <span class="n">${d.getDate()}</span><span class="cal-th">${ps.slice(0, 2).map(p => `<img src="${esc((p.ig_slides || [])[0] || '')}" alt="" loading="lazy" class="${p.status}">`).join('')}${ps.length > 2 ? `<i>+${ps.length - 2}</i>` : ''}</span></button>`; };
     const list = by[sel] || [];
     const lab = { published: ['Posted', 'ok'], scheduled: ['Scheduled', 'info'], publishing: ['Posting', 'info'], failed: ['Didn\'t post', 'bad'] };
@@ -464,8 +464,9 @@
               <div class="row-btns"><button class="btn sm" type="button" data-copy="ig">Copy Instagram caption</button><button class="btn sm" type="button" data-copy="tt">Copy TikTok caption</button>${(S.settings.platforms || {}).youtube ? '<button class="btn sm" type="button" data-copy="yt">Copy YouTube title</button>' : ''}</div>
               ${platRows}</section>` : ''}
           ${isSched ? `<section class="panel"><h3>Time</h3><div class="field"><label for="s-when">Post on <small>(your time)</small></label><input id="s-when" type="datetime-local" value="${toLocalInput(p.scheduled_for)}"></div>
-              <div class="row-btns"><button class="btn sm" type="button" data-sdo="reschedule">Save new time</button><button class="btn sm quiet danger" type="button" data-sdo="unschedule">Move back to Review</button></div></section>` : ''}
+              <div class="row-btns"><button class="btn sm" type="button" data-sdo="reschedule">Save new time</button><button class="btn sm quiet" type="button" data-sdo="unschedule">Move back to Review</button><button class="btn sm quiet danger" type="button" data-sdo="reject">Reject</button></div></section>` : ''}
           ${p.status === 'failed' && approved ? `<button class="btn primary block" type="button" data-sdo="retry">Try posting again</button>` : ''}
+          ${p.status === 'failed' ? `<button class="btn quiet danger block" type="button" data-sdo="reject">Reject this post</button>` : ''}
           ${(p.revisions || []).length ? `<details class="more"><summary>Change requests (${p.revisions.length})</summary><ul class="list">${p.revisions.map(x => `<li class="rowlink"><span class="rt"><b style="white-space:normal">${esc(x.note)}</b><small>#${x.revision} · ${({ queued: 'waiting', running: 'AI working', done: 'done', failed: 'not applied' })[x.status] || x.status}</small></span></li>`).join('')}</ul></details>` : ''}
           ${['scheduled', 'failed'].includes(p.status) ? `<details class="more"><summary>Edit captions</summary>
               <div class="field"><label for="s-ig">Instagram caption</label><textarea id="s-ig" rows="7">${esc(p.caption_instagram)}</textarea></div>
@@ -515,7 +516,7 @@
     v.querySelectorAll('[data-pf]').forEach(b => b.onclick = () => { S.pf = b.dataset.pf; S.entered = (queue()[S.i] || {}).id; render(); });
     v.querySelectorAll('[data-step]').forEach(b => b.onclick = () => { S.i += +b.dataset.step; S.entered = null; render(); window.scrollTo({ top: 0 }); });
     v.querySelectorAll('[data-filter]').forEach(b => b.onclick = () => { S.postedFilter = b.dataset.filter; render(); });
-    v.querySelectorAll('[data-cday]').forEach(b => b.onclick = () => { S.calDay = b.dataset.cday; render(); });
+    v.querySelectorAll('[data-cday]').forEach(b => b.onclick = () => { S.calDay = b.dataset.cday; render(); if (b.dataset.cone) openSheet(b.dataset.cone); });
     v.querySelectorAll('[data-cmon]').forEach(b => b.onclick = () => { const d = S.calMonth ? new Date(S.calMonth) : new Date(); d.setDate(1); d.setMonth(d.getMonth() + +b.dataset.cmon); S.calMonth = d.toISOString(); S.calDay = null; render(); });
     v.querySelectorAll('[data-do]').forEach(b => b.onclick = () => {
       const id = b.dataset.id, d = b.dataset.do;
@@ -551,6 +552,7 @@
       if (d === 'reschedule') { const w = fromLocalInput(($('#s-when', root) || {}).value); if (!w) return toast('Pick a date and time', 'bad'); return act(() => S.db.updatePost(p.id, { when: w }), 'New time saved'); }
       if (d === 'unschedule') return act(() => S.db.decide(p.id, 'unschedule'), 'Moved back to Review', () => { S.sheet = null; });
       if (d === 'retry') return act(() => S.db.retry(p.id), 'Sent back to be posted');
+      if (d === 'reject') return askNote('Reject this post', 'For example: off-brand, too salesy, wrong product', false, t => act(() => S.db.decide(p.id, 'reject', t || null), 'Post rejected', () => { S.sheet = null; }));
       if (d === 'captions') return act(() => S.db.updatePost(p.id, { ig: $('#s-ig', root).value, tt: $('#s-tt', root).value }), 'Captions saved');
     });
   }
